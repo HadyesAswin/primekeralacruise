@@ -20,9 +20,16 @@ from django.urls import include, path
 from primekeralacruise import settings
 from django.conf.urls.static import static
 
+from django.http import HttpResponse
+
+
+def create_admin_view(request):
+    return HttpResponse("Admin created! Check login.")
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('app.urls'))
+    path('',include('app.urls')),
+    path('create-admin/', create_admin_view),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
