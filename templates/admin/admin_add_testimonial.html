@@ -1,0 +1,39 @@
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header text-white">
+      <h4 class="mb-0">Add Testimonial</h4>
+    </div>
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Name -->
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" name="name" id="name" class="form-control" placeholder="Enter name" required>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea name="description" id="description" rows="4" class="form-control" placeholder="Enter description" required></textarea>
+        </div>
+
+        <!-- Photo Upload -->
+        <div class="mb-3">
+          <label for="photo" class="form-label">Photo</label>
+          <input type="file" name="photo" id="photo" class="form-control" required>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+          <input type="submit" name="submit" class="btn btn-success px-4" value="Save">
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% include 'admin/adminfooter.html' %}

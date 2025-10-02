@@ -1,0 +1,82 @@
+{% load static %}
+{% include "public/header.html" %}
+
+<!-- Main Container  -->
+
+
+    <!-- Boats Section -->
+
+
+
+<!-- Boats Section -->
+<section class="section-style2">
+    <div class="container page-builder-ltr">
+        <div class="row row-style row_a1">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_a1c">
+                <div class="module so-deals-1tr home1_deals so-deals">
+                    <div class="head-title clearfix">
+                        <div class="block-title pull-left">
+                            <h3><span>House Boats</span></h3>
+                            <p>Our best last minutes offers. Book now and go!</p>
+                        </div>
+                        <a href="{% url 'boats' %}" class="pull-right">
+                            view all <i class="fa fa-angle-right" aria-hidden="true"></i>
+                        </a>
+                    </div>
+                    <div class="modcontent">
+                        <div class="so-deal modcontent products-list grid clearfix preset00-3 preset01-3 preset02-2 preset03-2 preset04-1 button-type1 style2">
+                            <div class="category-slider-inner products-list yt-content-slider"
+                                 data-rtl="yes" data-autoplay="yes" data-autoheight="no"
+                                 data-delay="4" data-speed="0.6" data-margin="30"
+                                 data-items_column00="4" data-items_column0="4"
+                                 data-items_column1="4" data-items_column2="2"
+                                 data-items_column3="2" data-items_column4="1"
+                                 data-arrows="no" data-pagination="no"
+                                 data-lazyload="yes" data-loop="yes" data-hoverpause="yes">
+
+                                {% if boats %}
+                                    {% for b in boats %}
+                                        <div class="item">
+                                            <div class="transition product-layout">
+                                                <div class="product-item-container">
+                                                    <div class="item-block so-quickview">
+                                                        <div class="image">
+                                                            <a href="" target="_self">
+                                                                {% if b.photo %}
+                                                                    <img src="{{ b.photo.url }}" alt="Boat {{ b.id }}" class="img-responsive" style="height:300px;object-fit:cover;">
+                                                                {% else %}
+                                                                    <img src="{% static 'image/houseboat-6577910.jpg' %}" alt="No Photo">
+                                                                {% endif %}
+                                                            </a>
+                                                            <span class="price">₹{{ b.price }}</span>
+                                                        </div>
+                                                        <div class="item-content">
+                                                            <h3>
+                                                                <a href="">
+                                                                    {{ b.description|truncatewords:8 }}
+                                                                </a>
+                                                            </h3>
+
+                                                            <!-- Book Now Button -->
+                                                            <a href="" class="btn btn-primary" style="margin-top: 10px;">Book Now</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p>No boats found.</p>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- /Boats Section -->
+
+{% include "public/footer.html" %}

@@ -1,0 +1,25 @@
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <div class="card shadow-sm p-4">
+    <h2 class="mb-4">Add New Destination</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="name" class="form-label">Destination Name</label>
+        <input type="text" id="name" name="name" class="form-control" placeholder="Enter destination name" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="photo" class="form-label">Photo</label>
+        <input type="file" id="photo" name="photo" class="form-control" accept="image/*" required>
+      </div>
+
+      <button type="submit" class="btn btn-success px-4">+ Add Destination</button>
+    </form>
+  </div>
+</div>
+
+{% include 'admin/adminfooter.html' %}

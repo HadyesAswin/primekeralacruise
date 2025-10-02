@@ -1,0 +1,273 @@
+
+{% extends 'public/home2.html' %}
+{% load static %}
+{% block title %} All Boats {% endblock %}
+
+
+
+            <!-- End Main Header -->
+            <main id="main">
+                {% block content %}
+
+                <section class="breadcumb-section">
+                    <div class="tf-container">
+                        <div class="row">
+                            <div class="col-lg-12 center z-index1">
+                                <h1 class="title">Gallery</h1>
+                                <ul class="breadcumb-list flex-five">
+                                    <li><a href="./">Home</a></li>
+                                    <li><span>All Gallery</span></li>
+                                </ul>
+                                <img class="bcrumb-ab" src={% static "assets/images/page/mask-bcrumb.png" %} alt="">
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+
+                <section class="mb--93">
+                    <div class="tf-container">
+                        <div class="callt-to-action flex-two" style="margin-top: -67px;">
+                            <div class="callt-to-action-content flex-three">
+                                <div class="image">
+                                    <img src={% static "assets/images/page/ready.png" %} alt="Image">
+                                </div>
+                                <div class="content">
+                                    <h2 class="title-call">Discover Our Gallery</h2>
+                                    <p class="des">Choose from luxury houseboats, cruises, and more to experience Alappuzha’s backwaters.</p>
+                                </div>
+
+                            </div>
+                            <img src={% static "assets/images/page/vector4.png" %} alt="" class="shape-ab">
+                            <div class="callt-to-action-button">
+                                <a href="" class="get-call">Let,s get started</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+                
+
+                <!-- Widget archieve tour -->
+                <section class="team-member-page pd-main">
+                    <div class="tf-container">
+                        <div class="row mb-40">
+                            <!-- <div class="col-lg-12">
+                                <div class="center m0-auto w-text-heading">
+                                    <span class="sub-title-heading text-main font-yes fs-28-46" style="font-family: "Yesteryear", sans-serif;">Populer
+                                        Activities</span>
+                                    <h2 class="title-heading ">meet our experienced <span
+                                            class="text-main font-yes">Team</span> people</h2>
+                                </div>
+                            </div>  -->
+                        </div>
+                        <div class="team-member-grid">
+                            {% for i in gallery %}
+                            <div class="tf-widget-team">
+                                
+                                <div class="team-image mb-15">
+                                    
+                                    <img src={{i.photo.url}} alt="">
+                                    <!-- <ul class="social-team">
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-9"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-5"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-linkedin"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-youtube"></i>
+                                            </a>
+                                        </li>
+                                    </ul> -->
+                                
+                                </div>
+                                
+                                <!-- <div class="team-content center">
+                                    <p class="job">SR. Tour Manager</p>
+                                    <h4 class="name"><a href="#">Leslie Alexander</a></h4>
+                                </div> -->
+
+                            </div>
+                            {% endfor %}
+                            <!-- <div class="tf-widget-team">
+                                <div class="team-image mb-15">
+                                    <img src="assets/images/team/team2.jpg" alt="">
+                                    <ul class="social-team">
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-9"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-5"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-linkedin"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-youtube"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                                <div class="team-content center">
+                                    <p class="job">SR. Tour Manager</p>
+                                    <h4 class="name"><a href="#">Leslie Alexander</a></h4>
+                                </div>
+                            </div> -->
+                            <!-- <div class="tf-widget-team">
+                                <div class="team-image mb-15">
+                                    <img src="assets/images/team/team3.jpg" alt="">
+                                    <ul class="social-team">
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-9"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-5"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-linkedin"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-youtube"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                                <div class="team-content center">
+                                    <p class="job">SR. Tour Manager</p>
+                                    <h4 class="name"><a href="#">Leslie Alexander</a></h4>
+                                </div>
+                            </div> -->
+                            <!-- <div class="tf-widget-team">
+                                <div class="team-image mb-15">
+                                    <img src="assets/images/team/team4.jpg" alt="">
+                                    <ul class="social-team">
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-9"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-5"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-linkedin"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-youtube"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                                <div class="team-content center">
+                                    <p class="job">SR. Tour Manager</p>
+                                    <h4 class="name"><a href="#">Leslie Alexander</a></h4>
+                                </div>
+                            </div> -->
+                            <!-- <div class="tf-widget-team">
+                                <div class="team-image mb-15">
+                                    <img src="assets/images/team/team5.jpg" alt="">
+                                    <ul class="social-team">
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-9"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-5"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-linkedin"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-youtube"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                                <div class="team-content center">
+                                    <p class="job">SR. Tour Manager</p>
+                                    <h4 class="name"><a href="#">Leslie Alexander</a></h4>
+                                </div>
+                            </div> -->
+                            <!-- <div class="tf-widget-team">
+                                <div class="team-image mb-15">
+                                    <img src="assets/images/team/team6.jpg" alt="">
+                                    <ul class="social-team">
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-9"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-5"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-linkedin"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="icon-youtube"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                                <div class="team-content center">
+                                    <p class="job">SR. Tour Manager</p>
+                                    <h4 class="name"><a href="#">Leslie Alexander</a></h4>
+                                </div>
+                            </div> -->
+                        </div>
+                    </div>
+                </section>
+
+                
+                 {% endblock %}
+            </main>
+            
+           
+
+           

@@ -1,0 +1,63 @@
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <h1 class="h3 mb-4">Edit Package</h1>
+
+  <form method="post" enctype="multipart/form-data" class="card shadow-sm p-4">
+    {% csrf_token %}
+
+    <!-- Title -->
+    <div class="mb-3">
+      <label for="id_title" class="form-label">Title</label>
+      <input type="text" id="id_title" name="title" 
+             class="form-control" maxlength="200" 
+             value="{{ package.title }}" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="id_title" class="form-label">Price</label>
+      <input type="text" id="id_title" name="price" 
+             class="form-control" maxlength="200" 
+             value="{{ package.price }}" required>
+    </div>
+    <div class="mb-3">
+      <label for="id_title" class="form-label">Duration</label>
+      <input type="text" id="id_title" name="duration" 
+             class="form-control" maxlength="200" 
+             value="{{ package.duration }}" required>
+    </div>
+    <div class="mb-3">
+      <label for="id_title" class="form-label">PersonCount</label>
+      <input type="text" id="id_title" name="person" 
+             class="form-control" maxlength="200" 
+             value="{{ package.noofperson }}" required>
+    </div>
+
+    <!-- Photo -->
+    <div class="mb-3">
+      <label for="id_photo" class="form-label">Photo</label>
+      {% if package.photo %}
+        <div class="mb-2">
+          <p class="mb-1">Current:</p>
+          <img src="{{ package.photo.url }}" alt="{{ package.title }}" class="img-thumbnail" style="width:150px; height:auto;">
+        </div>
+      {% endif %}
+      <input type="file" id="id_photo" name="photo" class="form-control">
+    </div>
+
+    <!-- Description -->
+    <div class="mb-3">
+      <label for="id_description" class="form-label">Description</label>
+      <textarea id="id_description" name="description" 
+                class="form-control" rows="5" maxlength="2000" required>{{ package.description }}</textarea>
+    </div>
+
+    <!-- Buttons -->
+    <div class="text-center">
+      <button type="submit" class="btn btn-warning">✏️ Update</button>
+      
+    </div>
+  </form>
+</div>
+
+{% include 'admin/adminfooter.html' %}

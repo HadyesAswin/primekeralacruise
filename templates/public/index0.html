@@ -1,0 +1,1770 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Basic page needs
+	============================================ -->
+	<title>Prime kerala cruise</title>
+	<meta charset="utf-8">
+	<meta name="keywords" content="html5 template, best html5 template, best html template, html5 basic template, multipurpose html5 template, multipurpose html template, creative html templates, creative html5 templates" />
+	<meta name="description" content="PortKey is a beautiful and creative travel booking HTML template for any travel designs" />
+	<meta name="author" content="Magentech">
+	<meta name="robots" content="index, follow" />
+<!-- Mobile specific metas
+	============================================ -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<!-- Favicon
+	============================================ -->
+
+<!-- Libs CSS
+	============================================ -->
+	<link rel="stylesheet" href={% static "css/bootstrap/css/bootstrap.min.css" %}>
+	<link href={% static "css/font-awesome/css/font-awesome.min.css" %} rel="stylesheet">
+	<link href={% static "js/datetimepicker/bootstrap-datetimepicker.min.css" %} rel="stylesheet">
+	<link href={% static "js/owl-carousel/owl.carousel.css" %} rel="stylesheet">
+	<link href={% static "css/themecss/lib.css" %} rel="stylesheet">
+	<link href={% static "js/jquery-ui/jquery-ui.min.css"%} rel="stylesheet">
+	<link href={% static "js/minicolors/miniColors.css" %} rel="stylesheet">
+<!-- Theme CSS
+	============================================ -->
+	<link href={% static "css/themecss/so_sociallogin.css"%} rel="stylesheet">
+	<link href={% static "css/themecss/so_searchpro.css"%} rel="stylesheet">
+	<link href={% static "css/themecss/so_megamenu.css" %} rel="stylesheet">
+	<link href={% static "css/themecss/so-categories.css" %} rel="stylesheet">
+	<link href={% static "css/themecss/so-listing-tabs.css" %} rel="stylesheet">
+	<link href={% static "css/themecss/so-category-slider.css" %} rel="stylesheet">
+	<link href={% static "css/themecss/so-newletter-popup.css" %} rel="stylesheet">
+	<link href={% static "css/footer/footer1.css" %} rel="stylesheet">
+	<link href={% static "css/header/header1.css" %} rel="stylesheet">
+	<link id="color_scheme" href={% static "css/theme.css" %} rel="stylesheet">
+	<link href={% static "css/responsive.css" %} rel="stylesheet">
+	<link href={% static "css/quickview/quickview.css" %} rel="stylesheet">
+<!-- Google web fonts
+	============================================ -->
+	<link href="https://fonts.googleapis.com/css?family=Poppins:600,700,800&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Libre+Franklin:400,500,600,700,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+	<style type="text/css">
+		body{font-family: 'Libre Franklin', sans-serif;}
+    </style>
+    <style>
+
+        /* Base styles for the chat launcher and container */
+        .chat-launcher {
+            position: fixed;
+            bottom: 145px;
+            right:  19px;
+            width: 51px;
+            height: 51px;
+            border-radius: 50%;
+            background-color: #4facfe;
+            color: white;
+            font-size: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        .chat-container {
+            display: none; /* Starts hidden */
+            position: fixed;
+            bottom: 150px;
+            right: 80px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 999;
+        }
+
+        /* Header */
+        .chat-header {
+            background-color: #4facfe;
+            color: white;
+            padding: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        #chat-close {
+            cursor: pointer;
+            font-size: 1.5em;
+        }
+
+        /* Messages area */
+        .chat-messages {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            background-color: #f7f9fb;
+        }
+        .message-bubble {
+            max-width: 80%;
+            padding: 10px 15px;
+            border-radius: 18px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+        .bot-message {
+            background-color: #e2e8f0;
+            color: #333;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            margin-right: auto;
+        }
+        .user-message {
+            background-color: #4facfe;
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 4px;
+        }
+
+        /* Input area */
+        .chat-input-area {
+            padding: 10px;
+            border-top: 1px solid #eee;
+            background: white;
+        }
+        
+        /* NEW: Flex container for input and button */
+        .chat-input-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        
+        #user-input {
+            flex-grow: 1; 
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            outline: none;
+            margin-right: 5px;
+            transition: border-color 0.3s; /* For shake effect */
+        }
+        
+        /* Simple shake animation for input error */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(-5px); }
+            40% { transform: translateX(5px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+            100% { transform: translateX(0); }
+        }
+        .shake {
+            animation: shake 0.5s;
+            border-color: red !important;
+        }
+
+        #send-btn {
+            padding: 10px 15px;
+            border: none;
+            background-color: #4facfe;
+            color: white;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        /* Interactive options */
+        #interactive-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 5px 0;
+            margin-top: 5px;
+        }
+        .option-btn {
+            background-color: #e0f2f1;
+            color: #00796b;
+            border: 1px solid #b2dfdb;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.2s;
+        }
+        .option-btn:hover {
+            background-color: #b2dfdb;
+        }
+        
+        /* Calendar Styling */
+        #calendar-container input {
+            padding: 12px 15px !important;
+            margin-bottom: 5px;
+        }
+        .flatpickr-calendar {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+        }
+        
+        /* Error Message Styling */
+        .error-message {
+            color: red;
+            font-size: 0.85em;
+            margin-top: -5px;
+            margin-bottom: 5px;
+            padding-left: 10px;
+        }
+    </style>
+
+<style>
+   /* ======================================= */
+/* 1. GENERAL ABOUT SECTION STYLING */
+/* ======================================= */
+
+.section-style1 {
+    padding: 80px 0;
+    background-color: #f8f8f8;
+}
+
+/* Heading Typography */
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    border-bottom: 3px solid #ffaa00; /* Sunset Orange accent */
+    display: inline-block;
+    padding-bottom: 5px;
+}
+.section-title span {
+    color: #00796b; /* Deep Teal accent */
+}
+
+/* Body Text */
+.lead-text {
+    font-size: 1.15rem;
+    color: #444;
+    line-height: 1.8;
+}
+
+/* ======================================= */
+/* 2. CALL-TO-ACTION BUTTON STYLING */
+/* ======================================= */
+
+.btn-primary-alt {
+    background-color: #00796b; /* Deep Teal accent */
+    color: white;
+    padding: 12px 30px;
+    border-radius: 5px;
+    font-weight: 600;
+    margin-top: 20px;
+    display: inline-block;
+    text-decoration: none;
+    border: none;
+    transition: all 0.3s ease-in-out;
+}
+.btn-primary-alt:hover {
+    background-color: #ffaa00; /* Sunset Orange hover color */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+.btn-primary-alt i {
+    margin-left: 8px;
+    transition: transform 0.3s ease;
+}
+.btn-primary-alt:hover i {
+    transform: translateX(3px);
+}
+
+
+/* ======================================= */
+/* 3. STATIC IMAGE BLOCK STYLING */
+/* ======================================= */
+
+.about-visual {
+    padding: 0 15px;
+}
+
+/* Block for the static image */
+.static-image-block {
+    height: 400px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Stronger shadow for depth */
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s ease-in-out;
+}
+.static-image-block:hover {
+    transform: scale(1.02); /* Slight zoom on hover */
+}
+
+
+/* ======================================= */
+/* 4. KEY FEATURES GRID STYLING */
+/* ======================================= */
+
+.key-features-row {
+    margin-top: 60px;
+    text-align: center;
+}
+.features-heading {
+    margin-bottom: 40px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* Individual Feature Item Card */
+.feature-item {
+    padding: 30px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    border: 1px solid #eee;
+    margin-bottom: 20px;
+    transition: all 0.3s ease-in-out;
+    height: 100%;
+}
+.feature-item:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+    border-color: #00796b; /* Highlight border with Deep Teal */
+}
+.feature-icon {
+    font-size: 3rem;
+    color: #ffaa00; /* Sunset Orange for icons */
+    margin-bottom: 15px;
+    display: block;
+}
+.feature-item h5 {
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+.feature-item p {
+    color: #666;
+}
+
+</style>
+
+
+</head>
+<body class="common-home res layout-1">
+	<div id="wrapper" class="wrapper-fluid banners-effect-10">
+		<!-- Header Container  -->
+		<header id="header" class=" typeheader-1">
+			<!-- Header Top -->
+			{% comment %} <div class="header-bonus">
+				<div class="container">
+					<ul class="bonus-phone pull-left">
+						<li><i class="fa fa-phone" aria-hidden="true"></i> <a href="tel:0123456789">+11 02 81 17 51</a></li>
+						<li><i class="fa fa-map-marker" aria-hidden="true"></i> 135-137 Traction Blvd, New York</li>
+					</ul>
+					<ul class="bonus-social pull-left">
+						<li><a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a></li>
+						<li><a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+						<li><a href="#"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+						<li><a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+					</ul>
+					<div class="bonus-language pull-right">
+						<form action="#" method="post" enctype="multipart/form-data">
+							<div class="btn-group">
+								<button class="btn-link dropdown-toggle" data-toggle="dropdown">
+									<img src={% static "image/catalog/flags/gb.png" %} alt="English" title="English">
+									<span class="hidden-xs hidden-sm hidden-md"></span> <i class="fa fa-angle-down"></i>
+								</button>
+								<ul class="dropdown-menu">
+									<li>
+										<button class="btn-block language-select" type="button" name="ar-ar"><img src={% static "image/catalog/flags/ar.png" %} alt="Arabic" title="Arabic" /> Arabic</button>
+									</li>
+									<li>
+										<button class="btn-block language-select" type="button" name="en-gb"><img src={% static "image/catalog/flags/gb.png" %} alt="English" title="English" /> English</button>
+									</li>
+								</ul>
+							</div>
+							<input type="hidden" name="code" value="" />
+							<input type="hidden" name="redirect" value="#" />
+						</form>
+					</div>
+					<div class="bonus-login pull-right">
+						<a data-toggle="modal" data-target="#so_sociallogin" href="#"><i class="fa fa-user" aria-hidden="true"></i> Sign in</a>
+					</div>		
+				</div>
+			</div> {% endcomment %}
+			<div class="header-top hidden-compact">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-3 col-xs-3 header-logo pull-left">
+							<div class="navbar-logo">
+								<a href="index.html"><img src={% static "image/catalog/demo/logo/logo.png" %} alt="Your Store" width="118" height="36" title="Your Store"></a>
+							</div>
+						</div>
+						{% comment %} <div class="book pull-right">
+							<a href="requiry.html">inquiry</a>
+						</div> {% endcomment %}
+						{% comment %} <div class="search-top pull-right">
+							<div class="icon-search"><i class="fa fa-search" aria-hidden="true"></i></div>
+							<form method="get" action="#">
+								<div id="sw_search" class="search input-group">
+									<div class="content-search">
+										<input class="autosearch-input" type="text" value="" size="50" autocomplete="off" placeholder="Search..." name="s">	
+										<span class="input-group-btn">
+											<button type="submit" class="fa fa-search button-search-pro form-button"></button>
+										</span>
+									</div>
+								</div>
+							</form>
+						</div> {% endcomment %}
+						<!-- Menuhome -->
+						<div class="header-menu pull-right">
+							<div class="megamenu-style-dev megamenu-dev">
+								<div class="responsive">
+									<nav class="navbar-default">
+										<div class="container-megamenu horizontal">
+											<div class="navbar-header">
+												<button type="button" id="show-megamenu" data-toggle="collapse" class="navbar-toggle">
+													<span class="icon-bar"></span>
+													<span class="icon-bar"></span>
+													<span class="icon-bar"></span>
+												</button>
+											</div>
+											<div class="megamenu-wrapper">
+												<span id="remove-megamenu" class="fa fa-times"></span>
+												<div class="megamenu-pattern">
+													<div class="container">
+														<ul class="megamenu" data-transition="slide" data-animationtime="500">
+															{% comment %} <li class="menu-home with-sub-menu hover">
+																<p class="close-menu"></p>
+																<a href="#" class="clearfix">
+																	<strong>
+																		Home
+																	</strong>
+																</a>
+																{% comment %} <div class="sub-menu" style="width: 40%;">
+																	<div class="content">
+																		<div class="row">
+																			<div class="col-md-12">
+																				<ul class="row-list">
+																					<li><a class="subcategory_item" href="index.html">Home Page 1</a></li>
+																					<li><a class="subcategory_item" href="home2.html">Home Page 2</a></li>
+																					<li><a class="subcategory_item" href="home3.html">Home Page 3</a></li>
+																				</ul>
+																			</div>
+																		</div>
+																	</div>
+																</div> 
+															</li>{% endcomment %}
+															<li class="style-page with-sub-menu hover">
+																<p class="close-menu"></p>
+																<a  class="clearfix" href="/" >
+																	<strong>
+																		Home 
+																	</strong>
+																	<span class="labelwordpress"></span>
+																</a>
+																<li class="style-page with-sub-menu hover">
+																<p class="close-menu"></p>
+																<a  class="clearfix" href="#aboutus">
+																	<strong>
+																		About us
+																	</strong>
+																</a>
+																{% comment %} <div class="sub-menu" style="width: 40%;">
+																	<div class="content">
+																		<div class="row">
+																			<div class="col-md-12">
+																				<ul class="row-list">
+																					<li><a class="subcategory_item" href="tour.html">Tour List</a></li>
+																					<li><a class="subcategory_item" href="tour.html">Tour Grid</a></li>
+																					<li><a class="subcategory_item" href="tour-detail.html">Tour Single</a></li>
+																				</ul>
+																			</div>
+																		</div>
+																	</div>
+																</div> {% endcomment %}
+															</li>
+															<li class="style-page with-sub-menu hover">
+																<p class="close-menu"></p>
+																<a  class="clearfix" href="#packages">
+																	<strong>
+																		Packages
+																	</strong>
+																	<span class="labelNew"></span>
+																</a>
+																{% comment %} <div class="sub-menu" style="width: 90%;">
+																	<div class="content">
+																		<div class="row">
+																			<div class="col-md-6">
+																				<h3>Top destinations</h3>
+																				<ul class="row-list">
+																					<li><a class="subcategory_item" href="destination-detail.html">Viet Nam</a></li>
+																					<li><a class="subcategory_item" href="destination-detail.html">New Zeland</a></li>
+																					<li><a class="subcategory_item" href="destination-detail.html">United State</a></li>
+																					<li><a class="subcategory_item" href="destination-detail.html">Iceland</a></li>
+																				</ul>
+																			</div>
+																			<div class="col-md-6">
+																				<h3>destinations layout</h3>
+																				<ul class="row-list">
+																					<li><a class="subcategory_item" href="destination-list.html">destinations Fullwidth</a></li>
+																					<li><a class="subcategory_item" href="destination-detail.html">destinations single</a></li>
+																				</ul>
+																			</div>
+																		</div>
+																	</div>
+																</div> {% endcomment %}
+															</li>
+															<li class="style-page with-sub-menu hover">
+																<p class="close-menu"></p>
+																<a  class="clearfix" href="#boats">
+																	<strong>
+																		Boats
+																	
+																	</strong>
+																</a>
+																{% comment %} <div class="sub-menu" style="width: 40%;">
+																	<div class="content">
+																		<div class="row">
+																			<div class="col-md-12">
+																				<ul class="row-list">
+																					<li><a class="subcategory_item" href="#">Adventure</a></li>
+																					<li><a class="subcategory_item" href="#">Holiday</a></li>
+																					<li><a class="subcategory_item" href="#">Family Tour</a></li>
+																					<li><a class="subcategory_item" href="#">Cheap Trip</a></li>
+																					<li><a class="subcategory_item" href="#">Open Tour</a></li>
+																					<li><a class="subcategory_item" href="#">Historical</a></li>
+																				</ul>
+																			</div>
+																		</div>
+																	</div>
+																</div> {% endcomment %}
+															</li>
+															<li class="style-page with-sub-menu hover">
+																<p class="close-menu"></p>
+																<a  class="clearfix" href="#gallery">
+																	<strong>
+																		Gallery
+																	
+																	</strong>
+																</a>
+																{% comment %} <div class="sub-menu" style="width: 40%;">
+																	<div class="content" >
+																		<div class="row">
+																			<div class="col-md-12">
+																				<ul class="row-list">
+																					<li><a class="subcategory_item" href="blog-grid.html">Blog Fullwidth</a></li>
+																					<li><a class="subcategory_item" href="blog-list.html">Blog List</a></li>
+																					<li><a class="subcategory_item" href="blog-sidebar.html">Blog Grid</a></li>
+																					<li><a class="subcategory_item" href="blog-detail.html">Blog Single</a></li>
+																				</ul>
+																			</div>
+																		</div>
+																	</div>
+																</div> {% endcomment %}
+															</li>
+															
+																{% comment %} <div class="sub-menu" style="width: 40%;">
+																	<div class="content" >
+																		<div class="row">
+																			<div class="col-md-12">
+																				<ul class="row-list">
+																					<li><a class="subcategory_item" href="about-us.html">About us</a></li>
+																					<li><a class="subcategory_item" href="contact-us-v1.html">Contact us</a></li>
+																					<li><a class="subcategory_item" href="contact-us-v2.html">Contact us v2</a></li>
+																					<li><a class="subcategory_item" href="404.html">404 Error</a></li>
+																					<li><a class="subcategory_item" href="faq.html">Faq</a></li>
+																				</ul>
+																			</div>
+																		</div>
+																	</div>
+																</div> {% endcomment %}
+															</li>
+														</ul>
+													</div>
+												</div>
+											</div>
+										</div>
+									</nav>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- //Header Top -->
+		</header>
+		<!-- //Header Container  -->
+		<div class="modal fade in" id="so_sociallogin" tabindex="-1" role="dialog" aria-hidden="true" >
+			<div class="modal-dialog block-popup-login">
+				<a href="javascript:void(0)" title="Close" class="close close-login fa fa-times-circle" data-dismiss="modal"></a>
+				<div class="tt_popup_login"><strong>Sign in Or Register</strong></div>
+				<div class="block-content">
+					<div class=" col-reg registered-account">
+						<div class="block-content">
+							<form class="form form-login" action="#" method="post" id="login-form">
+								<fieldset class="fieldset login" data-hasrequired="* Required Fields">
+									<div class="field email required email-input">
+										<div class="control">
+											<input name="email" value="" autocomplete="off" id="email" type="email" class="input-text" title="Email" placeholder="E-Mail Address">
+										</div>
+									</div>
+									<div class="field password required pass-input">
+										<div class="control">
+											<input name="password" type="password" autocomplete="off" class="input-text" id="pass" title="Password" placeholder="Password">
+										</div>
+									</div>
+									<div class=" form-group">
+										<label class="control-label">Login with your social account</label>
+										<div>
+											<a href="#" class="btn btn-social-icon btn-sm btn-google-plus"><i class="fa fa-google fa-fw" aria-hidden="true"></i></a>
+
+											<a href="#" class="btn btn-social-icon btn-sm btn-facebook"><i class="fa fa-facebook fa-fw" aria-hidden="true"></i></a>
+
+											<a href="#" class="btn btn-social-icon btn-sm btn-twitter"><i class="fa fa-twitter fa-fw" aria-hidden="true"></i></a>
+
+											<a href="#" class="btn btn-social-icon btn-sm btn-linkdin"><i class="fa fa-linkedin fa-fw" aria-hidden="true"></i></a>
+										</div>
+									</div>
+									<div class="secondary ft-link-p"><a class="action remind" href="#"><span>Forgot Your Password?</span></a></div>
+									<div class="actions-toolbar">
+										<div class="primary">
+											<button type="submit" class="action login primary" name="send" id="send2"><span>Login</span></button>
+										</div>
+									</div>
+								</fieldset>
+							</form>
+						</div>
+					</div>
+					<div class="col-reg login-customer">
+						<h2>NEW HERE?</h2>
+						<p class="note-reg">Registration is free and easy!</p>
+						<ul class="list-log">
+							<li>Faster checkout</li>
+							<li>Save multiple shipping addresses</li>
+							<li>View and track orders and more</li>
+						</ul>
+						<a class="btn-reg-popup" title="Register" href="#">Create an account</a>
+					</div>
+					<div style="clear:both;"></div>
+				</div>
+			</div>
+		</div>
+		<!-- Main Container  -->
+		<div id="content">
+    <div class="so-page-builder">
+        <div class="page-builder-ltr">
+            <div class="row row_a90w row-style">
+                <!-- Slider for Houseboat Service -->  
+                <div class="module sohomepage-slider so-homeslider-ltr">
+                    <div class="modcontent">
+                        <div id="sohomepage-slider1" class="slider-home1">
+                            <div class="so-homeslider sohomeslider-inner-1">
+                                <!-- Slide 1 -->
+                                <div class="item">
+                                    <a href="#" title="Houseboats in Alappuzha" target="_self">
+                                        <img class="responsive" src="{% static 'image/water-3080147.jpg' %}" alt="Houseboats in Alappuzha">
+                                    </a>
+                                    <div class="info">
+                                        <div class="top">Explore</div>
+                                        <h3>ALAPPUZHA</h3>
+                                        <p>Experience the serene backwaters of Alappuzha on our traditional houseboats. <br>Glide through lush landscapes and quaint villages for an unforgettable journey.</p>
+                                        {% comment %} <a href="#">Learn More <i class="fa fa-angle-right" aria-hidden="true"></i></a> {% endcomment %}
+                                    </div>
+                                    {% comment %} <div class="info-right">
+                                        <img class="responsive" src="{% static 'image/catalog/demo/slider/home1/text-right.png' %}" alt="Houseboat Info">
+                                    </div> {% endcomment %}
+                                </div>
+
+                                <!-- Slide 2 -->
+                                <div class="item">
+                                    <a href="#" title="Luxury Houseboat Experience" target="_self">
+                                        <img class="responsive" src="{% static 'image/india-1309206_1280.jpg' %}" alt="Luxury Houseboat">
+                                    </a>
+                                    <div class="info">
+                                        <div class="top">Discover</div>
+                                        <h3>ALAPPUZHA BACKWATERS</h3>
+										<p>Slow down and soak in the charm of Alappuzha’s backwaters — ideal for love, family, and peace.</p>
+                                        {% comment %} <a href="#" onclick="openWhatsApp()">Book Now <i class="fa fa-angle-right" aria-hidden="true"></i></a> {% endcomment %}
+                                    </div>
+                                    <div class="info-right">
+                                        {% comment %} <img class="responsive" src="{% static 'image/catalog/demo/slider/home1/text-right.png' %}" alt="Backwater Info"> {% endcomment %}
+                                    </div>
+                                    
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Slider -->
+            </div>
+        </div>
+    </div>
+</div>
+{% comment %} 
+				<div class="travel-search-content">
+					<div class="container page-builder-ltr">
+						<div class="row">
+							<form method="get" class="travl-search-advanced clearfix">
+								<div class="search-item city pull-left">
+									<p>Destinations</p>
+									<input type="text" class="tour-search-input" id="city" placeholder="City, region or anywhere">
+								</div>
+								<div class="search-item date pull-left">
+									<p>Check in</p>
+									<input type="text" class="tour-search-input datepicker hasDatepicker" id="date_from" placeholder="DD/MM/YY">
+								</div>
+								<div class="search-item date pull-left">
+									<p>Check out</p>
+									<input type="text" class="tour-search-input datepicker hasDatepicker" id="date_to" placeholder="DD/MM/YY">
+								</div>
+								<div class="search-item item-select pull-left">
+									<p>People</p>
+									<select name="people">
+										<option value="1">1 people</option>
+										<option value="2">2 people</option>
+										<option value="3">3 people</option>
+										<option value="4">4 people</option>
+									</select>
+								</div>
+								<div class="search-item item-budget pull-left">
+									<p>Max Budget</p>
+									<input type="number" class="hotel-budget-input" id="budget" placeholder="$1000">
+								</div>
+								<div class="search-item button-submit pull-left">
+									<p>.</p>
+									<button type="submit" class="button">Search Tour <i class="fa fa-angle-right" aria-hidden="true"></i></button>
+									<input type="hidden" name="s">
+									<input type="hidden" name="search_tour" value="1">
+								</div>
+							</form>
+						</div>
+					</div>
+				</div> {% endcomment %}
+	
+<section id="aboutus" class="section-style1">
+    <div class="container">
+        <div class="row about-main-content">
+            <div class="col-lg-6 col-md-6 about-text">
+                <h3 class="section-title"><span>Our Story</span> at PrimeKeralaCruise</h3>
+                <p class="lead-text">
+                    **PrimeKeralaCruise** is dedicated to crafting **unforgettable backwater experiences** in Alappuzha. We offer a fleet of **premium houseboats**, private **shikara rides**, and thrilling **speedboats**, ensuring we have the **perfect escape** for every traveler.
+                </p>
+                <p>
+                    We are a local team passionate about sharing the authentic beauty and culture of Kerala, providing high-quality service and **traditional, fresh Kerala cuisine** on every journey. Our commitment is to your comfort and peace.
+                </p>
+                <a href="packages.html" class="btn btn-primary-alt">View Our Packages <i class="fa fa-arrow-right"></i></a>
+            </div>
+
+            <div class="col-lg-6 col-md-6 about-visual">
+                <div class="static-image-block" 
+                    style="background-image:url('{% static "image/alleppey-3941573.jpg" %}')">
+                    </div>
+            </div>
+        </div>
+
+        <div class="row key-features-row">
+            <div class="col-lg-12">
+                <h4 class="text-center features-heading">Why Choose PrimeKeralaCruise?</h4>
+            </div>
+            
+            <div class="col-lg-4 col-md-4 feature-item">
+                <i class="fa fa-home feature-icon"></i>
+                <h5>Luxury Houseboats</h5>
+                <p>Modern amenities and traditional design for supreme comfort on the water.</p>
+            </div>
+            
+            <div class="col-lg-4 col-md-4 feature-item">
+                <i class="fa fa-cutlery feature-icon"></i>
+                <h5>Authentic Kerala Meals</h5>
+                <p>Freshly prepared, traditional cuisine included in every overnight package.</p>
+            </div>
+            
+            <div class="col-lg-4 col-md-4 feature-item">
+                <i class="fa fa-map-signs feature-icon"></i>
+                <h5>Variety of Boats & Tours</h5>
+                <p>Choose from **Houseboats, Shikara, or Speedboats** for your perfect trip.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section id="boats" class="section-style5">
+    <div class="container page-builder-ltr">
+        <div class="row row-style row_a1">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_a1c">
+                <div class="module so-deals-1tr home1_deals so-deals">
+                    <div class="head-title clearfix">
+                        <div class="block-title pull-left">
+                            <h3><span>House Boats</span></h3>
+                            <p>Our best last minute offers. Book now and go!</p>
+                        </div>
+                    </div>
+                    <div class="modcontent">
+                        <div class="so-deal modcontent products-list grid clearfix preset00-3 preset01-3 preset02-2 preset03-2 preset04-1 button-type1 style2">
+                            <div class="category-slider-inner products-list yt-content-slider"
+                                 data-rtl="yes" data-autoplay="yes" data-autoheight="no"
+                                 data-delay="4" data-speed="0.6" data-margin="30"
+                                 data-items_column00="4" data-items_column0="4"
+                                 data-items_column1="4" data-items_column2="2"
+                                 data-items_column3="2" data-items_column4="1"
+                                 data-arrows="no" data-pagination="no"
+                                 data-lazyload="yes" data-loop="yes" data-hoverpause="yes">
+
+                                {% if boats %}
+                                    {% for b in boats %}
+                                    <div class="item">
+                                        <div class="transition product-layout">
+                                            <div class="product-item-container">
+                                                <div class="item-block so-quickview" style="position:relative; overflow:hidden;">
+                                                    <!-- Image -->
+                                                    <div class="image" style="width:100%; height:300px; overflow:hidden; border-radius:10px;">
+                                                        {% if b.photo %}
+                                                            <img src="{{ b.photo.url }}" 
+                                                                 alt="Boat {{ b.id }}" 
+                                                                 style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
+                                                        {% else %}
+                                                            <img src="{% static 'image/houseboat-6577910.jpg' %}" 
+                                                                 alt="No Photo"
+                                                                 style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <!-- Content -->
+                                                    <div class="item-content" style="margin-top:10px; display:flex; flex-direction:column; justify-content:flex-start;">
+                                                        <div>
+                                                            <div class="item-title clearfix">
+                                                                <h3 style="font-size:16px; margin:0;">
+                                                                    {{ b.description|truncatewords:8 }}
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- Book Now button hidden by default -->
+                                                        <div style="margin-top:5px; text-align:center;">
+                                                            <button onclick="openWhatsApp()" 
+                                                                    style="width:100%; padding:5px 10px; background-color:#25D366; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold; opacity:0; transition:opacity 0.3s;"
+                                                                    class="book-now-button">
+                                                                Book Now
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p>No boats found.</p>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Hover effect for Book Now button
+    document.querySelectorAll('.item-block').forEach(function(card){
+        card.addEventListener('mouseenter', function(){
+            const btn = card.querySelector('.book-now-button');
+            if(btn) btn.style.opacity = '1';
+        });
+        card.addEventListener('mouseleave', function(){
+            const btn = card.querySelector('.book-now-button');
+            if(btn) btn.style.opacity = '0';
+        });
+    });
+</script>
+
+
+<!-- /Boats Section -->
+
+
+<style>.item-content {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: none !important;
+}
+
+.product-item-container:hover .item-content {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+</style>
+				<section class="section-style3">
+					<div class="promotion clearfix">
+						<div class="container page-builder-ltr">
+							<div class="head-title clearfix">
+								<div class="block-title">
+									<h3><span>Why Choose Prime Kerala cruise</span></h3>
+								</div>
+							</div>
+						</div>
+						<div class="container page-builder-ltr">
+    <div class="container page-builder-ltr">
+    <div class="row">
+        <!-- Stay Safe -->
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 item">
+            <img src="{% static 'image/icon/boat2.png' %}" width="80px" height="80px" alt="Stay Safe" class="img-responsive">
+            <h3>Stay Safe</h3>
+            <p>All boats follow strict safety rules with life jackets and trained crew.</p>
+        </div>
+
+        <!-- Quality Services -->
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 item">
+            <img src="{% static 'image/icon/promo2.png' %}" alt="Quality Services" class="img-responsive">
+            <h3>Quality Services</h3>
+            <p>Enjoy clean, well-maintained houseboats with friendly service.</p>
+        </div>
+
+        <!-- Save Money -->
+        <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12 item">
+            <img src="{% static 'image/icon/promo3.png' %}" alt="Save Money" class="img-responsive">
+            <h3>Save Money</h3>
+            <p>Choose from budget-friendly packages for all boat rides.</p>
+        </div>
+    </div>
+</div>
+
+				</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<section id="packages" class="section-style5">
+    <div class="container page-builder-ltr">
+        <div class="row row-style row_a1">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_a1c">
+                <div class="module so-deals-1tr home1_deals so-deals">
+                    <div class="head-title clearfix">
+                        <div class="block-title pull-left">
+                            <h3><span>Popular Packages</span></h3>
+                        </div>
+                    </div>
+                    <div class="modcontent">
+                        <div class="so-deal modcontent products-list grid clearfix preset00-3 preset01-3 preset02-2 preset03-2 preset04-1 button-type1 style2">
+                            <div class="category-slider-inner products-list yt-content-slider"
+                                 data-rtl="yes" data-autoplay="no" data-autoheight="no" data-delay="4"
+                                 data-speed="0.6" data-margin="30" data-items_column00="4"
+                                 data-items_column0="4" data-items_column1="4" data-items_column2="2"
+                                 data-items_column3="2" data-items_column4="1" data-arrows="no"
+                                 data-pagination="no" data-lazyload="yes" data-loop="yes" data-hoverpause="yes">
+
+                                {% if packages %}
+                                    {% for p in packages %}
+                                    <div class="item">
+                                        <div class="transition product-layout">
+                                            <div class="product-item-container">
+                                                <div class="item-block so-quickview" style="position:relative; overflow:hidden;">
+                                                    <!-- Image -->
+                                                    <div class="image" style="width:100%; height:300px; overflow:hidden; border-radius:10px;">
+                                                        {% if p.photo %}
+                                                            <img src="{{ p.photo.url }}" 
+                                                                 alt="{{ p.title }}" 
+                                                                 style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
+                                                        {% else %}
+                                                            <img src="{% static 'image/no-image.png' %}" 
+                                                                 alt="No photo"
+                                                                 style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <!-- Content -->
+                                                    <div class="item-content" style="margin-top:10px; display:flex; flex-direction:column; justify-content:flex-start;">
+                                                        <div>
+                                                            <div class="item-title clearfix">
+                                                                <h3 class="pull-left" style="font-size:16px; margin:0;">
+                                                                    {{ p.title }}
+                                                                </h3>
+                                                            </div>
+                                                            <p>{{ p.description|truncatewords:12 }}</p>
+                                                        </div>
+
+                                                        <!-- Book Now button hidden by default -->
+                                                        <div style="margin-top:5px; text-align:center;">
+                                                            <button onclick="openWhatsApp()" 
+                                                                    style="width:100%; padding:5px 10px; background-color:#25D366; color:white; border:none; border-radius:5px; cursor:pointer; font-weight:bold; opacity:0; transition:opacity 0.3s;"
+                                                                    class="book-now-button">
+                                                                Book Now
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <p>No packages available.</p>
+                                {% endif %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    // Show button on hover
+    document.querySelectorAll('.item-block').forEach(function(card){
+        card.addEventListener('mouseenter', function(){
+            const btn = card.querySelector('.book-now-button');
+            if(btn) btn.style.opacity = '1';
+        });
+        card.addEventListener('mouseleave', function(){
+            const btn = card.querySelector('.book-now-button');
+            if(btn) btn.style.opacity = '0';
+        });
+    });
+</script>
+
+
+
+
+<section class="section-style5">
+    <div class="container page-builder-ltr">
+        <div class="row row-style row_a1">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_a1c">
+                <div class="module so-deals-1tr home1_deals so-deals">
+                    <div class="head-title clearfix">
+                        <div class="block-title pull-left">
+                            <h3><span>Choose your destinations</span></h3>
+                        </div>
+                    </div>
+                    <div class="modcontent">
+                        <div class="so-deal modcontent products-list grid clearfix preset00-3 preset01-3 preset02-2 preset03-2 preset04-1 button-type1 style2">
+                            <div class="category-slider-inner products-list yt-content-slider" 
+                                data-rtl="yes" data-autoplay="no" data-autoheight="no" data-delay="4" 
+                                data-speed="0.6" data-margin="30" data-items_column00="4" 
+                                data-items_column0="4" data-items_column1="4" data-items_column2="2"  
+                                data-items_column3="2" data-items_column4="1" data-arrows="no" 
+                                data-pagination="no" data-lazyload="yes" data-loop="yes" data-hoverpause="yes">
+
+                                {% for destination in destinations %}
+                                <div class="item">
+                                    <div class="transition product-layout">
+                                        <div class="product-item-container">
+                                            <div class="item-block so-quickview">
+                                                <div class="image" style="width:100%; height:250px; overflow:hidden; border-radius:10px;">
+                                                    {% comment %} <a href="{% url 'destination_detail' destination.id %}" target="_self"> {% endcomment %}
+                                                        <img src="{{ destination.photo.url }}" 
+                                                             alt="{{ destination.name }}" 
+                                                             style="width:100%; height:100%; object-fit:cover; border-radius:10px;">
+                                                    </a>
+                                                </div>
+                                                <div class="item-content" style="margin-top:10px;">
+                                                    <div class="item-title clearfix">
+                                                        <h3 class="pull-left" style="font-size:16px; margin:0;">
+                                                            {% comment %} <a href="{% url 'destination_detail' destination.id %}"> {% endcomment %}
+                                                                <i class="fa fa-map-marker" aria-hidden="true"></i> {{ destination.name }}
+                                                            </a>
+                                                        </h3>
+                                                        {% comment %} <span class="pull-right">14 tours</span> {% endcomment %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+				<div id="content">
+    <div class="so-page-builder">
+
+        <!-- Tourist Shared Photos Gallery -->
+        <!-- <section class="section-style6"> -->
+			<section id="gallery" class="" style="background-color: rgba(243, 235, 235, 0.711);">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_6fdl float_none container">
+                <div class="head-title clearfix">
+                    <div class="block-title pull-left">
+                        <h3><span>Tourist's shared photo</span></h3>
+                    </div>
+                </div>
+                <div class="sw-gallery products-list yt-content-slider"
+                     data-rtl="yes" data-autoplay="no" data-autoheight="no" data-delay="4" data-speed="0.6"
+                     data-margin="0" data-items_column00="5" data-items_column0="5" data-items_column1="5"
+                     data-items_column2="3" data-items_column3="3" data-items_column4="2" data-arrows="no"
+                     data-pagination="no" data-lazyload="yes" data-loop="yes" data-hoverpause="yes">
+
+                    {% for photo in photos %}
+                        {% if forloop.counter0|divisibleby:2 %}
+                        <div class="item">
+                        {% endif %}
+
+                        <div class="content-img">
+                            <a class="image-popup" href="{{ photo.photo.url }}">
+                                <img class="responsive" src="{{ photo.photo.url }}" alt="gallery{{ forloop.counter }}">
+                            </a>
+                        </div>
+
+                        {% if forloop.counter|divisibleby:2 or forloop.last %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+
+				{% comment %} <section class="section-style7">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_6fdl float_none container">
+						<div class="head-title clearfix">
+							<div class="block-title pull-left">
+								<h3><span>Travel tip</span></h3>
+							</div>
+							<a href="blog-sidebar.html" class="pull-right">view all <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+						</div>
+						<div class="row">
+							<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col_cfay block block_11">
+								<div class="module custom-ourblog clearfix default-nav">
+									<div class="modcontent">
+										<div id="so_latest_blog_1" class="so-blog-external button-type2 button-type2">
+											<div class="category-slider-inner products-list yt-content-slider blog-external clearfix " data-rtl="yes" data-autoplay="no" data-autoheight="no" data-delay="4" data-speed="0.6" data-margin="30" data-items_column00="2" data-items_column0="2" data-items_column1="2" data-items_column2="2"  data-items_column3="2" data-items_column4="1" data-arrows="no" data-pagination="yes" data-lazyload="yes" data-loop="yes" data-hoverpause="yes">
+												<div class="media">
+													<div class="item head-button">
+														<div class="content-img">
+															<a href="blog-detail.html" target="_self">
+																<img src={% static "image/catalog/demo/blog/blog1.jpg" %} alt="Aestibulum ipsum a ornare car">
+															</a>
+														</div>
+														<div class="content-detail">
+															<div class="media-content so-block">
+																<div class="entry-meta clearfix">
+																	<div class="entry-date font-ct date-bottom">
+																		<i class="fa fa-calendar" aria-hidden="true"></i>11/11/2019
+																	</div>
+																	<div class="entry-comment">
+																		<i class="fa fa-commenting" aria-hidden="true"></i>2 Comments
+																	</div>
+																	<div class="entry-social">
+																		<i class="fa fa-share-alt" aria-hidden="true"></i><a href="#">Share</a>
+																	</div>
+																</div>
+																<h4 class="media-heading head-item">
+																	<a href="blog-detail.html" title="Aestibulum ipsum a ornare car" target="_self">Aestibulum ipsum a ornare car</a>
+																</h4>
+																<div class="description">
+																	Sed ut perspiciatis unde omnis iste natus error sit volup tatem accusantium dolorem.que lau...
+																</div>
+																<div class="readmore">
+																	<a href="blog-detail.html" target="_self">Read more</a>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="media">
+													<div class="item head-button">
+														<div class="content-img">
+															<a href="blog-detail.html" target="_self">
+																<img src={% static "image/catalog/demo/blog/blog2.jpg" %} alt="Aestibulum ipsum a ornare car">
+															</a>
+														</div>
+														<div class="content-detail">
+															<div class="media-content so-block">
+																<div class="entry-meta clearfix">
+																	<div class="entry-date font-ct date-bottom">
+																		<i class="fa fa-calendar" aria-hidden="true"></i>11/11/2019
+																	</div>
+																	<div class="entry-comment">
+																		<i class="fa fa-commenting" aria-hidden="true"></i>2 Comments
+																	</div>
+																	<div class="entry-social">
+																		<i class="fa fa-share-alt" aria-hidden="true"></i><a href="#">Share</a>
+																	</div>
+																</div>
+																<h4 class="media-heading head-item">
+																	<a href="blog-detail.html" title="Aestibulum ipsum a ornare car" target="_self">Aestibulum ipsum a ornare car</a>
+																</h4>
+																<div class="description">
+																	Sed ut perspiciatis unde omnis iste natus error sit volup tatem accusantium dolorem.que lau...
+																</div>
+																<div class="readmore">
+																	<a href="blog-detail.html" target="_self">Read more</a>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+												<div class="media">
+													<div class="item head-button">
+														<div class="content-img">
+															<a href="blog-detail.html" target="_self">
+																<img src={% static "image/catalog/demo/blog/blog3.jpg" %} alt="Aestibulum ipsum a ornare car">
+															</a>
+														</div>
+														<div class="content-detail">
+															<div class="media-content so-block">
+																<div class="entry-meta clearfix">
+																	<div class="entry-date font-ct date-bottom">
+																		<i class="fa fa-calendar" aria-hidden="true"></i>11/11/2019
+																	</div>
+																	<div class="entry-comment">
+																		<i class="fa fa-commenting" aria-hidden="true"></i>2 Comments
+																	</div>
+																	<div class="entry-social">
+																		<i class="fa fa-share-alt" aria-hidden="true"></i><a href="#">Share</a>
+																	</div>
+																</div>
+																<h4 class="media-heading head-item">
+																	<a href="blog-detail.html" title="Aestibulum ipsum a ornare car" target="_self">Aestibulum ipsum a ornare car</a>
+																</h4>
+																<div class="description">
+																	Sed ut perspiciatis unde omnis iste natus error sit volup tatem accusantium dolorem.que lau...
+																</div>
+																<div class="readmore">
+																	<a href="blog-detail.html" target="_self">Read more</a>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+								<div class="sw-newletter">
+									<h3>Sign up</h3>
+									<p>...to get newletter & receive our best offer</p>
+									<form id="mc4wp-form-1" class="mc4wp-form mc4wp-form-838" method="post" data-id="838" data-name="">
+										<div class="mc4wp-form-fields">
+											<input class="frm-email" type="email" name="EMAIL" placeholder="Enter Your email..." required="">  
+											<button class="frm-submit" type="submit" value="subscribe">Sign up</button>
+										</div>
+									</form>
+									<ul>
+										<li><a href="https://www.facebook.com/wpthemego" title="Face Book"><span class="fa fa-facebook"></span></a></li>
+										<li><a href="https://twitter.com/wpthemego" title="Twitter"><span class="fa fa-twitter"></span></a></li>
+										<li><a href="https://www.pinterest.com/wpthemego/" title="pinterest"><span class="fa fa-pinterest"></span></a></li>
+										<li><a href="#" title="Instagram"><span class="fa fa-instagram"></span></a></li>
+										<li><a href="https://plus.google.com/u/0/117616422700848151321" title="Google Plus"><span class="fa fa-google-plus"></span></a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section> {% endcomment %}
+			</div>
+		</div>
+		<!-- //Main Container -->
+		<!-- Foo<!-- Footer Container -->
+
+
+    <div class="chat-launcher" id="chat-launcher1">
+        <i class="bi bi-robot"></i>
+    </div>
+
+
+
+
+    <div class="chat-container" id="chat-container">
+        <div class="chat-header">
+            <span>Backwater Booking Bot</span>
+            <span id="chat-close">✖</span>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            </div>
+        <div class="chat-input-area">
+            
+            <div class="chat-input-row">
+                <input type="text" id="user-input" placeholder="Type here..." style="display:none;">
+                <button id="send-btn" style="display:none;">Send</button>
+            </div>
+            
+            <div id="loading-indicator" style="display: none; padding: 10px; color: #4facfe; font-weight: 500; text-align: center;">
+                Processing... please wait.
+            </div>
+            
+            <div id="interactive-options"></div>
+            <div id="calendar-container"></div>
+            
+            <div id="input-error" class="error-message"></div>
+        </div>
+    </div>
+
+    <div id="whatsappLauncher" style="
+    position: fixed;
+    bottom: 80px;
+    right: 19px; /* slightly left of chatbot */
+    width: 51px;
+    height: 51px;
+    border-radius: 50%;
+    background-color: #25D366;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 1000;
+">
+    <i class="bi bi-whatsapp" style="color:white; font-size:28px;"></i>
+</div>
+
+
+<footer class="footer-container typefooter-1">
+    <div class="footer-has-toggle" id="collapse-footer">
+        <div class="so-page-builder">
+            <div class="container-fluid page-builder-ltr">
+                <div class="row row_mvtd footer--center2 row-color">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_6fdl float_none container">
+                        <div class="row row_hwmc">
+                            <!-- Logo and About -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col_6ps1 footer--link">
+                                <div class="footer-logo">
+                                    <a href="index.html">
+                                        <img src="{% static 'image/logo/logo-footer.png' %}" alt="Backwater Bliss" width="194" height="59" title="Backwater Bliss">
+                                    </a>
+                                </div>
+                                <p>Explore the heart of Alappuzha with Prime kerala cruise. Authentic Kerala hospitality awaits you.</p>
+                            </div>
+
+                            <!-- Address -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col_6ps1 footer--link">
+                                <h3 class="title-footer">Address</h3>
+                                <ul class="about-list">
+                                    <li><i class="fa fa-map-marker" aria-hidden="true"></i>
+                                        <span class="ab-pd">Finishing Point Road, Alappuzha, Kerala 688013, India</span>
+                                    </li>
+                                    <li class="call-mail"><i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                        <a class="ab-pd" href="mailto:info@backwaterbliss.com">info@backwaterbliss.com</a>
+                                    </li>
+                                    <li class="call-phone"><i class="fa fa-mobile" aria-hidden="true"></i>
+                                        <a class="ab-pd" href="tel:+919846012345">+91 98460 12345</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <!-- Useful Links -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col_6ps1 footer--link">
+                                <h3 class="title-footer">Useful Links</h3>
+                                <ul class="links">
+                                    <li><a href="/">Home</a></li>
+                                    <li><a href="boats">Houseboats</a></li>
+                                    {% comment %} <li><a href="shikara.html">Shikara Rides</a></li> {% endcomment %}
+                                    <li><a href="packages">Packages</a></li>
+                                    {% comment %} <li><a href="blog.html">Travel Blog</a></li> {% endcomment %}
+                                </ul>
+                            </div>
+
+                            <!-- Contact Links -->
+                            <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 col_6ps1 footer--link">
+                                <h3 class="title-footer">Quick Access</h3>
+                                <ul class="links">
+                                    <li><a href="/aboutus">About Us</a></li>
+                                    {% comment %} <li><a href="contact-us.html">Contact Us</a></li> {% endcomment %}
+                                    <li><a href="/gallery">Gallery</a></li>
+                                    {% comment %} <li><a href="terms.html">Terms & Conditions</a></li> {% endcomment %}
+                                    {% comment %} <li><a href="privacy.html">Privacy Policy</a></li> {% endcomment %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Toggle for Mobile -->
+    <div class="footer-toggle hidden-lg hidden-md">
+        <a class="showmore collapsed" data-toggle="collapse" href="#collapse-footer" aria-expanded="false" aria-controls="collapse-footer">
+            <span class="toggle-more"><i class="fa fa-angle-double-down"></i> Show More</span>
+            <span class="toggle-less"><i class="fa fa-angle-double-up"></i> Show less</span>
+        </a>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="footer-bottom">
+        <div class="container">
+            <div class="row">
+                <!-- Copyright -->
+                <div class="col-md-6 col-sm-6 copyright">
+                    © 2025 Backwater Bliss, Alappuzha. All Rights Reserved. Designed by <a href="#" target="_blank">Your Company Name</a>
+                </div>
+
+                <!-- Social Media -->
+                <div class="col-md-6 col-sm-6 social">
+                    <h3>Follow Us:</h3>
+                    <ul>
+                        <li><a href="https://www.facebook.com/" title="Facebook"><span class="fa fa-facebook"></span></a></li>
+                        <li><a href="https://www.instagram.com/" title="Instagram"><span class="fa fa-instagram"></span></a></li>
+                        <li><a href="https://www.youtube.com/" title="YouTube"><span class="fa fa-youtube"></span></a></li>
+                        <li><a href="https://www.twitter.com/" title="Twitter"><span class="fa fa-twitter"></span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+		<!-- //end Footer Container -->
+	</div>
+	<div class="back-to-top"><i class="fa fa-angle-up"></i></div>
+	<!-- End Color Scheme
+		============================================ -->
+	<!-- Include Libs & Plugins
+		============================================ -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<script type="text/javascript" src={% static "js/jquery-2.2.4.min.js" %}></script>
+		<script type="text/javascript" src={% static "js/bootstrap.min.js" %}></script>
+		<script type="text/javascript" src={% static "js/themejs/so_megamenu.js" %}></script>
+		<script type="text/javascript" src={% static "js/owl-carousel/owl.carousel.js" %}></script>
+		<script type="text/javascript" src={% static "js/slick-slider/slick.js" %}></script>
+		<script type="text/javascript" src={% static "js/themejs/libs.js" %}></script>
+		<script type="text/javascript" src={% static "js/unveil/jquery.unveil.js" %}></script>
+		<script type="text/javascript" src={% static "js/countdown/jquery.countdown.min.js" %}></script>
+		<script type="text/javascript" src={% static "js/dcjqaccordion/jquery.dcjqaccordion.2.8.min.js" %}></script>
+		<script type="text/javascript" src={% static "js/datetimepicker/moment.js" %}></script>
+		<script type="text/javascript" src={% static "js/datetimepicker/bootstrap-datetimepicker.min.js" %}></script>
+		<script type="text/javascript" src={% static "js/jquery-ui/jquery-ui.min.js" %}></script>
+		<script type="text/javascript" src={% static "js/modernizr/modernizr-2.6.2.min.js" %}></script>
+		<script type="text/javascript" src={% static "js/minicolors/jquery.miniColors.min.js" %}></script>
+		<script type="text/javascript" src={% static "js/jquery.nav.js" %}></script>
+		<script type="text/javascript" src={% static "js/quickview/jquery.magnific-popup.min.js" %}></script>
+	<!-- Theme files
+		============================================ -->
+		<script type="text/javascript" src={% static "js/themejs/application.js" %}></script>
+		<script type="text/javascript" src={% static "js/themejs/homepage.js" %}></script>
+		<script type="text/javascript" src={% static "js/themejs/custom_h1.js" %}></script>
+		<script type="text/javascript" src={% static "js/themejs/nouislider.js" %}></script>
+	</body>
+
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        const chatContainer = document.getElementById('chat-container');
+        const launcher = document.getElementById('chat-launcher1');
+        const closeBtn = document.getElementById('chat-close');
+        const chatMessages = document.getElementById('chat-messages');
+        const userInput = document.getElementById('user-input');
+        const sendBtn = document.getElementById('send-btn');
+        const interactiveOptions = document.getElementById('interactive-options');
+        const calendarContainer = document.getElementById('calendar-container');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const inputError = document.getElementById('input-error');
+
+        let conversationState = 'start';
+        let bookingDetails = {};
+        let chatStarted = false;
+
+        // === Core Functions ===
+
+        function addMessage(sender, text) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message-bubble ${sender}-message`;
+            messageDiv.innerHTML = text; 
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function resetInputArea() {
+            interactiveOptions.style.display = 'none';
+            userInput.style.display = 'none';
+            sendBtn.style.display = 'none';
+            calendarContainer.innerHTML = '';
+            loadingIndicator.style.display = 'none';
+            inputError.textContent = ''; 
+            userInput.classList.remove('shake');
+            userInput.style.borderColor = '#ddd'; // Reset border color
+        }
+
+        function displayError(message) {
+            inputError.textContent = message;
+            userInput.classList.add('shake');
+            userInput.style.borderColor = 'red';
+            setTimeout(() => {
+                userInput.classList.remove('shake');
+                userInput.style.borderColor = '#ddd';
+            }, 500);
+            userInput.focus();
+        }
+
+        // Validation logic
+        function validateInput(message) {
+            // Check for empty message
+            if (!message.trim()) {
+                displayError("Please type a message before sending.");
+                return false;
+            }
+
+            // Check for 10-digit phone number
+            if (conversationState === 'collect_phone') {
+                const phone = message.replace(/\D/g, ''); 
+                if (phone.length !== 10 || isNaN(phone)) {
+                    displayError("Please enter a valid 10-digit phone number.");
+                    return false;
+                }
+            }
+            
+            inputError.textContent = ''; 
+            return true;
+        }
+
+        async function handleBotResponse(message, options, type) {
+            addMessage('bot', message);
+            resetInputArea();
+
+            if (options) {
+                interactiveOptions.innerHTML = '';
+                options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.className = 'option-btn';
+                    button.textContent = option.text;
+                    button.onclick = () => handleUserAction(option.value);
+                    interactiveOptions.appendChild(button);
+                });
+                interactiveOptions.style.display = 'flex';
+            } else if (type === 'calendar') {
+                const calendarWrapper = document.createElement('div');
+                calendarWrapper.style.position = 'relative';
+                calendarWrapper.style.width = '100%';
+
+                const calendarInput = document.createElement('input');
+                calendarInput.type = 'text';
+                calendarInput.id = 'date-picker';
+                calendarInput.style.paddingRight = '35px';
+                calendarInput.style.width = '100%';
+                calendarInput.style.boxSizing = 'border-box';
+                calendarInput.style.borderRadius = '25px';
+                calendarInput.style.border = '1px solid #ddd';
+                calendarInput.style.padding = '12px 15px';
+
+                const icon = document.createElement('span');
+                icon.innerHTML = "📅";
+                icon.style.position = 'absolute';
+                icon.style.right = '10px';
+                icon.style.top = '50%';
+                icon.style.transform = 'translateY(-50%)';
+                icon.style.pointerEvents = 'none';
+                icon.style.fontSize = '18px';
+
+                calendarWrapper.appendChild(calendarInput);
+                calendarWrapper.appendChild(icon);
+                calendarContainer.appendChild(calendarWrapper);
+
+                flatpickr("#date-picker", {
+                    mode: "range",
+                    dateFormat: "Y-m-d",
+                    minDate: "today", // FIX: Prevents selecting past dates
+                    onChange: function(selectedDates, dateStr) {
+                        if (selectedDates.length === 2) {
+                            handleUserAction(dateStr);
+                        }
+                    }
+                });
+            } else if (type === 'text_input') {
+                userInput.style.display = 'block';
+                sendBtn.style.display = 'block';
+                userInput.focus();
+                
+                // Set placeholder based on state
+                if (conversationState === 'collect_duration') {
+                    userInput.placeholder = "Enter duration (e.g., '2 days')";
+                } else if (conversationState === 'collect_name') {
+                    userInput.placeholder = "Enter your full name...";
+                } else if (conversationState === 'collect_phone') {
+                    userInput.placeholder = "Enter your phone number...";
+                } else {
+                    userInput.placeholder = "Type here...";
+                }
+            }
+        }
+
+        async function handleUserAction(action) {
+            
+            // Validation Check
+            if (!validateInput(action)) {
+                return;
+            }
+
+            addMessage('user', action);
+            
+            const isFinalStep = conversationState === 'collect_phone';
+
+            // 1. Hide input elements immediately
+            userInput.style.display = 'none';
+            sendBtn.style.display = 'none';
+            interactiveOptions.style.display = 'none';
+            calendarContainer.innerHTML = '';
+            inputError.textContent = ''; 
+
+
+            // 2. Show the loading indicator for the final step
+            if (isFinalStep) {
+                loadingIndicator.style.display = 'block';
+            }
+
+            const response = await fetch('/chatbot-api/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+                body: JSON.stringify({ message: action, state: conversationState, booking_details: bookingDetails })
+            });
+            
+            // 3. Hide loading indicator once response is received
+            loadingIndicator.style.display = 'none';
+
+            const data = await response.json();
+            conversationState = data.new_state;
+            bookingDetails = data.booking_details;
+            handleBotResponse(data.response, data.options, data.type);
+        }
+        
+        // === Event Listeners ===
+        
+        sendBtn.addEventListener('click', () => {
+            const message = userInput.value.trim();
+            if (message) {
+                handleUserAction(message);
+                userInput.value = '';
+            }
+        });
+        
+        userInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendBtn.click();
+            }
+        });
+        
+        // ... (startChat and getCookie functions remain the same) ...
+
+        async function startChat() {
+            if (chatStarted) return;
+            chatStarted = true;
+
+            // Step 1: waving hand
+            let response = await fetch('/chatbot-api/', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+                body: JSON.stringify({ message: 'start', state: conversationState, booking_details: bookingDetails })
+            });
+            let data = await response.json();
+            conversationState = data.new_state;
+            bookingDetails = data.booking_details;
+            addMessage('bot', data.response);
+
+            // Step 2: greeting + options
+            setTimeout(async () => {
+                response = await fetch('/chatbot-api/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRFToken': getCookie('csrftoken') },
+                    body: JSON.stringify({ message: 'start_chat', state: conversationState, booking_details: bookingDetails })
+                });
+                data = await response.json();
+                conversationState = data.new_state;
+                bookingDetails = data.booking_details;
+                handleBotResponse(data.response, data.options, data.type);
+            }, 500);
+        }
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.startsWith(name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // === Popup triggers ===
+        launcher.addEventListener('click', () => {
+            chatContainer.style.display = 'flex';
+            startChat();
+        });
+        closeBtn.addEventListener('click', () => {
+            chatContainer.style.display = 'none';
+        });
+    </script>
+
+    <script>
+    // Your business WhatsApp number
+    const BUSINESS_WHATSAPP_NUMBER = "+919539717388"; 
+
+    // Pre-filled message
+    const DEFAULT_MESSAGE = "Hi, I would like to know the details about your services.";
+
+    // Function to open WhatsApp with pre-filled message
+    function openWhatsApp() {
+        const encodedMessage = encodeURIComponent(DEFAULT_MESSAGE);
+        const waLink = `https://wa.me/${BUSINESS_WHATSAPP_NUMBER}?text=${encodedMessage}`;
+        window.open(waLink, '_blank'); // Opens WhatsApp in a new tab or app
+    }
+
+    </script>
+
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // WhatsApp number and default message
+    const WHATSAPP_NUMBER = "+919539717388";
+    const WHATSAPP_MESSAGE = "Hi, I would like to know the details about your services.";
+
+    const whatsappBtn = document.getElementById('whatsappLauncher');
+
+    if (whatsappBtn) {
+        whatsappBtn.addEventListener('click', () => {
+            const encodedMessage = encodeURIComponent(WHATSAPP_MESSAGE);
+            const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+            window.open(waLink, '_blank');
+        });
+    }
+});
+</script>
+
+
+
+</html>
+

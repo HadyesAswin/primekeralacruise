@@ -1,0 +1,27 @@
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header text-white">
+      <h4 class="mb-0">Add Photo to Gallery</h4>
+    </div>
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Photo Upload -->
+        <div class="mb-3">
+          <label for="photo" class="form-label">Upload Photo</label>
+          <input type="file" name="photo" id="photo" accept="image/*" class="form-control" required>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-success px-4">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% include 'admin/adminfooter.html' %}
