@@ -1,0 +1,54 @@
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3">All Rooms</h1>
+    <a href="{% url 'admin_add_room' %}" class="btn btn-primary">+ Add Room</a>
+  </div>
+
+  {% if rooms %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>SI.NO</th>
+            <th>Price</th>
+            <th>Photo</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in rooms %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>₹ {{ r.price }}</td>
+            <td>
+              {% if r.photo %}
+                <img src="{{ r.photo.url }}" alt="Room {{ r.id }}" class="img-thumbnail" style="width:120px; height:auto;">
+              {% else %}
+                <span class="text-muted">No photo</span>
+              {% endif %}
+            </td>
+            <td>{{ r.description }}</td>
+            <td>{{ r.category }}</td>
+            <td>
+              <a href="{% url 'admin_edit_room' r.id %}" class="btn btn-sm btn-warning">Edit</a>
+              <a href="{% url 'admin_delete_room' r.id %}" 
+                 class="btn btn-sm btn-danger"
+                 onclick="return confirm('Are you sure you want to delete this room?');">
+                 Delete
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-info">No rooms found.</div>
+  {% endif %}
+</div>
+
+{% include 'admin/adminfooter.html' %}

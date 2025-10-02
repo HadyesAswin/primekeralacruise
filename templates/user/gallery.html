@@ -1,0 +1,50 @@
+
+{% load static %}
+
+{% include "public/header.html" %}
+
+  <!--  content  -->
+
+
+<!-- Main Container -->
+<div id="content">
+    <div class="so-page-builder">
+
+        <!-- Tourist Shared Photos Gallery -->
+        <section class="section-style6">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 col_6fdl float_none container">
+                <div class="head-title clearfix">
+                    <div class="block-title pull-left">
+                        <h3><span>Tourist's shared photo</span></h3>
+                    </div>
+                </div>
+                <div class="sw-gallery products-list yt-content-slider"
+                     data-rtl="yes" data-autoplay="no" data-autoheight="no" data-delay="4" data-speed="0.6"
+                     data-margin="0" data-items_column00="5" data-items_column0="5" data-items_column1="5"
+                     data-items_column2="3" data-items_column3="3" data-items_column4="2" data-arrows="no"
+                     data-pagination="no" data-lazyload="yes" data-loop="yes" data-hoverpause="yes">
+
+                    {% for photo in photos %}
+                        {% if forloop.counter0|divisibleby:2 %}
+                        <div class="item">
+                        {% endif %}
+
+                        <div class="content-img">
+                            <a class="image-popup" href="{{ photo.photo.url }}">
+                                <img class="responsive" src="{{ photo.photo.url }}" alt="gallery{{ forloop.counter }}">
+                            </a>
+                        </div>
+
+                        {% if forloop.counter|divisibleby:2 or forloop.last %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+{% include "public/footer.html" %}

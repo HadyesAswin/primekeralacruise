@@ -1,0 +1,50 @@
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header text-white">
+      <h4 class="mb-0">Add a New Room</h4>
+    </div>
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Price -->
+        <div class="mb-3">
+          <label for="id_price" class="form-label">Price</label>
+          <input type="text" id="id_price" name="price" maxlength="200" class="form-control" placeholder="Enter room price" required>
+        </div>
+
+        <!-- Photo -->
+        <div class="mb-3">
+          <label for="id_photo" class="form-label">Photo</label>
+          <input type="file" id="id_photo" name="photo" class="form-control">
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label for="id_description" class="form-label">Description</label>
+          <textarea id="id_description" name="description" rows="4" maxlength="2000" class="form-control" placeholder="Enter room description"></textarea>
+        </div>
+
+        <!-- Category -->
+        <div class="mb-3">
+          <label for="id_category" class="form-label">Category</label>
+          <select id="id_category" name="category" class="form-select">
+            <option value="Single Room">Single Room</option>
+            <option value="Double Room">Double Room</option>
+            <option value="Deluxe Room">Deluxe Room</option>
+            <option value="Suite">Suite</option>
+          </select>
+        </div>
+
+        <!-- Submit -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-success px-4">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% include 'admin/adminfooter.html' %}

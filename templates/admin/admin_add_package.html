@@ -1,0 +1,43 @@
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <h1 class="h3 mb-4">Add a New Package</h1>
+
+  <form method="post" enctype="multipart/form-data" class="card shadow-sm p-4">
+    {% csrf_token %}
+    
+    <div class="mb-3">
+      <label for="id_title" class="form-label">Title</label>
+      <input type="text" id="id_title" name="title" class="form-control" maxlength="200" required>
+    </div>
+    <div class="mb-3">
+      <label for="id_title" class="form-label">Price</label>
+      <input type="text" id="id_title" name="price" class="form-control" maxlength="200" required>
+    </div>
+    <div class="mb-3">
+      <label for="id_title" class="form-label">Duration</label>
+      <input type="text" id="id_title" name="duration" class="form-control" maxlength="200" required>
+    </div>
+    <div class="mb-3">
+      <label for="id_title" class="form-label">PersonCount</label>
+      <input type="text" id="id_title" name="person" class="form-control" maxlength="200" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="id_photo" class="form-label">Photo</label>
+      <input type="file" id="id_photo" name="photo" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label for="id_description" class="form-label">Description</label>
+      <textarea id="id_description" name="description" class="form-control" rows="5" maxlength="2000" required></textarea>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-success">💾 Save</button>
+      
+    </div>
+  </form>
+</div>
+
+{% include 'admin/adminfooter.html' %}

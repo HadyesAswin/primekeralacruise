@@ -1,0 +1,59 @@
+{% include 'admin/adminheader.html' %}
+
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .count-box {
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #eaf4ff;
+            border-left: 5px solid #007bff;
+            border-radius: 4px;
+        }
+
+        .label {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .count {
+            font-size: 2em;
+            color: #007bff;
+        }
+    </style>
+
+
+
+    <div class="container">
+        <h1>Booking Click Stats</h1>
+
+        <div class="count-box">
+            <div class="label">Bookings this week:</div>
+            <div class="count">{{ weekly_count }}</div>
+        </div>
+
+        <div class="count-box">
+            <div class="label">Bookings this month:</div>
+            <div class="count">{{ monthly_count }}</div>
+        </div>
+    </div>
+
+{% include 'admin/adminfooter.html' %}

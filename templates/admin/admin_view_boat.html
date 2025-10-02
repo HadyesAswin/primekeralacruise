@@ -1,0 +1,54 @@
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3">All Boats</h1>
+    <a href="{% url 'admin_add_boat' %}" class="btn btn-primary">+ Add New Boat</a>
+  </div>
+
+  {% if boats %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>SI.NO</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Photo</th>
+            <th>Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for b in boats %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ b.category }}</td>
+            <td>₹ {{ b.price }}</td>
+            <td>
+              {% if b.photo %}
+                <img src="{{ b.photo.url }}" alt="Boat {{ b.id }}" class="img-thumbnail" style="width:120px; height:auto;">
+              {% else %}
+                <span class="text-muted">No photo</span>
+              {% endif %}
+            </td>
+            <td>{{ b.description }}</td>
+            <td>
+              <a href="{% url 'admin_edit_boat' b.id %}" class="btn btn-sm btn-warning">Edit</a>
+              <a href="{% url 'admin_delete_boat' b.id %}" 
+                 class="btn btn-sm btn-danger"
+                 onclick="return confirm('Are you sure you want to delete this boat?');">
+                 Delete
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-info">No boats found.</div>
+  {% endif %}
+</div>
+
+{% include 'admin/adminfooter.html' %}

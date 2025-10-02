@@ -1,0 +1,35 @@
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header text-white">
+      <h4 class="mb-0">Edit Photo</h4>
+    </div>
+    <div class="card-body">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Current Photo Preview -->
+        <div class="mb-3">
+          <label class="form-label">Current Photo</label>
+          <div>
+            <img src="{{ gallery_item.photo.url }}" alt="Current Photo" class="img-thumbnail" style="width:150px; height:auto;">
+          </div>
+        </div>
+
+        <!-- Upload New Photo -->
+        <div class="mb-3">
+          <label for="photo" class="form-label">Upload New Photo</label>
+          <input type="file" name="photo" id="photo" accept="image/*" class="form-control">
+        </div>
+
+        <!-- Update Button -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-warning px-4">Update</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% include 'admin/adminfooter.html' %}

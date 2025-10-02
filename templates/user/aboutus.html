@@ -1,0 +1,38 @@
+
+{% load static %}
+
+{% include "public/header.html" %}
+
+<!-- Main Container  -->
+	
+
+  <!--  content  -->
+<section class="section-style1">
+    <div class="container page-builder-ltr">
+        <div class="row row-style row_a1">
+            <div class="col-lg-5 col-md-5 col-sm-12 col-xs-12 col_a1c about-text">
+                <h3><span>About Us</span></h3>
+                <p>We offer unforgettable backwater experiences in Alappuzha with premium houseboats, shikara rides, and speedboats. Whether you're looking to relax or explore, we’ve got the perfect package for you.</p>
+                <ul>
+                    <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>Luxury Houseboats</li>
+                    <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>Private Shikara Tours</li>
+                    <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>Speedboat Adventures</li>
+                    <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>Traditional Kerala Meals</li>
+                    <li><i class="fa fa-check-circle-o" aria-hidden="true"></i>Customizable Tour Packages</li>
+                </ul>
+                {% comment %} <div class="about-more clearfix">
+                    <a href="about-us.html">Learn more <i class="fa fa-long-arrow-right" aria-hidden="true"></i></a>
+                </div> {% endcomment %}
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-12 col-xs-12 col_a1c about-video">
+                <div class="ytvideo" data-video="ibuUmMhD2Pg"
+                    style="width:870px; height:420px; background-image:url('{% static "image/bg-video.jpg" %}')">
+                    <div class="seo">Travel</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>     
+                
+                
+                {% include "public/footer.html" %}

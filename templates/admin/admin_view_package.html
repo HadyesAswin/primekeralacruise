@@ -1,0 +1,58 @@
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3">Packages</h1>
+    <a href="{% url 'admin_add_package' %}" class="btn btn-primary">+ Add New Package</a>
+  </div>
+
+  {% if packages %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>SI.NO</th>
+            <th>Title</th>
+            <th>Price</th>
+            <th>Duration</th>
+            <th>PersonCount</th>
+            <th>Photo</th>
+            <th>Description</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for p in packages %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ p.title }}</td>
+            <td>{{ p.price }}</td>
+            <td>{{ p.duration }}</td>
+            <td>{{ p.noofperson }}</td>
+            <td>
+              {% if p.photo %}
+                <img src="{{ p.photo.url }}" alt="{{ p.title }}" class="img-thumbnail" style="width:120px; height:auto;">
+              {% else %}
+                <span class="text-muted">No photo</span>
+              {% endif %}
+            </td>
+            <td>{{ p.description }}</td>
+            <td>
+              <a href="{% url 'admin_edit_package' p.id %}" class="btn btn-sm btn-warning">Edit</a>
+              <a href="{% url 'admin_delete_package' p.id %}" 
+                 class="btn btn-sm btn-danger"
+                 onclick="return confirm('Are you sure you want to delete this package?');">
+                 Delete
+              </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-info">No packages found.</div>
+  {% endif %}
+</div>
+
+{% include 'admin/adminfooter.html' %}

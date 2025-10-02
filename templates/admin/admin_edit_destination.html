@@ -1,0 +1,31 @@
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <div class="card shadow-sm p-4">
+    <h2 class="mb-4">Update Destination</h2>
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="name" class="form-label">Destination Name</label>
+        <input type="text" id="name" name="name" value="{{ destination.name }}" class="form-control" required>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Current Photo</label><br>
+        {% if destination.photo %}
+          <img src="{{ destination.photo.url }}" alt="{{ destination.name }}" class="img-thumbnail mb-2" width="150">
+          <p class="text-muted small">Upload a new photo to replace the current one:</p>
+        {% else %}
+          <p class="text-muted small">No photo uploaded yet.</p>
+        {% endif %}
+        <input type="file" id="photo" name="photo" class="form-control" accept="image/*">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Update Destination</button>
+    </form>
+  </div>
+</div>
+
+{% include 'admin/adminfooter.html' %}
