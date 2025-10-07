@@ -7,7 +7,32 @@
 <!-- Mirrored from themesflat.co/html/vitour/home2.html by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 30 Sep 2025 06:45:56 GMT -->
 <head>
     <meta charset="utf-8">
-    <title>{% block title %} Prime kerala {% endblock %}</title>
+    <!-- ✅ SEO Meta Tags -->
+<title>{% block title %}Prime Kerala Cruise | Alappuzha Houseboat Packages & Backwater Tours{% endblock %}</title>
+
+<meta name="description" content="Experience the serene backwaters of Alappuzha with Prime Kerala Cruise. Book luxurious houseboats, honeymoon packages, and family backwater tours in Kerala at affordable prices.">
+
+<meta name="keywords" content="Prime Kerala Cruise, Alappuzha, Alleppey, houseboat, backwaters, Kerala houseboat, Alappuzha tourism, Kerala backwater cruise, luxury houseboat, honeymoon houseboat, family boat ride, Kerala travel, best houseboat in Alappuzha, boat packages, Prime Kerala Cruise booking, houseboat rental Kerala, backwater resort">
+
+<meta name="author" content="Prime Kerala Cruise">
+<meta name="robots" content="index, follow">
+<meta name="language" content="English">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ✅ Open Graph (for social media preview) -->
+<meta property="og:title" content="Prime Kerala Cruise | Alappuzha Houseboat & Backwater Tours">
+<meta property="og:description" content="Book your dream houseboat in Alappuzha with Prime Kerala Cruise. Enjoy Kerala backwaters, luxury stays, and customized packages.">
+<meta property="og:image" content="https://yourdomain.com/assets/images/houseboat-og.jpg">
+<meta property="og:url" content="https://yourdomain.com/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Prime Kerala Cruise">
+
+<!-- ✅ Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Prime Kerala Cruise | Alappuzha Houseboat Packages">
+<meta name="twitter:description" content="Explore Alappuzha backwaters with Prime Kerala Cruise. Book luxury and budget houseboat tours today!">
+<meta name="twitter:image" content="https://yourdomain.com/assets/images/houseboat-twitter.jpg">
+
 
     <meta name="author" content="themesflat.com">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -21,8 +46,8 @@
 
 
     <!-- Favicon and Touch Icons  -->
-    <link rel="shortcut icon" href={% static "assets/images/favico.png" %}>
-    <link rel="apple-touch-icon-precomposed" href={% static "assets/images/favico.png" %}>
+    <link rel="shortcut icon" href={% static "assets/images/logoforwebsite.png" %}>
+    <link rel="apple-touch-icon-precomposed" href={% static "assets/images/logoforwebsite.png" %}>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
     
@@ -538,9 +563,9 @@
                                 <div class="follow-social flex-two">
                                     <span>Follow Us :</span>
                                     <ul class="flex-two">
-                                        <li><a href="#"><i class="icon-icon-2"></i></a></li>
-                                        <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
-                                        <li><a href="#"><i class="icon-x"></i></a></li>
+                                        <li><a href=""><i class="icon-icon-2"></i></a></li>
+                                        <li><a href=""><i class="fa-brands fa-instagram"></i></a></li>
+                                        <!-- <li><a href="#"><i class="icon-x"></i></a></li> -->
                                         <li><a href="https://wa.me/9539717388?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank"><i class="fa-brands fa-whatsapp"></i>
 </a></li>
                                     </ul>
@@ -558,9 +583,9 @@
                                         <!-- Logo Box -->
                                        
                                         <div class="logo-box">
-                                            <div class="logo">
-                                                <a href="index.html">
-                                                    <img src={% static "assets/images/logo2.png" alt="Logo" %}>
+                                            <div class="logo" >
+                                                <a href="">
+                                                    <img src={% static "assets/images/primekeralacruiselogo.png" alt="Logo" %}>
                                                 </a>
                                             </div>
                                         </div>
@@ -732,8 +757,8 @@
                 <div class="mobile-menu">
                     <div class="menu-backdrop"></div>
                     <nav class="menu-box">
-                        <div class="nav-logo"><a href="index.html">
-                                <img src= {% static "assets/images/logo2.png" %}alt=""></a></div>
+                        <div class="nav-logo"><a href="">
+                                <img src= {% static "assets/images/primekeralacruiselogo.png" %} alt=""></a></div>
                         <div class="bottom-canvas">
                             <div class="menu-outer">
                             </div>
@@ -1170,14 +1195,17 @@
                                         aria-labelledby="new-york-tab" tabindex="0">
                                         <div class="row">
                                             {% for i in boats %}
-                                            <div class="col-md-6 col-lg-3 wow fadeInUp animated " data-wow-delay="0.1s">
+                                            <div class="col-md-6 col-lg-3 wow fadeInUp animated " data-wow-delay="0.1s" >
                                                 <a href="/allboats">
                                                 
                                                 <div class="tour-listing box-sd">
-                                                    
-                                                        
-                                                        <img src={{i.photo.url}}
+                                                    <div class="img" style="height: 350px;">
+                                                         <img src={{i.photo.url}}
                                                             alt="Image Listing">
+
+                                                    </div>
+                                                        
+                                                       
 
                                                     </a>
                                                     <div class="tour-listing-content">
@@ -2480,7 +2508,7 @@
                                 <div class="image-about-us relative">
                                     <img src={% static "assets/images/page/vector3.png" %} alt="image" class="mask1">
                                     <img src={% static "assets/images/page/fly3.png" %} alt="image" class="mask2">
-                                    <img src={% static "assets/images/about-us/ewewe2.png" %} alt="image" class="image-main">
+                                    <img src={% static "assets/images/nine.png" %} alt="image" class="image-main">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -2491,7 +2519,7 @@
                                         <h2 class="title-heading mb-18 wow fadeInUp animated">Your gateway to authentic 
                                             <span class="text-gray font-yes">backwater</span> & travels
                                         </h2>
-                                        <p class="des-heading wow fadeInUp animated">Cruise through palm-lined canals, serene lakes, and charming villages aboard our fully equipped houseboat.o</p>
+                                        <p class="des-heading wow fadeInUp animated">Cruise through palm-lined canals, serene lakes, and charming villages aboard our fully equipped houseboat</p>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
@@ -2574,10 +2602,10 @@ With years of experience and love for Kerala’s waterways, Alapazhu Houseboat i
                                         </div>
                                         <div class="col-md-6">
                                             <ul class="about-us-list">
-                                                <li class="flex-three wow fadeInUp animated">
+                                                {% comment %} <li class="flex-three wow fadeInUp animated">
                                                     <span class="number">05+</span>
                                                     <span class="experience">Years of experience</span>
-                                                </li>
+                                                </li> {% endcomment %}
                                                 <li class="flex-three wow fadeInUp animated">
                                                     <span class="number">10+</span>
                                                     <span class="experience">Team Members</span>
@@ -3094,7 +3122,7 @@ Our houseboats are certified, well-maintained, and operated by experienced crews
                                                 <div class="content">
                                                     <h4 class="title-icon"><a href="#">Capture Kerala</a></h4>
                                                     <p class="des-icon">Every turn of the backwaters is a photo opportunity. Explore Alappuzha with your camera ready!</p>
-                                                    <a href="https://wa.me/9539717388?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="icons-link">Book Now <i
+                                                    <a href="https://wa.me/9539717388?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="icons-link" >Book Now <i
                                                             class="icon-Path-77287-1"></i></a>
                                                 </div>
                                             </div>
@@ -3546,21 +3574,21 @@ Our houseboats are certified, well-maintained, and operated by experienced crews
                         <div class="col-md-4">
                             <div class="footer-item-logo">
                                 <div class="logo">
-                                    <img src={% static "assets/images/logo.png" %} alt="image">
+                                    <img src={% static "assets/images/primekeralacruiselogo.png" %} alt="image">
                                 </div>
                                 <p class="des-footer">Your gateway to unforgettable experiences. From custom holiday packages to serene houseboat stays, we make planning your next getaway simple, reliable, and hassle-free — all in one place.
                                 </p>
                                 <ul class="social flex-three ">
                                     <li>
-                                        <a href="#">
+                                        <a href="">
                                             <i class="icon-icon-2"></i>
                                         </a>
                                     </li>
-                                    <li>
+                                    <!-- <li>
                                         <a href="#">
                                             <i class="icon-x"></i>
                                         </a>
-                                    </li>
+                                    </li> -->
                                     <li>
                                         <a href=""><i class="fa-brands fa-instagram"></i></a>
                                     </li>
@@ -3614,7 +3642,7 @@ Our houseboats are certified, well-maintained, and operated by experienced crews
                             </div>
                         </div> -->
                         <div class="col-md-4">
-                            <div class="footer-item-newsletter" style="margin-left: 150px;">
+                            <div class="footer-item-newsletter" style="margin-left: 97px;">
                                 <h6 class="title mb-30">Contact Us</h6>
                                 <ul class="canvas-info">
                 <li class="flex-three">
@@ -3635,8 +3663,7 @@ Our houseboats are certified, well-maintained, and operated by experienced crews
                     </div>
                     <div class="row footer-bottom">
                         <div class="col-md-6">
-                            <p class="copy-right">Copyright© 2025 by <a href="#" class="text-main">PrimeKeralaCruise.</a> All
-                                Rights Reserved By <span><a href="https://www.urbansyntax.in">UrbanSyntax</a>
+                            <p class="copy-right">Copyright© 2025 by <a href="#" class="text-main">PrimeKeralaCruise.</a> Powered By <span><a href="https://www.urbansyntax.in">UrbanSyntax</a>
                                 </span></p>
                         </div>
                         <!-- <div class="col-md-6">
@@ -3671,7 +3698,7 @@ Our houseboats are certified, well-maintained, and operated by experienced crews
         </div>
         <div class="offcanvas-body">
             <div class="logo-canvas">
-                <img src={% static "assets/images/logo.png" %} alt="image">
+                <img src={% static "assets/images/primekeralacruiselogo.png" %} alt="image">
             </div>
             <p class="des">Sail through Alappuzha’s backwaters with the finest houseboats and cruise services in Kerala.
             </p>
@@ -3682,7 +3709,7 @@ Our houseboats are certified, well-maintained, and operated by experienced crews
                 </li>
                 <li class="flex-three">
                     <i class="icon-Group-9"></i>
-                    <p>684 555-0102 490</p>
+                    <p>+91 9876543210</p>
                 </li>
                 <li class="flex-three">
                     <i class="icon-Layer-19"></i>
@@ -3696,8 +3723,8 @@ Our houseboats are certified, well-maintained, and operated by experienced crews
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        <i class="icon-icon-1"></i>
+                    <a href="https://wa.me/9539717388?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank">
+                        <i class="fa-brands fa-whatsapp"></i>
                     </a>
                 </li>
                 <li>
@@ -3705,11 +3732,11 @@ Our houseboats are certified, well-maintained, and operated by experienced crews
                         <i class="icon-8"></i>
                     </a>
                 </li>
-                <li>
+                <!-- <li>
                     <a href="#">
                         <i class="icon-6"></i>
                     </a>
-                </li>
+                </li>  -->
             </ul>
 
         </div>

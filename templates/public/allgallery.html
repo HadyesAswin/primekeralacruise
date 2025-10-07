@@ -1,7 +1,7 @@
 
 {% extends 'public/home2.html' %}
 {% load static %}
-{% block title %} All Boats {% endblock %}
+{% block title %} Gallery {% endblock %}
 
 
 
@@ -40,7 +40,7 @@
                             </div>
                             <img src={% static "assets/images/page/vector4.png" %} alt="" class="shape-ab">
                             <div class="callt-to-action-button">
-                                <a href="" class="get-call">Let,s get started</a>
+                                <a href="/allpackages" class="get-call">Let,s get started</a>
                             </div>
                         </div>
                     </div>
@@ -61,13 +61,14 @@
                                 </div>
                             </div>  -->
                         </div>
-                        <div class="team-member-grid">
+                        <div class="team-member-grid" >
                             {% for i in gallery %}
-                            <div class="tf-widget-team">
+                            <div class="tf-widget-team" >
                                 
-                                <div class="team-image mb-15">
+                                <div class="team-image mb-15" >
                                     
-                                    <img src={{i.photo.url}} alt="">
+                                    <img src="{{ i.photo.url }}" alt="" style="height:400px; width:400px; object-fit:cover; border-radius:13px;">
+
                                     <!-- <ul class="social-team">
                                         <li>
                                             <a href="#">
@@ -263,6 +264,55 @@
                         </div>
                     </div>
                 </section>
+                <div class="chat-launcher" id="chat-launcher1">
+        <i class="bi bi-robot"></i>
+    </div>
+
+
+
+
+    <div class="chat-container" id="chat-container">
+        <div class="chat-header">
+            <span>Backwater Booking Bot</span>
+            <span id="chat-close">✖</span>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            </div>
+        <div class="chat-input-area">
+            
+            <div class="chat-input-row">
+                <input type="text" id="user-input" placeholder="Type here..." style="display:none;">
+                <button id="send-btn" style="display:none;">Send</button>
+            </div>
+            
+            <div id="loading-indicator" style="display: none; padding: 10px; color: #4facfe; font-weight: 500; text-align: center;">
+                Processing... please wait.
+            </div>
+            
+            <div id="interactive-options"></div>
+            <div id="calendar-container"></div>
+            
+            <div id="input-error" class="error-message"></div>
+        </div>
+    </div>
+
+    <div id="whatsappLauncher" style="
+    position: fixed;
+    bottom: 80px;
+    right: 19px; /* slightly left of chatbot */
+    width: 51px;
+    height: 51px;
+    border-radius: 50%;
+    background-color: #25D366;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 1000;
+">
+    <i class="bi bi-whatsapp" style="color:white; font-size:28px;"></i>
+</div>
 
                 
                  {% endblock %}
