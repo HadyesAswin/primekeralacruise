@@ -9,6 +9,7 @@ urlpatterns = [
     path('kh',views.index1),
 
     path('login',views.login),
+    path('logout',views.logout),
     #--------------User-----------------
 
     path('packages',views.packages,name='packages'),

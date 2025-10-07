@@ -8,6 +8,9 @@ from django.shortcuts import render, get_object_or_404
 from django.core.mail import send_mail
 from twilio.rest import Client
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth import authenticate, login as auth_login
 
 from datetime import datetime
 # Create your views here.
@@ -15,7 +18,14 @@ from datetime import datetime
 
 # -----------------------------------Public functions----------------------------------
 
+
+def logout(request):
+    request.session['log']="out"
+    return HttpResponse("<script>alert('Logout'); window.location='/login'</script>")
+
+
 def index(request):
+    request.session['log']="out"
     boats = Boat.objects.all()[:4]
     packages = Package.objects.all()[:3]
     photos = Gallery.objects.all()
@@ -34,6 +44,9 @@ def index(request):
         'testimonials': testimonials,
         'gallery': gallery
     })
+
+
+
 def index1(request):
    
  # show only 6 packages
@@ -41,6 +54,7 @@ def index1(request):
         )
 
 def login(request):
+    request.session['log']="out"
     if 'submit' in request.POST:
         uname=request.POST['username']
         password=request.POST['password']
@@ -56,6 +70,29 @@ def login(request):
         else:
             return HttpResponse(f"<script>alert('Username or password incorrect...!');window.location='/login'</script>")
     return render(request,'public/login.html')
+
+
+
+# def login(request):
+#     if request.method == 'POST':
+#         uname = request.POST['username']
+#         password = request.POST['password']
+
+#         user = authenticate(request, username=uname, password=password)
+
+#         if user is not None:
+#             auth_login(request, user)
+#             if user.is_superuser:
+#                 messages.success(request, 'Welcome Admin!')
+#                 return redirect('/admin_home')
+#             else:
+#                 messages.error(request, 'You are not authorized as admin.')
+#                 return redirect('/login')
+#         else:
+#             messages.error(request, 'Invalid username or password.')
+#             return redirect('/login')
+
+#     return render(request, 'public/login.html')
 
 # -----------------------------------User functions----------------------------------
 
@@ -126,7 +163,10 @@ from django.utils import timezone
 
 # def admin_home(request):
 #     return render(request,'admin/admin_home.html')
+
 def admin_home(request):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     now = timezone.now()
     one_week_ago = now - timedelta(days=7)
     one_month_ago = now - timedelta(days=30)
@@ -138,11 +178,19 @@ def admin_home(request):
     counts = {'weekly': weekly_count, 'monthly': monthly_count}
     return render(request, 'admin/admin_home.html', {'counts': counts})
 
+
 def admin_view_package(request):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     packages = Package.objects.all()
     return render(request, 'admin/admin_view_package.html', {'packages': packages})
 
+
+
+
 def admin_add_package(request):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     if request.method == 'POST':
         title = request.POST.get('title')
         photo = request.FILES.get('photo')
@@ -161,7 +209,10 @@ def admin_add_package(request):
         return redirect('admin_view_package')
     return render(request, 'admin/admin_add_package.html')
 
+
 def admin_edit_package(request, id):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     package = Package.objects.get(id=id)
     if request.method == 'POST':
         package.title = request.POST.get('title')
@@ -175,12 +226,16 @@ def admin_edit_package(request, id):
         return redirect('admin_view_package')
     return render(request, 'admin/admin_edit_package.html', {'package': package})
 
+
 def admin_delete_package(request, id):
     package = Package.objects.get(id=id)
     package.delete()
     return redirect('admin_view_package')
 
+
 def admin_add_boat(request):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     if request.method == 'POST':
         price = request.POST.get('price')
         photo = request.FILES.get('photo')
@@ -195,11 +250,17 @@ def admin_add_boat(request):
         return redirect('admin_view_boat')
     return render(request, 'admin/admin_add_boat.html')
 
+
 def admin_view_boat(request):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     boats = Boat.objects.all()
     return render(request, 'admin/admin_view_boat.html', {'boats': boats})
 
+
 def admin_edit_boat(request, id):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     boat = Boat.objects.get(id=id)
     if request.method == 'POST':
         boat.price = request.POST.get('price')
@@ -211,16 +272,23 @@ def admin_edit_boat(request, id):
         return redirect('admin_view_boat')
     return render(request, 'admin/admin_edit_boat.html', {'boat': boat})
 
+
 def admin_delete_boat(request, id):
     boat = Boat.objects.get(id=id)
     boat.delete()
     return redirect('admin_view_boat')
 
+
 def admin_view_room(request):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     rooms = Room.objects.all()
     return render(request, 'admin/admin_view_room.html', {'rooms': rooms})
 
+
 def admin_add_room(request):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     if request.method == 'POST':
         price = request.POST.get('price')
         photo = request.FILES.get('photo')
@@ -235,7 +303,10 @@ def admin_add_room(request):
         return redirect('admin_view_room')
     return render(request, 'admin/admin_add_room.html')
 
+
 def admin_edit_room(request, id):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     room = Room.objects.get(id=id)
     if request.method == 'POST':
         room.price = request.POST.get('price')
@@ -247,16 +318,23 @@ def admin_edit_room(request, id):
         return redirect('admin_view_room')
     return render(request, 'admin/admin_edit_room.html', {'room': room})
 
+
 def admin_delete_room(request, id):
     room = Room.objects.get(id=id)
     room.delete()
     return redirect('admin_view_room')
 
+
 def admin_view_gallery(request):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     photos = Gallery.objects.all()
     return render(request, 'admin/admin_view_gallery.html', {'photos': photos})
 
+
 def admin_add_gallery(request):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     if request.method == "POST":
         photo = request.FILES.get('photo')
         if photo:
@@ -264,7 +342,10 @@ def admin_add_gallery(request):
             return redirect('admin_view_gallery')
     return render(request, 'admin/admin_add_gallery.html')
 
+
 def admin_edit_gallery(request, id):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     photo = Gallery.objects.get(id=id)
     if request.method == 'POST':
         if 'photo' in request.FILES:
@@ -278,11 +359,17 @@ def admin_delete_gallery(request, id):
     photo.delete()
     return redirect('admin_view_gallery')
 
+
 def admin_view_testimonial(request):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     testimonials = Testimonial.objects.all()
     return render(request, 'admin/admin_view_testimonial.html', {'testimonials': testimonials})
 
+
 def admin_add_testimonial(request):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     if request.method == "POST":
         name = request.POST.get('name')
         description = request.POST.get('description')
@@ -297,7 +384,10 @@ def admin_add_testimonial(request):
     return render(request, 'admin/admin_add_testimonial.html')
 
 
+
 def admin_edit_testimonial(request, id):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     testimonial = Testimonial.objects.get(id=id)
     if request.method == "POST":
         name = request.POST.get('name')
@@ -525,7 +615,10 @@ def chatbot_api(request):
     return JsonResponse({'error': 'Only POST requests are allowed'}, status=405)
 
 
+
 def admin_add_destination(request):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     if request.method == "POST":
         name = request.POST.get('name')
         photo = request.FILES.get('photo')  # important for image uploads
@@ -537,11 +630,16 @@ def admin_add_destination(request):
 
     return render(request, 'admin/admin_add_destination.html')
 
+
 def admin_view_destination(request):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     destinations = Destination.objects.all()  # Get all rows
     return render(request, 'admin/admin_view_destinations.html', {'destinations': destinations})
 
 def admin_edit_destination(request, id):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
     destination = Destination.objects.get(id=id)
 
     if request.method == "POST":

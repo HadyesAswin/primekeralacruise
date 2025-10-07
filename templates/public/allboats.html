@@ -40,7 +40,7 @@
                             </div>
                             <img src={% static "assets/images/page/vector4.png" %} alt="" class="shape-ab">
                             <div class="callt-to-action-button">
-                                <a href="" class="get-call">Let,s get started</a>
+                                <a href="/allpackages" class="get-call">Let,s get started</a>
                             </div>
                         </div>
                     </div>
@@ -248,7 +248,10 @@
                 {% for i in page_obj %}
                 <div class="tour-listing box-sd">
                     <a href="https://wa.me/9539717388?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="tour-listing-image">
-                        <img src="{{ i.photo.url }}" alt="Image Listing">
+                        <div class="img" style="height: 300px;">
+                            <img src="{{ i.photo.url }}" alt="Image Listing">
+                        </div>
+                        
                     </a>
                     <div class="tour-listing-content">
                         <span class="map"><i class="icon-Vector4"></i>{{ i.category }}</span>
@@ -453,6 +456,55 @@
                     </div>
 
                 </section> -->
+                <div class="chat-launcher" id="chat-launcher1">
+        <i class="bi bi-robot"></i>
+    </div>
+
+
+
+
+    <div class="chat-container" id="chat-container">
+        <div class="chat-header">
+            <span>Backwater Booking Bot</span>
+            <span id="chat-close">✖</span>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            </div>
+        <div class="chat-input-area">
+            
+            <div class="chat-input-row">
+                <input type="text" id="user-input" placeholder="Type here..." style="display:none;">
+                <button id="send-btn" style="display:none;">Send</button>
+            </div>
+            
+            <div id="loading-indicator" style="display: none; padding: 10px; color: #4facfe; font-weight: 500; text-align: center;">
+                Processing... please wait.
+            </div>
+            
+            <div id="interactive-options"></div>
+            <div id="calendar-container"></div>
+            
+            <div id="input-error" class="error-message"></div>
+        </div>
+    </div>
+
+    <div id="whatsappLauncher" style="
+    position: fixed;
+    bottom: 80px;
+    right: 19px; /* slightly left of chatbot */
+    width: 51px;
+    height: 51px;
+    border-radius: 50%;
+    background-color: #25D366;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 1000;
+">
+    <i class="bi bi-whatsapp" style="color:white; font-size:28px;"></i>
+</div>
                  {% endblock %}
             </main>
             
