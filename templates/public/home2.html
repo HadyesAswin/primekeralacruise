@@ -714,6 +714,32 @@
 
 
 
+/* Boats description Scroll */
+
+/* Ensure cards are full height and layout is column */
+.tour-listing {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* lets all cards stretch equally in a row */
+}
+
+/* Make content area flexible but fixed description space */
+.tour-listing-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* keeps bottom elements pinned */
+    flex: 1;
+}
+
+/* Description area: fixed height with scroll */
+.tour-listing-content .title-tour-list a {
+    max-height: 80px;       /* fixed space for description */
+    overflow-y: auto;       /* scroll if text exceeds */
+    display: block;
+    line-height: 1.4em;
+    padding-right: 2px;      /* avoid scrollbar overlap */
+}
+
 
 
 
