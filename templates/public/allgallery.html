@@ -5,9 +5,34 @@
 
 
 
+
+
             <!-- End Main Header -->
             <main id="main">
+
+
                 {% block content %}
+                <style>
+.cust-img {
+    height: 400px !important;
+    width: 360px !important;
+    object-fit: cover !important;
+    border-radius: 13px !important;
+}
+
+@media (max-width: 1024px) {
+    .cust-img {
+        width: 100% !important;
+        height: 400px !important;
+    }
+}
+
+@media (max-width: 390px) {
+    .cust-img {
+        width: 100% !important;
+    }
+}
+</style>
 
                 <section class="breadcumb-section">
                     <div class="tf-container">
@@ -67,7 +92,11 @@
                                 
                                 <div class="team-image mb-15" >
                                     
-                                    <img src="{{ i.photo.url }}" alt="" style="height:400px; width:400px; object-fit:cover; border-radius:13px;">
+                                            <img class="cust-img" src="{{ i.photo.url }}" alt="">
+                                  
+                                        
+                                 
+                                    
 
                                     <!-- <ul class="social-team">
                                         <li>

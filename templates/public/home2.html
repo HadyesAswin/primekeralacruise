@@ -340,176 +340,271 @@
 <!-- chatbot -->
 
 <style>
+.chat-launcher {
+    position: fixed;
+    bottom: 145px;
+    right: 19px;
+    width: 51px;
+    height: 51px;
+    border-radius: 50%;
+    background-color: #4facfe; /* Blue color */
+    color: white;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+.chat-container {
+    display: none; /* Starts hidden */
+    position: fixed;
+    bottom: 150px;
+    right: 80px;
+    width: 350px;
+    height: 500px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 999;
+}
 
-        /* Base styles for the chat launcher and container */
-        .chat-launcher {
-            position: fixed;
-            bottom: 145px;
-            right:  19px;
-            width: 51px;
-            height: 51px;
-            border-radius: 50%;
-            background-color: #4facfe;
-            color: white;
-            font-size: 24px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-        }
-        .chat-container {
-            display: none; /* Starts hidden */
-            position: fixed;
-            bottom: 150px;
-            right: 80px;
-            width: 350px;
-            height: 500px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-            flex-direction: column;
-            overflow: hidden;
-            z-index: 999;
-        }
+/* Header */
+.chat-header {
+    background-color: #4facfe;
+    color: white;
+    padding: 15px;
+    font-size: 1.1em;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+#chat-close {
+    cursor: pointer;
+    font-size: 1.5em;
+}
 
-        /* Header */
-        .chat-header {
-            background-color: #4facfe;
-            color: white;
-            padding: 15px;
-            font-size: 1.1em;
-            font-weight: bold;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        #chat-close {
-            cursor: pointer;
-            font-size: 1.5em;
-        }
+/* Messages area */
+.chat-messages {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #f7f9fb;
+    display: flex; /* Added for message alignment */
+    flex-direction: column; /* Added for message alignment */
+}
+.message-bubble {
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 18px;
+    margin-bottom: 10px;
+    line-height: 1.4;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+.bot-message {
+    background-color: #e2e8f0;
+    color: #333;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+    margin-right: auto;
+}
+.user-message {
+    background-color: #4facfe;
+    color: white;
+    align-self: flex-end;
+    margin-left: auto;
+    border-bottom-right-radius: 4px;
+}
 
-        /* Messages area */
-        .chat-messages {
-            flex-grow: 1;
-            padding: 15px;
-            overflow-y: auto;
-            background-color: #f7f9fb;
-        }
-        .message-bubble {
-            max-width: 80%;
-            padding: 10px 15px;
-            border-radius: 18px;
-            margin-bottom: 10px;
-            line-height: 1.4;
-            word-wrap: break-word;
-            white-space: pre-wrap;
-        }
-        .bot-message {
-            background-color: #e2e8f0;
-            color: #333;
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-            margin-right: auto;
-        }
-        .user-message {
-            background-color: #4facfe;
-            color: white;
-            align-self: flex-end;
-            margin-left: auto;
-            border-bottom-right-radius: 4px;
-        }
+/* Input area */
+.chat-input-area {
+    padding: 10px;
+    border-top: 1px solid #eee;
+    background: white;
+}
 
-        /* Input area */
-        .chat-input-area {
-            padding: 10px;
-            border-top: 1px solid #eee;
-            background: white;
-        }
-        
-        /* NEW: Flex container for input and button */
-        .chat-input-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-        
-        #user-input {
-            flex-grow: 1; 
-            padding: 10px 15px;
-            border: 1px solid #ddd;
-            border-radius: 25px;
-            outline: none;
-            margin-right: 5px;
-            transition: border-color 0.3s; /* For shake effect */
-        }
-        
-        /* Simple shake animation for input error */
-        @keyframes shake {
-            0% { transform: translateX(0); }
-            20% { transform: translateX(-5px); }
-            40% { transform: translateX(5px); }
-            60% { transform: translateX(-5px); }
-            80% { transform: translateX(5px); }
-            100% { transform: translateX(0); }
-        }
-        .shake {
-            animation: shake 0.5s;
-            border-color: red !important;
-        }
+/* Flex container for input and button */
+.chat-input-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
 
-        #send-btn {
-            padding: 10px 15px;
-            border: none;
-            background-color: #4facfe;
-            color: white;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: bold;
-            white-space: nowrap;
-        }
+#user-input {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    outline: none;
+    margin-right: 5px;
+    transition: border-color 0.3s;
+}
 
-        /* Interactive options */
-        #interactive-options {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            padding: 5px 0;
-            margin-top: 5px;
-        }
-        .option-btn {
-            background-color: #e0f2f1;
-            color: #00796b;
-            border: 1px solid #b2dfdb;
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9em;
-            transition: background-color 0.2s;
-        }
-        .option-btn:hover {
-            background-color: #b2dfdb;
-        }
-        
-        /* Calendar Styling */
-        #calendar-container input {
-            padding: 12px 15px !important;
-            margin-bottom: 5px;
-        }
-        .flatpickr-calendar {
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
-        }
-        
-        /* Error Message Styling */
-        .error-message {
-            color: red;
-            font-size: 0.85em;
-            margin-top: -5px;
-            margin-bottom: 5px;
-            padding-left: 10px;
-        }
-    </style>
+/* Simple shake animation for input error */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    20% { transform: translateX(-5px); }
+    40% { transform: translateX(5px); }
+    60% { transform: translateX(-5px); }
+    80% { transform: translateX(5px); }
+    100% { transform: translateX(0); }
+}
+.shake {
+    animation: shake 0.5s;
+    border-color: red !important;
+}
+
+#send-btn {
+    padding: 10px 15px;
+    border: none;
+    background-color: #4facfe;
+    color: white;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* Interactive options */
+#interactive-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 5px 0;
+    margin-top: 5px;
+}
+.option-btn {
+    background-color: #e0f2f1;
+    color: #00796b;
+    border: 1px solid #b2dfdb;
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s;
+}
+.option-btn:hover {
+    background-color: #b2dfdb;
+}
+
+/* Calendar Styling */
+#calendar-container input {
+    padding: 12px 15px !important;
+    margin-bottom: 5px;
+}
+.flatpickr-calendar {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1) !important;
+}
+
+/* Error Message Styling */
+.error-message {
+    color: red;
+    font-size: 0.85em;
+    margin-top: -5px;
+    margin-bottom: 5px;
+    padding-left: 10px;
+}
+
+/*
+ * ========================================
+ * Responsive Styling (Media Queries)
+ * ========================================
+ */
+
+/* For screens smaller than 768px (Tablets and Mobiles) */
+@media (max-width: 768px) {
+    
+    /* The Launcher Button */
+    .chat-launcher {
+        bottom: 90px; 
+        right: 15px;  
+    }
+
+    /* The main Chat Container (when open) */
+    .chat-container {
+        width: 90%; 
+        height: 80vh; 
+        right: 5%; 
+        bottom: 10vh; 
+        border-radius: 16px; 
+    }
+    
+    /* Header adjustments for smaller screens */
+    .chat-header {
+        padding: 12px; 
+        font-size: 1em;
+    }
+    
+    #chat-close {
+        font-size: 1.3em;
+    }
+    
+    /* Input field and button adjustments */
+    .chat-input-area {
+        padding: 8px; 
+    }
+    
+    #user-input {
+        padding: 8px 12px; 
+    }
+    
+    #send-btn {
+        padding: 8px 12px; 
+        font-size: 0.9em;
+    }
+    
+    /* Interactive Options */
+    .option-btn {
+        padding: 6px 10px; 
+        font-size: 0.8em;
+    }
+}
+
+/* For very small screens (e.g., iPhone 5/SE, older Androids) */
+@media (max-width: 480px) {
+
+    /* Make the chat container almost fullscreen */
+    .chat-container {
+        width: 100vw; 
+        height: 100vh; 
+        bottom: 0;
+        right: 0;
+        border-radius: 0; 
+        z-index: 1000; 
+    }
+
+    /* Adjust the launcher position so it's visible outside the fullscreen container */
+    .chat-launcher {
+         bottom: 20px;
+         right: 20px;
+    }
+}
+</style>
+
+
+
+<!-- logo background black for responsiveness -->
+
+<style>
+/* Base style (for desktop/all screens) */
+.logo-box {
+    /* If you want a different color on desktop, set it here */
+    background-color: transparent; /* Example: default to transparent */
+}
+
+/* Override for mobile screens (e.g., up to 768px) */
+@media (max-width: 768px) {
+    .logo-box {
+        /* This rule applies ONLY on mobile */
+        background-color: white !important; 
+    }
+}
+</style>
 
 
 
@@ -3600,7 +3695,7 @@ Our houseboats are certified, well-maintained, and operated by experienced crews
 
                         </div>
                         <div class="col-md-4">
-                            <div class="footer-item-company"  style="margin-left: 95px;">
+                            <div class="footer-item-company" >
                                 <h6 class="title mb-30">Our Company</h6>
                                 <ul class="footer-menu">
                                     <li>
@@ -3642,7 +3737,7 @@ Our houseboats are certified, well-maintained, and operated by experienced crews
                             </div>
                         </div> -->
                         <div class="col-md-4">
-                            <div class="footer-item-newsletter" style="margin-left: 97px;">
+                            <div class="footer-item-newsletter">
                                 <h6 class="title mb-30">Contact Us</h6>
                                 <ul class="canvas-info">
                 <li class="flex-three">
