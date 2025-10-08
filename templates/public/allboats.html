@@ -239,6 +239,69 @@
                 <!-- Widget Select Form -->
 
                 <!-- Widget archieve tour -->
+<style>
+    /* Main card container */
+.tour-listing {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* Content wrapper */
+.tour-listing-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+/* Category (map) */
+.tour-listing-content .map {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 5px;
+}
+
+/* Description area styling */
+.title-tour-list {
+    margin-bottom: 10px;
+    line-height: 1.4;
+    min-height: 60px;   /* ensures consistent base height */
+    max-height: 130px;  /* allows slight expansion */
+    overflow-y: auto;   /* scroll only inside this if text is long */
+    transition: max-height 0.3s ease;
+}
+
+/* Description text */
+.title-tour-list a {
+    display: block;
+    color: #222;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Optional: scrollbar styling for description */
+.title-tour-list::-webkit-scrollbar {
+    width: 5px;
+}
+.title-tour-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+/* Smooth hover elevation effect */
+.tour-listing:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+</style>
+
                 <section class="archieve-tour">
     <div class="tf-container">
         <div class="listing-list-car-wrap listing-list-car-wrap-grid3">

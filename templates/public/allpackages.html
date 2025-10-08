@@ -288,6 +288,48 @@
                     </div>
                 </div> -->
                 <!-- Widget Select Form -->
+                 <style>
+                    .cust-img-pack{
+                        height: 300px;
+                    }
+
+
+                    /* Card wrapper */
+.tour-listing {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+}
+
+/* Content container */
+.tour-listing-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Description area */
+.title-tour-list {
+    min-height: 60px;   /* ensures uniform base height */
+    max-height: 120px;  /* allows expansion if text is longer */
+    overflow-y: auto;   /* only this area scrolls */
+    margin-bottom: 10px;
+    transition: max-height 0.3s ease;
+}
+
+/* Optional: subtle scrollbar styling */
+.title-tour-list::-webkit-scrollbar {
+    width: 5px;
+}
+.title-tour-list::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+
+
+                 </style>
 
                 <!-- Widget archieve tour -->
                 <section class="archieve-tour">
@@ -300,7 +342,7 @@
                 <div class="tour-listing box-sd">
                     <a href="https://wa.me/9539717388?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="tour-listing-image">
                          <div class="img" style="height: 300px;">
-                            <img src="{{ i.photo.url }}" alt="Image Listing">
+                            <img src="{{ i.photo.url }}" alt="Image Listing" class="cust-img-pack" height="200px">
                          </div>
                         
                     </a>
