@@ -362,8 +362,8 @@
     position: fixed;
     bottom: 150px;
     right: 80px;
-    width: 350px;
-    height: 500px;
+    width: 22%;
+    height: 70%;
     background: white;
     border-radius: 12px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
@@ -527,8 +527,8 @@
 
     /* The main Chat Container (when open) */
     .chat-container {
-        width: 90%; 
-        height: 80vh; 
+        width: 80% !important; 
+        height: 70% !important; 
         right: 5%; 
         bottom: 10vh; 
         border-radius: 16px; 
@@ -570,20 +570,122 @@
 
     /* Make the chat container almost fullscreen */
     .chat-container {
-        width: 100vw; 
-        height: 100vh; 
+        width: 80% !important; 
+        height: 70% !important; 
         bottom: 0;
         right: 0;
-        border-radius: 0; 
-        z-index: 1000; 
+        border-radius: 10px; 
+        z-index: 3000; 
     }
 
     /* Adjust the launcher position so it's visible outside the fullscreen container */
     .chat-launcher {
-         bottom: 20px;
-         right: 20px;
+        bottom: 20px;
+        right: 20px;
     }
 }
+
+/* For iPad Pro (portrait mode and similar tablets) */
+@media (min-width: 769px) and (max-width: 1024px) {
+
+    /* Launcher position */
+    .chat-launcher {
+        bottom: 150px;
+        right: 22px;
+    }
+
+    /* Chat Container */
+    .chat-container {
+        width: 60% !important;
+        height: 75% !important;
+        right: 20%;
+        bottom: 10vh;
+        border-radius: 18px;
+    }
+
+    /* Header */
+    .chat-header {
+        padding: 16px;
+        font-size: 1.2em;
+    }
+
+    #chat-close {
+        font-size: 1.4em;
+    }
+
+    /* Input area */
+    .chat-input-area {
+        padding: 10px;
+    }
+
+    #user-input {
+        padding: 10px 14px;
+        font-size: 1em;
+    }
+
+    #send-btn {
+        padding: 10px 14px;
+        font-size: 1em;
+    }
+
+    /* Options */
+    .option-btn {
+        padding: 8px 12px;
+        font-size: 0.9em;
+    }
+}
+
+
+/* For iPad Mini (portrait mode: 768x1024) */
+@media (min-width: 768px) and (max-width: 768px) {
+
+    /* Launcher position */
+    .chat-launcher {
+        bottom: 140px;
+        right: 20px;
+    }
+
+    /* Chat Container */
+    .chat-container {
+        width: 65% !important;
+        height: 70% !important;
+        right: 17%;
+        bottom: 9vh;
+        border-radius: 16px;
+    }
+
+    /* Header */
+    .chat-header {
+        padding: 14px;
+        font-size: 1.1em;
+    }
+
+    #chat-close {
+        font-size: 1.3em;
+    }
+
+    /* Input area */
+    .chat-input-area {
+        padding: 9px;
+    }
+
+    #user-input {
+        padding: 9px 12px;
+        font-size: 0.95em;
+    }
+
+    #send-btn {
+        padding: 9px 12px;
+        font-size: 0.95em;
+    }
+
+    /* Options */
+    .option-btn {
+        padding: 7px 10px;
+        font-size: 0.85em;
+    }
+}
+
 </style>
 
 
@@ -604,6 +706,15 @@
         background-color: white !important; 
     }
 }
+
+
+
+
+
+
+
+
+
 </style>
 
 
@@ -905,14 +1016,14 @@
                                     <span class="sub-title text-main font-yes fs-28-46 wow fadeInUp animated">Explore
                                         the world of Alleppy</span>
                                     <h1 class="banner-text title-slide text-white mb-45 wow fadeInUp animated">
-                                        Cruise 
+                                         
                                         <span class="animationtext clip text-main font-yes text-main">
                                             <span class="cd-words-wrapper">
-                                                <span class="item-text is-visible">Backwaters</span>
-                                                <span class="item-text is-hidden">Backwaters</span>
+                                                <span class="item-text is-visible">Cruise &</span> 
+                                                 <span class="item-text is-hidden">Cruise &</span>
                                             </span>                                          
                                         </span>
-                                        & <br>explore Kerala's magic
+                                         <br>explore Kerala's magic
                                     </h1>
 
                                     <!-- <div class="search-form-widget-slider relative wow fadeInUp animated">
@@ -1112,7 +1223,7 @@
                                         <ul class="flex-five ">
                                             <li>
                                                 <i class="icon-Vector-5"></i>
-                                                <span>Easy & Fast - Get response within minutes</span>
+                                                <span>Quick & Easy – Response in Minutes</span>
                                             </li>
                                             <li>
                                                 <i class="icon-Vector-5"></i>
@@ -1120,7 +1231,7 @@
                                             </li>
                                             <li>
                                                 <i class="icon-Vector-5"></i>
-                                                <span>Choose from a Wide Variety of packages</span>
+                                                <span>Wide Variety of packages</span>
                                             </li>
                                         </ul>
                                     </div>
