@@ -32,10 +32,10 @@
               {% endif %}
             </td>
             <td>
-              <a href="{% url 'admin_edit_testimonial' t.id %}" class="btn btn-sm btn-warning">Edit</a>
+              <a href="{% url 'admin_edit_testimonial' t.id %}" class="btn btn-sm btn-warning" style="width:60px;">Edit</a><br><br>
               <a href="{% url 'admin_delete_testimonial' t.id %}" 
                  class="btn btn-sm btn-danger"
-                 onclick="return confirm('Are you sure you want to delete this testimonial?');">
+                 onclick="return confirm('Are you sure you want to delete this testimonial?');" style="width:60px;">
                  Delete
               </a>
             </td>

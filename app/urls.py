@@ -25,6 +25,8 @@ urlpatterns = [
     path('alldestinations',views.alldestinations,name='alldestinations'),
     path('aboutus',views.aboutus,name='aboutus'),
     path('allgallery',views.allgallery,name='allgallery'),
+    path('tariffs',views.tariffs,name='tariffs'),
+    path('menu',views.menu,name='menu'),
 
     #--------------Admin-----------------
     path('admin_home',views.admin_home),

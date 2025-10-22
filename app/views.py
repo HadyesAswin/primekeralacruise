@@ -26,7 +26,7 @@ def logout(request):
 
 def index(request):
     request.session['log']="out"
-    boats = Boat.objects.all()[:4]
+    boats = Boat.objects.all()
     packages = Package.objects.all()[:3]
     photos = Gallery.objects.all()
     destinations = Destination.objects.all()[:6]
@@ -118,6 +118,9 @@ def boats(request):
 
 
 
+def tariffs(request):
+    return render(request,'public/tariff.html')
+
 
 def allpackages(request):
     packages = Package.objects.all()
@@ -145,6 +148,9 @@ def aboutus(request):
 def allgallery(request):
     gallery = Gallery.objects.all()
     return render(request,'public/allgallery.html', {'gallery': gallery})
+
+def menu(request):
+    return render(request,'public/menu.html')
 
 
 # -----------------------------------Admin functions----------------------------------
@@ -473,7 +479,7 @@ def chatbot_api(request):
                 
                 # --- NEW LOGIC: Calculate Duration ---
                 duration_message = ''
-                final_duration = '1 day (Date calculation error)'
+                final_duration = '1 day'
                 
                 try:
                     # Input is a string like 'YYYY-MM-DD to YYYY-MM-DD'
@@ -532,7 +538,7 @@ def chatbot_api(request):
                         f"Duration: {final_duration}" # INCLUDED: Calculated duration
                     )
                     from_email = settings.EMAIL_HOST_USER
-                    recipient_list = ['etournament49@gmail.com']
+                    recipient_list = ['primekeralacruise@gmail.com']
 
                     send_mail(subject, message, from_email, recipient_list)
 

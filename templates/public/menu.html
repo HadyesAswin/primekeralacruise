@@ -1,0 +1,350 @@
+{% extends 'public/home2.html' %}
+{% load static %}
+{% block title %}Menu{% endblock %}
+
+{% block content %}
+<main id="main" class="menu-page">
+
+<style>
+/* ==================================== */
+/* 🎯 MENU PAGE STYLES (SCOPED + COLOR UPDATED) */
+/* ==================================== */
+
+.menu-page * {
+    box-sizing: border-box;
+}
+
+/* 🌿 Premium Menu Section */
+.menu-page .menu-cards-section.stylish-menus {
+    padding: 100px 20px !important;
+    background: #f4f6f9 !important;
+    position: relative;
+    z-index: 1;
+}
+
+/* 🌟 Title */
+.menu-page .menu-cards-section .section-title {
+    margin-bottom: 70px !important;
+}
+
+.menu-page .menu-cards-section .section-title .title {
+    font-size: 3rem !important;
+    font-weight: 800 !important;
+    color: #0b1a20 !important;
+    position: relative;
+    display: inline-block;
+    margin-bottom: 0 !important;
+    text-align: center;
+    letter-spacing: -0.5px;
+}
+
+.menu-page .menu-cards-section .section-title .title::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 5px;
+    background-color: #4DA528; /* Updated Primary Accent */
+    border-radius: 3px;
+}
+
+.menu-page .menu-cards-section .section-title .subtitle {
+    color: #5a6c7d !important;
+    font-size: 1.25rem !important;
+    margin-top: 25px !important;
+    text-align: center;
+    font-weight: 400;
+}
+
+/* 🧩 Responsive Grid */
+.menu-page .menu-cards-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)) !important;
+    gap: 40px !important;
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    padding: 0 15px;
+}
+
+/* 💎 Card Style */
+.menu-page .menu-card.stylish-card {
+    border: none !important;
+    border-radius: 18px !important;
+    overflow: hidden !important;
+    background: #ffffff !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1) !important;
+    transition: transform 0.4s ease, box-shadow 0.4s ease !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative;
+}
+
+.menu-page .menu-card.stylish-card:hover {
+    transform: translateY(-12px) !important;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.15) !important;
+}
+
+/* 🖼️ Image */
+.menu-page .card-image-wrapper {
+    position: relative !important;
+    height: 220px !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    background: #e9ecef;
+}
+
+.menu-page .card-image {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transition: transform 0.6s cubic-bezier(0.4,0,0.2,1) !important;
+    display: block !important;
+}
+
+.menu-page .menu-card.stylish-card:hover .card-image {
+    transform: scale(1.05) !important;
+}
+
+.menu-page .image-overlay {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(to top, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 70%) !important;
+    pointer-events: none;
+}
+
+/* 📄 Content */
+.menu-page .card-content-wrapper {
+    padding: 30px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    background: #ffffff !important;
+    flex-grow: 1;
+}
+
+/* ✳️ Heading */
+.menu-page .menu-heading {
+    text-align: center !important;
+    font-size: 1.8rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 25px !important;
+    position: relative !important;
+    color: #1e2a34 !important;
+    line-height: 1.3 !important;
+    padding-bottom: 15px !important;
+}
+
+.menu-page .menu-heading::after {
+    content: '' !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 70px !important;
+    height: 4px !important;
+    background-color: currentColor !important;
+    border-radius: 2px !important;
+}
+
+/* 🎨 Themes */
+.menu-page .day-cruise-card .menu-heading {
+    color: #FF970D !important; /* Updated Orange */
+}
+.menu-page .day-cruise-card:hover {
+    box-shadow: 0 20px 45px rgba(255,151,13,0.25) !important;
+}
+
+.menu-page .overnight-cruise-card .menu-heading {
+    color: #4DA528 !important; /* Updated Green */
+}
+.menu-page .overnight-cruise-card:hover {
+    box-shadow: 0 20px 45px rgba(77,165,40,0.25) !important;
+}
+
+/* 🍽️ Menu List */
+.menu-page .menu-list {
+    list-style: none !important;
+    padding: 0 !important;
+    margin: 0 0 30px 0 !important;
+    flex-grow: 1;
+}
+
+.menu-page .menu-list li {
+    margin-bottom: 12px !important;
+    padding: 15px 18px !important;
+    border-radius: 10px !important;
+    background: #f8f9fa !important;
+    border-left: 5px solid #ced4da !important;
+    transition: all 0.3s ease !important;
+}
+
+.menu-page .menu-list li:hover {
+    background: #e9ecef !important;
+    transform: translateX(5px) !important;
+}
+
+.menu-page .menu-item-name {
+    display: flex !important;
+    align-items: center;
+    font-weight: 700 !important;
+    color: #1e2a34 !important;
+    font-size: 1.1rem !important;
+    margin-bottom: 5px !important;
+}
+
+.menu-page .menu-item-name::before {
+    content: '•';
+    color: inherit;
+    font-size: 1.2em;
+    margin-right: 10px;
+    font-weight: 900;
+}
+
+.menu-page .menu-item-details {
+    display: block !important;
+    color: #6c757d !important;
+    font-size: 0.95rem !important;
+    line-height: 1.4;
+    padding-left: 17px;
+}
+
+/* Themed Borders */
+.menu-page .day-cruise-card .menu-list li {
+    border-left-color: #FF970D !important;
+}
+.menu-page .day-cruise-card .menu-item-name::before {
+    color: #FF970D !important;
+}
+
+.menu-page .overnight-cruise-card .menu-list li {
+    border-left-color: #4DA528 !important;
+}
+.menu-page .overnight-cruise-card .menu-item-name::before {
+    color: #4DA528 !important;
+}
+
+/* ⏰ Time Footer */
+.menu-page .menu-time {
+    margin-top: 20px !important;
+    background: linear-gradient(135deg, #4DA528 0%, #7cd959 100%) !important;
+    color: white !important;
+    border-radius: 10px !important;
+    padding: 18px 25px !important;
+    text-align: center !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+    box-shadow: 0 4px 15px rgba(77,165,40,0.4) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    transition: all 0.3s ease !important;
+}
+
+.menu-page .menu-card.stylish-card:hover .menu-time {
+    transform: scale(1.02) !important;
+    box-shadow: 0 6px 20px rgba(77,165,40,0.5) !important;
+}
+
+.menu-page .day-cruise-card .menu-time {
+    background: linear-gradient(135deg, #FF970D 0%, #ffc350 100%) !important;
+    box-shadow: 0 4px 15px rgba(255,151,13,0.4) !important;
+}
+
+.menu-page .overnight-cruise-card .menu-time {
+    background: linear-gradient(135deg, #4DA528 0%, #7cd959 100%) !important;
+    box-shadow: 0 4px 15px rgba(77,165,40,0.4) !important;
+}
+
+/* 📱 Responsive */
+@media (max-width: 992px) {
+    .menu-page .menu-cards-section .section-title .title {
+        font-size: 2.5rem !important;
+    }
+    .menu-page .menu-cards-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .menu-page .menu-cards-section.stylish-menus {
+        padding: 60px 15px !important;
+    }
+    .menu-page .menu-cards-section .section-title .title {
+        font-size: 2.2rem !important;
+    }
+    .menu-page .card-content-wrapper {
+        padding: 25px 20px !important;
+    }
+    .menu-page .card-image-wrapper {
+        height: 180px !important;
+    }
+}
+</style>
+
+<section class="breadcumb-section" style="background-image: url('{% static 'assets/images/page/menubanner1.jpg' %}');">
+    <div class="tf-container">
+        <div class="row">
+            <div class="col-lg-12 center z-index1">
+                <h1 class="title">Menu</h1>
+                <ul class="breadcumb-list flex-five">
+                    <li><a href="./">Home</a></li>
+                    <li><span>All Menu</span></li>
+                </ul>
+                <img class="bcrumb-ab" src="{% static 'assets/images/page/mask-bcrumb.png' %}" alt="">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="menu-cards-section stylish-menus">
+    <div class="tf-container">
+        <div class="section-title text-center">
+            <h2 class="title">Our Curated Culinary Menus</h2>
+            <p class="subtitle">Savor the authentic flavors of Kerala during your backwater cruise experience.</p>
+        </div>
+
+        <div class="menu-cards-grid">
+            <div class="menu-card stylish-card day-cruise-card">
+                <div class="card-image-wrapper">
+                    <img src="{% static 'assets/menu/menu1.jpg' %}" alt="Day Cruise Menu" class="card-image">
+                    <div class="image-overlay"></div>
+                </div>
+                <div class="card-content-wrapper">
+                    <h3 class="menu-heading">Day Cruise Deluxe Menu</h3>
+                    <ul class="menu-list">
+                        <li><span class="menu-item-name">Welcome Drink</span><span class="menu-item-details">A refreshing start to your journey.</span></li>
+                        <li><span class="menu-item-name">Traditional Kerala Lunch</span><span class="menu-item-details">Includes Rice,Karimeen Fry,Chicken Curry,Thoran,Mezhukkuvaratty,Sambar,Puliserry,<br>Pickle,Salad,Pappadam</span></li>
+                        <li><span class="menu-item-name">Evening Tea & Snacks</span><span class="menu-item-details">Tea/Coffee with local favorites like Banana Fry or Onion Pakoda.</span></li>
+                    </ul>
+                    <div class="menu-time"><i class="bi bi-clock-fill"></i><span>Duration: 11:00 AM - 05:00 PM</span></div>
+                </div>
+            </div>
+
+            <div class="menu-card stylish-card overnight-cruise-card">
+                <div class="card-image-wrapper">
+                    <img src="{% static 'assets/menu/menu2.jpg' %}" alt="Overnight Cruise Menu" class="card-image">
+                    <div class="image-overlay"></div>
+                </div>
+                <div class="card-content-wrapper">
+                    <h3 class="menu-heading">Overnight Deluxe Menu</h3>
+                    <ul class="menu-list">
+                        <li><span class="menu-item-name">Welcome Drink</span><span class="menu-item-details">A refreshing start to your journey.</span></li>
+                        <li><span class="menu-item-name">Traditional Kerala Lunch</span><span class="menu-item-details">Includes Rice,Karimeen Fry,Thoran,Mezhukkuvaratty,Sambar,Puliserry,<br>Pickle,Salad,Pappadam</span></li>
+                        <li><span class="menu-item-name">Evening Tea & Snacks</span><span class="menu-item-details">Tea/Coffee with local favorites like Banana Fry or Onion Pakoda.</span></li>
+                        <li><span class="menu-item-name">Dinner</span><span class="menu-item-details">Rice/Chapathi with Chicken Curry and Dal,Thoran,Mezhukkuvaratty,Pickle,Salad.</span></li>
+                        <li><span class="menu-item-name">Morning Breakfast</span><span class="menu-item-details">Idli with Sambar/Chutney.<br>Tea or Coffee</span></li>
+                    </ul>
+                    <div class="menu-time"><i class="bi bi-clock-fill"></i><span>Duration: 12:00 PM - 09:00 AM</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</main>
+{% endblock %}
