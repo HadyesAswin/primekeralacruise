@@ -50,6 +50,8 @@
 @import "bootstrap.css";
 /* Header
 -------------------------------------------------------------- */
+
+
 .header-top {
   padding-left: 209px;
   background-color: #EBEBEB;
@@ -1014,6 +1016,7 @@
   background: #081E2A;
   min-height: 100%;
   padding: 34px 100px 34px 40px;
+  
 }
 .header-style1 .header-lower .main-menu .navigation > li > a {
   padding: 38px 0px;
@@ -9221,6 +9224,7 @@ li {
   margin: auto;
   padding-left: 0px;
   padding-right: 0px;
+
 }
 
 .bg-main {
@@ -10456,6 +10460,7 @@ body .dribbble img {
     margin-top: 10px;
   }
 }
+
 @media only screen and (max-width: 991px) {
   .header-lower.is-fixed.is-fixed.is-small {
     padding-left: 15px;
@@ -10731,6 +10736,7 @@ body .dribbble img {
   .header-style1 .header-lower .logo-box {
     clip-path: polygon(0 0, 90% 0, 100% 100%, 0% 100%);
     padding: 15px 50px 15px 20px;
+    
   }
   .main-header.header-style1 .header-account {
     display: none;
@@ -10784,6 +10790,7 @@ body .dribbble img {
     position: relative;
   }
   .main-header .main-box .logo-box {
+    
     position: relative;
     left: 0px;
     top: 0px;

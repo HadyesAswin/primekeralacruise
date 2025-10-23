@@ -46,13 +46,6 @@ def index(request):
     })
 
 
-
-def index1(request):
-   
- # show only 6 packages
-    return render(request, 'public/index1.html', 
-        )
-
 def login(request):
     request.session['log']="out"
     if 'submit' in request.POST:
@@ -96,27 +89,6 @@ def login(request):
 
 # -----------------------------------User functions----------------------------------
 
-def packages(request):
-    packages = Package.objects.all()
-
-    return render(request,'user/packages.html', {'packages': packages})
-# def package_detail(request, pk):
-#     package = get_object_or_404(Package, pk=pk)
-#     return render(request, 'user/package_detail.html', {'package': package})
-
-def boats(request):
-    boats = Boat.objects.all()
-
-    return render(request,'user/boats.html', {'boats': boats})
-# def gallery(request):
-#     photos = Gallery.objects.all()
-
-#     return render(request,'user/gallery.html', {'photos': photos})
-
-# def aboutus(request):
-#     return render(request,'user/aboutus.html')
-
-
 
 def tariffs(request):
     return render(request,'public/tariff.html')
@@ -151,6 +123,48 @@ def allgallery(request):
 
 def menu(request):
     return render(request,'public/menu.html')
+
+def faq(request):
+    return render(request,'public/faq.html')
+
+def termsandcondition(request):
+    return render(request,'public/termscondition.html')
+
+# def contactus(request):
+#     return render(request,'public/contactus.html')
+
+def contactus(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+
+        subject = f'New Contact Form Submission from {name}'
+        body = f'''
+You have received a new message from your website contact form:
+
+Name: {name}
+Email: {email}
+
+Message:
+{message}
+'''
+
+        try:
+            send_mail(
+                subject,
+                body,
+                settings.EMAIL_HOST_USER,  # from
+                ['primekeralacruise@gmail.com'],  # to
+                fail_silently=False,
+            )
+            messages.success(request, 'Your message has been sent successfully!')
+        except Exception as e:
+            messages.error(request, f'Error sending email: {e}')
+
+        return redirect('contactus')
+
+    return render(request, 'public/contactus.html')
 
 
 # -----------------------------------Admin functions----------------------------------
@@ -668,7 +682,37 @@ def admin_delete_destination(request, id):
 
 
 
+def changepassword(request):
+    if 'lid' not in request.session:
+        messages.error(request, "You must log in first.")
+        return redirect('login')  # adjust as per your login URL name
 
+    lid = request.session['lid']
+    login_data = Login.objects.get(id=lid)
+
+    if request.method == 'POST':
+        cpass = request.POST['cpass']
+        npass = request.POST['npass']
+        confirmpass = request.POST['confirmpass']
+
+        # Step 1: Check if current password matches
+        if login_data.password != cpass:
+            messages.error(request, "Current password is incorrect.")
+            return redirect('changepassword')
+
+        # Step 2: Confirm new password match
+        if npass != confirmpass:
+            messages.error(request, "New passwords do not match.")
+            return redirect('changepassword')
+
+        # Step 3: Update password
+        login_data.password = npass
+        login_data.save()
+
+        messages.success(request, "Password changed successfully.")
+        return redirect('changepassword')
+
+    return render(request, 'admin/changepassword.html')
 
 
 
