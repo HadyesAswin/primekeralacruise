@@ -28,7 +28,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 # SECURITY WARNING: don't run with debug turned on in production!
 
 
-ALLOWED_HOSTS = ['*','www.primekeralacruise.onrender.com','primekeralacruise.onrender.com']
+ALLOWED_HOSTS = ['*','www.primekeralacruise-1.onrender.com','primekeralacruise-1.onrender.com']
 
 
 # Application definition
