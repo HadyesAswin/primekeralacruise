@@ -27,12 +27,16 @@ from app.models import Login
 
 
 def create_admin_view(request):
-    if Login.objects.filter(uname="admin").exists():
+    if User.objects.filter(username="admin").exists():
         return HttpResponse("Admin already exists!")
     
-    # create your admin
-    Login.objects.create(uname="admin", password="admin123", user_type="admin")
-    return HttpResponse("Admin created! Check login.")
+    # Create superuser
+    User.objects.create_superuser(
+        username="admin",
+        email="admin@example.com",
+        password="admin123"
+    )
+    return HttpResponse("Superuser created! Username: admin, Password: admin123")
 
 urlpatterns = [
     path('admin/', admin.site.urls),
