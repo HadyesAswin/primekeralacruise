@@ -19,11 +19,19 @@ from django.urls import include, path
 
 from primekeralacruise import settings
 from django.conf.urls.static import static
+from django.contrib.auth.models import User
 
 from django.http import HttpResponse
 
+from primekeralacruise.app.models import Login
+
 
 def create_admin_view(request):
+    if Login.objects.filter(uname="admin").exists():
+        return HttpResponse("Admin already exists!")
+    
+    # create your admin
+    Login.objects.create(uname="admin", password="admin123", user_type="admin")
     return HttpResponse("Admin created! Check login.")
 
 urlpatterns = [
