@@ -23,7 +23,7 @@ from django.contrib.auth.models import User
 
 from django.http import HttpResponse
 
-from primekeralacruise.app.models import Login
+from app.models import Login
 
 
 def create_admin_view(request):
