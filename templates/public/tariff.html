@@ -1,0 +1,433 @@
+{% extends 'public/home2.html' %}
+{% load static %}
+
+{% block title %}All Prices{% endblock %}
+
+{% block content %}
+<main id="main">
+
+<style>
+/* =============================== */
+/* UNIFIED GREEN THEME FOR ALL PACKAGES */
+/* Deluxe & Luxury identical; Premium improved and aligned */
+/* =============================== */
+
+:root {
+    --green: #4DA528;
+    --black: #000;
+    --white: #fff;
+    --light-green: #e7f7e2;
+}
+
+/* ---------- Hero Section ---------- */
+.pkg-hero-image-container {
+    width: 100%;
+    height: 60vh;
+    overflow: hidden;
+    position: relative;
+}
+.pkg-hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(70%);
+}
+.pkg-hero-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: var(--white);
+}
+.pkg-hero-overlay h1 {
+    font-size: 60px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+.pkg-hero-overlay p {
+    font-size: 22px;
+    margin-bottom: 30px;
+}
+.pkg-hero-overlay button {
+    padding: 18px 40px;
+    background: var(--green);
+    color: var(--white);
+    font-size: 20px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.pkg-hero-overlay button:hover {
+    background: var(--black);
+    transform: scale(1.05);
+}
+
+/* ---------- Content Layout ---------- */
+.pkg-content-wrapper {
+    padding: 80px 20px;
+}
+.pkg-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+h2.pkg-section-title {
+    text-align: center;
+    font-size: 48px;
+    margin-bottom: 60px;
+    font-weight: 700;
+    color: var(--black);
+}
+
+/* ---------- Pricing Grid ---------- */
+.pkg-pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 40px;
+    padding: 0 20px;
+}
+
+/* ---------- Base Card Style ---------- */
+.pkg-pricing-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 50px 40px;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #eaeaea;
+}
+.pkg-pricing-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+}
+
+/* ---------- Header ---------- */
+.pkg-card-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+.pkg-icon-circle {
+    width: 70px;
+    height: 70px;
+    background: var(--green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: var(--white);
+}
+.pkg-plan-name {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--black);
+}
+
+/* ---------- Pricing Items ---------- */
+.pkg-pricing-items {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 40px;
+}
+.pkg-pricing-item {
+    background: var(--light-green);
+    color: var(--black);
+    padding: 18px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    border-left: 5px solid var(--green);
+}
+
+/* ---------- Buttons ---------- */
+.pkg-book-button {
+    width: 100%;
+    padding: 18px;
+    color: var(--white);
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: capitalize;
+    background: var(--black);
+}
+.pkg-book-button:hover {
+    background: var(--green);
+    transform: scale(1.05);
+}
+
+/* ---------- Deluxe & Luxury identical ---------- */
+.pkg-pricing-card:nth-child(1),
+.pkg-pricing-card:nth-child(3) {
+    background: var(--white);
+    color: var(--black);
+}
+.pkg-pricing-card:nth-child(1) .pkg-icon-circle,
+.pkg-pricing-card:nth-child(3) .pkg-icon-circle {
+    background: var(--green);
+    color: var(--white);
+}
+.pkg-pricing-card:nth-child(1) .pkg-book-button,
+.pkg-pricing-card:nth-child(3) .pkg-book-button {
+    background: var(--black);
+}
+.pkg-pricing-card:nth-child(1) .pkg-book-button:hover,
+.pkg-pricing-card:nth-child(3) .pkg-book-button:hover {
+    background: var(--green);
+    color: var(--white);
+}
+
+/* ---------- PREMIUM CARD FIXED ---------- */
+.pkg-pricing-card.pkg-premium {
+    background: var(--green);
+    color: var(--white);
+    border: none;
+    border-radius: 20px;
+    padding: 50px 40px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.pkg-pricing-card.pkg-premium:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+}
+
+/* Premium Header */
+.pkg-premium .pkg-card-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+.pkg-premium .pkg-icon-circle {
+    background: var(--white);
+    color: var(--green);
+}
+.pkg-premium .pkg-plan-name {
+    color: var(--white);
+}
+
+/* Premium Badge */
+.pkg-premium .pkg-popular-badge {
+    position: absolute;
+    top: 25px;
+    right: 0;
+    background: #FF970D; /* Orange */
+    color: #fff;
+    padding: 8px 30px;
+    font-weight: 600;
+    clip-path: polygon(0 0, 100% 0, 85% 50%, 100% 100%, 0 100%);
+    box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+}
+
+/* Premium Items */
+.pkg-premium .pkg-pricing-item {
+    background: var(--white);
+    color: var(--black);
+    padding: 18px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    border-left: none;
+}
+
+/* Premium Button */
+.pkg-premium .pkg-book-button {
+    background: var(--white);
+    color: var(--green);
+    border: 2px solid var(--white);
+}
+.pkg-premium .pkg-book-button:hover {
+    background: var(--black);
+    color: var(--white);
+    border: 2px solid var(--black);
+    transform: scale(1.05);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+    .pkg-hero-overlay h1 {
+        font-size: 36px;
+    }
+    .pkg-hero-overlay p {
+        font-size: 18px;
+    }
+    h2.pkg-section-title {
+        font-size: 36px;
+        margin-bottom: 40px;
+    }
+    .pkg-pricing-grid {
+        grid-template-columns: 1fr;
+    }
+    .pkg-plan-name {
+        font-size: 28px;
+    }
+}
+</style>
+
+
+
+<div class="pkg-wrapper">
+
+    <section class="breadcumb-section" style="background-image: url('{% static "assets/images/pricebanner1.jpg" %}');">
+        <div class="tf-container">
+            <div class="row">
+                <div class="col-lg-12 center z-index1">
+                    <h1 class="title" style="font-family:Bricolage Grotesque, sans-serif;">All Prices</h1>
+                    <ul class="breadcumb-list flex-five">
+                        <li><a href="./" style="font-family:Bricolage Grotesque, sans-serif;">Home</a></li>
+                        <li><span style="font-family:Bricolage Grotesque, sans-serif;">All Prices</span></li>
+                    </ul>
+                    <img class="bcrumb-ab" src={% static "assets/images/page/mask-bcrumb.png" %} alt="">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb--93">
+        <div class="tf-container">
+            <div class="callt-to-action flex-two" style="margin-top: -67px;">
+                <div class="callt-to-action-content flex-three">
+                    <div class="image">
+                        <img src={% static "assets/images/page/ready.png" %} alt="Image">
+                    </div>
+                    <div class="content">
+                        <h2 class="title-call"style="font-family:Bricolage Grotesque, sans-serif;">Discover Top Tariffs</h2>
+                        <p class="des" style="font-family:Bricolage Grotesque, sans-serif;">Choose from luxury houseboats, cruises, and more to experience Alappuzha’s backwaters.</p>
+                    </div>
+                </div>
+                <img src={% static "assets/images/page/vector4.png" %} alt="" class="shape-ab">
+                <div class="callt-to-action-button">
+                    <a href="" class="get-call" style="background:#4DA528; color:#fff; padding:14px 35px; border-radius:50px; font-weight:600;"></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="pkg-content-wrapper" id="pkg-pricing">
+        <div class="pkg-container">
+           
+            <br>
+
+            <div class="pkg-pricing-grid">
+                <div class="pkg-pricing-card">
+                    <div class="pkg-card-header">
+                        <div class="pkg-icon-circle">💧</div>
+                        <h2 class="pkg-plan-name" style="font-family:Bricolage Grotesque, sans-serif;">Deluxe</h2>
+                    </div>
+
+                    <div class="pkg-pricing-items">
+                        <div class="pkg-pricing-item">1 Bedroom Houseboat – Rs. 8,500 /-</div>
+                        <div class="pkg-pricing-item">2 Bedroom Houseboat – Rs. 13,000 /-</div>
+                        <div class="pkg-pricing-item">3 Bedroom Houseboat – Rs. 19,500 /-</div>
+                        <div class="pkg-pricing-item">4 Bedroom Houseboat – Rs. 28,000 /-</div>
+                        <div class="pkg-pricing-item">5 Bedroom Houseboat – Rs. 37,000 /-</div>
+                    </div>
+
+                    <button class="pkg-book-button" style="font-family:Bricolage Grotesque, sans-serif;">Book Now</button>
+                </div>
+
+                <div class="pkg-pricing-card pkg-premium">
+                    <div class="pkg-popular-badge" style="font-family:Bricolage Grotesque, sans-serif;">Popular</div>
+                    <div class="pkg-card-header">
+                        <div class="pkg-icon-circle">⭐</div>
+                        <h2 class="pkg-plan-name" style="font-family:Bricolage Grotesque, sans-serif;">Premium</h2>
+                    </div>
+
+                    <div class="pkg-pricing-items">
+                        <div class="pkg-pricing-item">1 Bedroom Houseboat – Rs. 11,000 /-</div>
+                        <div class="pkg-pricing-item">2 Bedroom Houseboat – Rs. 17,000 /-</div>
+                        <div class="pkg-pricing-item">3 Bedroom Houseboat – Rs. 23,000 /-</div>
+                        <div class="pkg-pricing-item">4 Bedroom Houseboat – Rs. 31,000 /-</div>
+                        <div class="pkg-pricing-item">5 Bedroom Houseboat – Rs. 38,000 /-</div>
+                    </div>
+
+                    <button class="pkg-book-button" style="font-family:Bricolage Grotesque, sans-serif;">Book Now</button>
+                </div>
+
+                <div class="pkg-pricing-card">
+                    <div class="pkg-card-header">
+                        <div class="pkg-icon-circle">🚤</div>
+                        <h2 class="pkg-plan-name" style="font-family:Bricolage Grotesque, sans-serif;">Luxury</h2>
+                    </div>
+
+                    <div class="pkg-pricing-items">
+                        <div class="pkg-pricing-item">1 Bedroom Houseboat – Rs. 14,000 /-</div>
+                        <div class="pkg-pricing-item">2 Bedroom Houseboat – Rs. 21,000 /-</div>
+                        <div class="pkg-pricing-item">3 Bedroom Houseboat – Rs. 29,000 /-</div>
+                        <div class="pkg-pricing-item">4 Bedroom Houseboat – Rs. 39,000 /-</div>
+                        <div class="pkg-pricing-item">5 Bedroom Houseboat – On Demand</div>
+                    </div>
+
+                    <button class="pkg-book-button" style="font-family:Bricolage Grotesque, sans-serif;">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="chat-launcher" id="chat-launcher1">
+        <i class="bi bi-robot"></i>
+    </div>
+
+
+
+
+    <div class="chat-container" id="chat-container">
+        <div class="chat-header">
+            <span>Backwater Booking Bot</span>
+            <span id="chat-close">✖</span>
+        </div>
+        <div class="chat-messages" id="chat-messages">
+            </div>
+        <div class="chat-input-area">
+            
+            <div class="chat-input-row">
+                <input type="text" id="user-input" placeholder="Type here..." style="display:none;">
+                <button id="send-btn" style="display:none;">Send</button>
+            </div>
+            
+            <div id="loading-indicator" style="display: none; padding: 10px; color: #4facfe; font-weight: 500; text-align: center;">
+                Processing... please wait.
+            </div>
+            
+            <div id="interactive-options"></div>
+            <div id="calendar-container"></div>
+            
+            <div id="input-error" class="error-message"></div>
+        </div>
+    </div>
+
+    <div id="whatsappLauncher" style="
+    position: fixed;
+    bottom: 80px;
+    right: 19px; /* slightly left of chatbot */
+    width: 51px;
+    height: 51px;
+    border-radius: 50%;
+    background-color: #25D366;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 1000;
+">
+    <i class="bi bi-whatsapp" style="color:white; font-size:28px;"></i>
+</div>
+</main>
+{% endblock %}

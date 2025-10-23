@@ -6,25 +6,18 @@ urlpatterns = [
 
     #--------------Public-----------------
     path('',views.index),
-    path('kh',views.index1),
-
     path('login',views.login),
     path('logout',views.logout),
-    #--------------User-----------------
-
-    path('packages',views.packages,name='packages'),
-    # path('package/<int:pk>/', views.package_detail, name='package_detail'),
-
-    path('boats',views.boats,name='boats'),
-    # path('boat/<int:pk>/', views.boat_detail, name='boat_detail'),
-
-    # path('gallery',views.gallery,name='gallery'),
-    # path('aboutus',views.aboutus,name='aboutus'),
     path('allpackages',views.allpackages,name='allpackages'),
     path('allboats',views.allboats,name='allboats'),
     path('alldestinations',views.alldestinations,name='alldestinations'),
     path('aboutus',views.aboutus,name='aboutus'),
     path('allgallery',views.allgallery,name='allgallery'),
+    path('tariffs',views.tariffs,name='tariffs'),
+    path('menu',views.menu,name='menu'),
+    path('faq',views.faq,name='faq'),
+    path('termsandcondition',views.termsandcondition,name='termsandcondition'),
+    path('contactus/', views.contactus, name='contactus'),
 
     #--------------Admin-----------------
     path('admin_home',views.admin_home),
@@ -48,11 +41,11 @@ urlpatterns = [
     path('admin_add_testimonial',views.admin_add_testimonial,name='admin_add_testimonial'),
     path('admin_edit_testimonial/<int:id>',views.admin_edit_testimonial,name='admin_edit_testimonial'),
     path('admin_delete_testimonial/<int:id>',views.admin_delete_testimonial,name='admin_delete_testimonial'),
+    path('changepassword/', views.changepassword, name='changepassword'),
 
     path('chatbot-api/', views.chatbot_api, name='chatbot-api'),
     path('admin_add_destination/', views.admin_add_destination, name='admin_add_destination'),
     path('admin_view_destination', views.admin_view_destination, name='admin_view_destination'),
     path('admin_edit_destination/<int:id>', views.admin_edit_destination, name='admin_edit_destination'),
     path('admin_delete_destination/<int:id>', views.admin_delete_destination, name='admin_delete_destination'),
-    # path('admin_view_booking_count',views.admin_view_booking_count,name='admin_view_booking_count'),
 ]
