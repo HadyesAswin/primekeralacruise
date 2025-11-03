@@ -9,5 +9,9 @@ admin.site.register(Room)
 admin.site.register(Gallery)
 admin.site.register(Testimonial)
 admin.site.register(Destination)
+admin.site.register(Tariff)
+admin.site.register(MenuItem)
+admin.site.register(PackageBooking)
+admin.site.register(BoatBooking)
 
 # Register your models here.

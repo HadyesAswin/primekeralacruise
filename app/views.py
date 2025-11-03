@@ -19,6 +19,9 @@ from datetime import datetime
 # -----------------------------------Public functions----------------------------------
 
 
+def custom_404(request, exception):
+    return render(request, 'public/404.html', status=404)
+
 def logout(request):
     request.session['log']="out"
     return HttpResponse("<script>alert('Logout'); window.location='/login'</script>")
@@ -26,7 +29,7 @@ def logout(request):
 
 def index(request):
     request.session['log']="out"
-    boats = Boat.objects.all()
+    boats = Boat.objects.filter(status='active')
     packages = Package.objects.all()[:3]
     photos = Gallery.objects.all()
     destinations = Destination.objects.all()[:6]
@@ -90,17 +93,352 @@ def login(request):
 # -----------------------------------User functions----------------------------------
 
 
+# def tariffs(request):
+#     return render(request,'public/tariff.html')
+
+# def tariffs(request):
+#     deluxe_prices = Tariff.objects.filter(category="Deluxe")
+#     premium_prices = Tariff.objects.filter(category="Premium")
+#     luxury_prices = Tariff.objects.filter(category="Luxury")
+
+#     return render(request, 'public/tariff.html', {
+#         'deluxe_prices': deluxe_prices,
+#         'premium_prices': premium_prices,
+#         'luxury_prices': luxury_prices,
+#     })
+
 def tariffs(request):
-    return render(request,'public/tariff.html')
+    # Day Cruise
+    deluxe_day = Tariff.objects.filter(category="Deluxe", type="DayCruise")
+    premium_day = Tariff.objects.filter(category="Premium", type="DayCruise")
+    luxury_day = Tariff.objects.filter(category="Luxury", type="DayCruise")
+
+    # Overnight Cruise
+    deluxe_night = Tariff.objects.filter(category="Deluxe", type="OvernightCruise")
+    premium_night = Tariff.objects.filter(category="Premium", type="OvernightCruise")
+    luxury_night = Tariff.objects.filter(category="Luxury", type="OvernightCruise")
+
+    return render(request, 'public/tariff.html', {
+        'deluxe_day': deluxe_day,
+        'premium_day': premium_day,
+        'luxury_day': luxury_day,
+        'deluxe_night': deluxe_night,
+        'premium_night': premium_night,
+        'luxury_night': luxury_night
+    })
+
+# def booknow(request):
+#     boats = Boat.objects.all()  # Fetch all boats
+#     categories = ['Deluxe', 'Premium', 'Luxury']
+#     cruise_types = ['Day Cruise', 'Overnight Cruise']
+    
+#     return render(request, 'public/booknow.html', {
+#         'boats': boats,
+#         'categories': categories,
+#         'cruise_types': cruise_types
+#     })
+
+
+# def commonbooking(request):
+#     boats = Boat.objects.all()  # Fetch all boats
+#     categories = ['Deluxe', 'Premium', 'Luxury']
+#     cruise_types = ['Day Cruise', 'Overnight Cruise']
+    
+#     return render(request, 'public/commonbooking.html', {
+#         'boats': boats,
+#         'categories': categories,
+#         'cruise_types': cruise_types
+#     })
+
+
+import razorpay
+from django.views.decorators.csrf import csrf_exempt
+
+client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
+def booknow(request):
+    if request.method == "POST":
+        fullname = request.POST.get('fullname')
+        place = request.POST.get('place')
+        from_date = request.POST.get('from_date')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        booking_item = request.POST.get('booking_item')
+
+        advance_amount = 1
+        order = client.order.create({
+            "amount": advance_amount*100,  # in paise
+            "currency": "INR",
+            "payment_capture": "1"
+        })
+
+        booking = PackageBooking.objects.create(
+            fullname=fullname,
+            place=place,
+            from_date=from_date,
+            phone=phone,
+            email=email,
+            booking_item=booking_item,
+            amount=advance_amount,
+            order_id=order["id"]
+        )
+
+        context = {
+            "booking": booking,
+            "razorpay_key": settings.RAZORPAY_KEY_ID,
+            "amount": advance_amount*100,
+            "display_amount": advance_amount,
+            "order_id": order["id"],
+            "name": fullname,
+            "email": email,
+            "phone": phone
+        }
+
+        return render(request, "public/payment_page.html", context)
+
+    return render(request, 'public/booknow.html')
+
+
+def commonbooking(request):
+    boats = Boat.objects.all()
+    categories = ['Deluxe', 'Premium', 'Luxury']
+    cruise_types = ['Day Cruise', 'Overnight Cruise']
+
+    if request.method == "POST":
+        fullname = request.POST.get('fullname')
+        place = request.POST.get('place')
+        from_date = request.POST.get('from_date')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        bedroom = request.POST.get('bedroom')
+        noofadult = request.POST.get('noofadult')
+        noofchild = request.POST.get('noofchild')
+        category = request.POST.get('category')
+        cruise_type = request.POST.get('cruise_type')
+
+        advance_amount = 1
+        order = client.order.create({
+            "amount": advance_amount*100,
+            "currency": "INR",
+            "payment_capture": "1"
+        })
+
+        booking = BoatBooking.objects.create(
+            fullname=fullname,
+            place=place,
+            from_date=from_date,
+            phone=phone,
+            email=email,
+            bedroom=bedroom,
+            noofadult=noofadult,
+            noofchild=noofchild,
+            category=category,
+            cruise_type=cruise_type,
+            amount=advance_amount,
+            order_id=order["id"]
+        )
+
+        context = {
+            "booking": booking,
+            "razorpay_key": settings.RAZORPAY_KEY_ID,
+            "amount": advance_amount*100,
+            "display_amount": advance_amount,
+            "order_id": order["id"],
+            "name": fullname,
+            "email": email,
+            "phone": phone
+        }
+
+        return render(request, "public/payment_page.html", context)
+
+    # GET request: just send boats and dropdown options
+    return render(request, 'public/commonbooking.html', {
+        'boats': boats,
+        'categories': categories,
+        'cruise_types': cruise_types,
+    })
+
+
+def ajax_available_boats(request):
+    selected_date_str = request.GET.get('from_date')
+    if not selected_date_str:
+        return JsonResponse({'error': 'No date provided'}, status=400)
+
+    try:
+        selected_date = datetime.strptime(selected_date_str, '%Y-%m-%d').date()
+    except ValueError:
+        return JsonResponse({'error': 'Invalid date format'}, status=400)
+
+    # Get all boats
+    boats = Boat.objects.all()
+
+    # Get all bedrooms already booked on this date
+    booked_boats = BoatBooking.objects.filter(from_date=selected_date).values_list('bedroom', flat=True)
+
+    data = []
+    for boat in boats:
+        data.append({
+            'description': boat.description,
+            'available': boat.description not in booked_boats
+        })
+
+    return JsonResponse({'boats': data})
+
+
+@csrf_exempt
+def payment_success(request):
+    if request.method == "POST":
+        razorpay_order_id = request.POST.get('razorpay_order_id')
+        razorpay_payment_id = request.POST.get('razorpay_payment_id')
+
+        # Try PackageBooking first
+        booking = PackageBooking.objects.filter(order_id=razorpay_order_id).first()
+        if not booking:
+            # Otherwise, check BoatBooking
+            booking = BoatBooking.objects.filter(order_id=razorpay_order_id).first()
+
+        if booking:
+            booking.payment_id = razorpay_payment_id
+            booking.payment_status = "paid"
+            booking.save()
+
+            # Email to user
+            user_subject = "Booking Payment Successful"
+            user_message = f"""
+Hi {booking.fullname},
+
+Your booking payment of ₹{booking.amount} was successful.
+
+Payment ID: {booking.payment_id}
+Order ID: {booking.order_id}
+Date: {booking.from_date}
+
+Thank you for booking with Prime Kerala Cruise!
+"""
+            send_mail(user_subject, user_message, settings.DEFAULT_FROM_EMAIL, [booking.email])
+
+            # Email to admin (all details of the booking)
+            admin_subject = f"New Booking Received - Order ID {booking.order_id}"
+            
+            # Construct a detailed message with all fields dynamically
+            if isinstance(booking, PackageBooking):
+                admin_message = f"""
+New Package Booking Received:
+
+Full Name: {booking.fullname}
+Place: {booking.place}
+From Date: {booking.from_date}
+Phone: {booking.phone}
+Email: {booking.email}
+Booking Item: {booking.booking_item}
+Amount Paid: ₹{booking.amount}
+Order ID: {booking.order_id}
+Payment ID: {booking.payment_id}
+Payment Status: {booking.payment_status}
+Created At: {booking.created_at}
+"""
+            elif isinstance(booking, BoatBooking):
+                admin_message = f"""
+New Boat Booking Received:
+
+Full Name: {booking.fullname}
+Place: {booking.place}
+From Date: {booking.from_date}
+Phone: {booking.phone}
+Email: {booking.email}
+Bedroom: {booking.bedroom}
+No. of Adults: {booking.noofadult}
+No. of Children: {booking.noofchild}
+Category: {booking.category}
+Cruise Type: {booking.cruise_type}
+Amount Paid: ₹{booking.amount}
+Order ID: {booking.order_id}
+Payment ID: {booking.payment_id}
+Payment Status: {booking.payment_status}
+Created At: {booking.created_at}
+"""
+            send_mail(admin_subject, admin_message, settings.DEFAULT_FROM_EMAIL, [settings.ADMIN_EMAIL])
+
+        return render(request, "public/payment_success.html", {"booking": booking})
+
+
+
+
+
+
+def boatsharing(request):
+    categories = ['Deluxe', 'Premium', 'Luxury']
+    cruise_types = ['Day Cruise', 'Overnight Cruise']
+
+    if request.method == 'POST':
+        fullname = request.POST.get('fullname')
+        place = request.POST.get('place')
+        from_date = request.POST.get('from_date')
+        phone = request.POST.get('phone')
+        email = request.POST.get('email')
+        noofadult = request.POST.get('noofadult')
+        noofchild = request.POST.get('noofchild')
+        category = request.POST.get('category')
+        cruise_type = request.POST.get('cruise_type')
+
+        # 📨 Email content
+        subject = f"Boat Sharing Enquiry from {fullname}"
+        message = f"""
+New Boat Sharing Enquiry Received:
+
+👤 Full Name: {fullname}
+📍 Place: {place}
+📅 Date: {from_date}
+📞 Phone: {phone}
+📧 Email: {email}
+👪 Number of Adults: {noofadult}
+🧒 Number of Children: {noofchild}
+🚢 Category: {category}
+⚓ Cruise Type: {cruise_type}
+"""
+        sender = 'primekeralacruise@gmail.com'
+        recipient = ['primekeralacruise@gmail.com']
+
+        try:
+            send_mail(subject, message, sender, recipient, fail_silently=False)
+            messages.success(request, "✅ Thank you! We’ll contact you soon for confirmation.")
+        except Exception as e:
+            messages.error(request, f"❌ Failed to send email. Error: {e}")
+
+        return redirect('boatsharing')  # redirect to same page after submission
+
+    return render(request, 'public/boatsharing.html', {
+        'categories': categories,
+        'cruise_types': cruise_types
+    })
+
+
+# def allpackages(request):
+#     packages = Package.objects.all()
+#     paginator = Paginator(packages, 6)  # Show 6 packages per page
+#     page_number = request.GET.get('page')  # ?page=2
+#     page_obj = paginator.get_page(page_number)
+    
+#     return render(request, 'public/allpackages.html', {'page_obj': page_obj})
 
 
 def allpackages(request):
+    # Existing Packages Pagination
     packages = Package.objects.all()
     paginator = Paginator(packages, 6)  # Show 6 packages per page
     page_number = request.GET.get('page')  # ?page=2
     page_obj = paginator.get_page(page_number)
-    
-    return render(request, 'public/allpackages.html', {'page_obj': page_obj})
+
+    # Boats Pagination
+    boats = Boat.objects.filter(status='active')
+    boat_paginator = Paginator(boats, 6)
+    boat_page_number = request.GET.get('boat_page')
+    boats_page_obj = boat_paginator.get_page(boat_page_number)
+
+    return render(request, 'public/allpackages.html', {
+        'page_obj': page_obj,
+        'boats_page_obj': boats_page_obj,
+    })
 
 def allboats(request):
     boats = Boat.objects.all()
@@ -121,8 +459,107 @@ def allgallery(request):
     gallery = Gallery.objects.all()
     return render(request,'public/allgallery.html', {'gallery': gallery})
 
+# def menu(request):
+#     return render(request,'public/menu.html')
+
+# def menu(request):
+#     cruise = request.GET.get('cruise')     # e.g. 'day' or 'overnight'
+#     package = request.GET.get('package')   # e.g. 'deluxe', 'premium', 'luxury'
+
+#     # Start with all items
+#     menu_items = MenuItem.objects.all()
+
+#     # Filter if parameters exist
+#     if cruise:
+#         menu_items = menu_items.filter(cruise_type__iexact=cruise)
+#     if package:
+#         menu_items = menu_items.filter(package_type__iexact=package)
+
+#     return render(request, 'public/menu.html', {'menu_items': menu_items})
+
+
+# def menu(request):
+#     cruise_type = request.GET.get('cruise')
+#     package_type = request.GET.get('package')
+
+#     # Base queryset — ordered by order_number
+#     menu_items = MenuItem.objects.all().order_by('cruise_type', 'package_type', 'order_number')
+
+#     # Apply filters
+#     if cruise_type:
+#         menu_items = menu_items.filter(cruise_type__iexact=cruise_type)
+#     if package_type:
+#         menu_items = menu_items.filter(package_type__iexact=package_type)
+
+#     # Group by cruise_type + package_type
+#     grouped_dict = {}
+
+#     for item in menu_items:
+#         key = (item.cruise_type, item.package_type)
+#         if key not in grouped_dict:
+#             grouped_dict[key] = {
+#                 'cruise_type': item.get_cruise_type_display(),
+#                 'package_type': item.get_package_type_display(),
+#                 'image': item.image,
+#                 'items': []
+#             }
+#         grouped_dict[key]['items'].append(item)
+
+#     # 🔽 Sort each group's items by order_number explicitly
+#     for group in grouped_dict.values():
+#         group['items'].sort(key=lambda x: x.order_number or 0)
+
+#     # 🔽 Sort the groups themselves by the *lowest order number* in each group
+#     grouped_menus = sorted(grouped_dict.values(), key=lambda g: g['items'][0].order_number if g['items'] else 9999)
+
+#     context = {"grouped_menus": grouped_menus}
+#     return render(request, "public/menu.html", context)
+
+
+from collections import defaultdict
+
 def menu(request):
-    return render(request,'public/menu.html')
+    cruise = request.GET.get('cruise')
+    package = request.GET.get('package')
+
+    queryset = MenuItem.objects.all()
+
+    if cruise:
+        queryset = queryset.filter(cruise_type=cruise)
+    if package:
+        queryset = queryset.filter(package_type=package)
+
+    grouped = defaultdict(list)
+    for item in queryset:
+        key = (item.cruise_type, item.package_type)
+        grouped[key].append(item)
+
+    grouped_menus = []
+    for (cruise_type, package_type), items in grouped.items():
+        # Collect first special and AC details once
+        first_special = next((i.is_special for i in items if i.is_special), None)
+        first_ac = next((i.ac_available for i in items if i.ac_available), None)
+        first_duration = next((i.duration for i in items if i.duration), None)
+        first_time_slot = next((i.time_slot for i in items if i.time_slot), None)
+        first_image = next((i.image for i in items if i.image), None)
+
+        grouped_menus.append({
+            'cruise_type': cruise_type.title(),
+            'package_type': package_type.title(),
+            'items': items,
+            'first_special': first_special,
+            'first_ac': first_ac,
+            'first_duration': first_duration,
+            'first_time_slot': first_time_slot,
+            'image': first_image,
+        })
+
+    return render(request, 'public/menu.html', {
+        'grouped_menus': grouped_menus
+    })
+
+
+
 
 def faq(request):
     return render(request,'public/faq.html')
@@ -265,7 +702,8 @@ def admin_add_boat(request):
             price=price,
             photo=photo,
             description=description,
-            category=category
+            category=category,
+            status="active"
         )
         return redirect('admin_view_boat')
     return render(request, 'admin/admin_add_boat.html')
@@ -298,6 +736,15 @@ def admin_delete_boat(request, id):
     boat.delete()
     return redirect('admin_view_boat')
 
+
+def admin_toggle_boat_status(request, boat_id):
+    boat = get_object_or_404(Boat, id=boat_id)
+    if boat.status == 'active':
+        boat.status = 'blocked'
+    else:
+        boat.status = 'active'
+    boat.save()
+    return redirect('admin_view_boat') 
 
 def admin_view_room(request):
     if request.session['log']=="out":
@@ -716,6 +1163,145 @@ def changepassword(request):
 
 
 
+def admin_view_tariff(request):
+    if request.session['log']=="out":
+        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
+    boats = Tariff.objects.all()
+    return render(request, 'admin/admin_view_tariff.html', {'boats': boats})
 
+
+def admin_add_tariff(request):
+    if request.method == "POST":
+        category = request.POST.get("category")
+        room = request.POST.get("room_count")
+        amount = request.POST.get("amount")
+        type = request.POST.get("type")
+
+        Tariff.objects.create(
+            category=category,
+            room_count=room,
+            amount=amount,
+            type=type
+        )
+        return redirect("admin_view_tariff")
+
+    return render(request, 'admin/admin_add_tariff.html')
+
+def admin_delete_tariff(request, id):
+    tariff = Tariff.objects.get(id=id)
+    tariff.delete()
+    return redirect('admin_view_tariff')
+
+
+def admin_edit_tariff(request, id):
+    if request.session.get('log') == "out":
+        return HttpResponse("<script>alert('You havent logged in yet...!');window.location='/login'</script>")
+    
+    tariff = Tariff.objects.get(id=id)
+    
+    if request.method == 'POST':
+        tariff.category = request.POST.get('category')
+        tariff.room_count = request.POST.get('room_count')
+        tariff.amount = request.POST.get('amount')
+        tariff.type = request.POST.get('type')
+        tariff.save()
+        return redirect('admin_view_tariff')  # ✅ change redirect based on your URL name
+
+    return render(request, 'admin/admin_edit_tariff.html', {'tariff': tariff})
+
+
+
+def admin_view_menu_items(request):
+    menu_items = MenuItem.objects.all()
+    return render(request, 'admin/admin_view_menu.html', {'menu_items': menu_items})
+
+
+def admin_add_menu_item(request):
+    if request.method == 'POST':
+        cruise_type = request.POST.get('cruise_type')
+        package_type = request.POST.get('package_type')
+        item_name = request.POST.get('item_name')
+        details = request.POST.get('details', '')
+        # time_slot = request.POST.get('time_slot', '')
+        duration = request.POST.get('duration', '')
+        ac_available = request.POST.get('ac_info')
+        is_special = request.POST.get('special_info')
+        image = request.FILES.get('image')
+        order_number = request.POST.get('order_number') or 0
+
+        MenuItem.objects.create(
+            cruise_type=cruise_type,
+            package_type=package_type,
+            item_name=item_name,
+            details=details,
+            duration=duration,
+            ac_available=ac_available,
+            is_special=is_special,
+            image=image,
+            order_number=int(order_number),
+        )
+        return redirect('admin_view_menu_items')  # change to your list-view name
+
+    # GET -> show empty form (you can pass previous form values if editing)
+    return render(request, 'admin/admin_add_menu.html')
+
+def admin_delete_menu(request, id):
+    menu = MenuItem.objects.get(id=id)
+    menu.delete()
+    return redirect('admin_view_menu_items')
+
+
+def admin_edit_menu_item(request, id):
+    # Fetch the item or show 404 if not found
+    menu_item = get_object_or_404(MenuItem, id=id)
+
+    if request.method == 'POST':
+        # Get all form data
+        cruise_type = request.POST.get('cruise_type')
+        package_type = request.POST.get('package_type')
+        item_name = request.POST.get('item_name')
+        details = request.POST.get('details')
+        # time_slot = request.POST.get('time_slot')
+        duration = request.POST.get('duration')
+        ac_available = request.POST.get('ac_available')
+        is_special = request.POST.get('is_special')
+        order_number = request.POST.get('order_number') or 0
+        image = request.FILES.get('image')
+
+        # Update fields
+        menu_item.cruise_type = cruise_type
+        menu_item.package_type = package_type
+        menu_item.item_name = item_name
+        menu_item.details = details
+        # menu_item.time_slot = time_slot
+        menu_item.duration = duration
+        menu_item.ac_available = ac_available
+        menu_item.is_special = is_special
+        menu_item.order_number = order_number
+
+        # Update image only if a new one is uploaded
+        if image:
+            menu_item.image = image
+
+        # Save the updated record
+        menu_item.save()
+
+        # Show confirmation message
+        messages.success(request, f"✅ '{menu_item.item_name}' updated successfully.")
+        return redirect('admin_view_menu_items')  # Change this to your view list URL name
+
+    return render(request, 'admin/admin_edit_menu.html', {'menu_item': menu_item})
+
+
+
+def admin_view_all_bookings(request):
+    package_bookings = PackageBooking.objects.all().order_by('-created_at')
+    boat_bookings = BoatBooking.objects.all().order_by('-created_at')
+
+    context = {
+        'package_bookings': package_bookings,
+        'boat_bookings': boat_bookings,
+    }
+    return render(request, 'admin/view_all_bookings.html', context)    
 
 

@@ -1,0 +1,51 @@
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <h1 class="h3 mb-4">Edit Tariff</h1>
+
+  <form method="post" class="card shadow-sm p-4">
+    {% csrf_token %}
+
+    <!-- Category -->
+    <div class="mb-3">
+      <label for="id_category" class="form-label">Category</label>
+      <select id="id_category" name="category" class="form-control" required>
+        <option value="Deluxe" {% if tariff.category == "Deluxe" %}selected{% endif %}>Deluxe</option>
+        <option value="Premium" {% if tariff.category == "Premium" %}selected{% endif %}>Premium</option>
+        <option value="Luxury" {% if tariff.category == "Luxury" %}selected{% endif %}>Luxury</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="id_category" class="form-label">Type</label>
+      <select id="id_category" name="type" class="form-control" required>
+        <option value="DayCruise" {% if tariff.type == "DayCruise" %}selected{% endif %}>DayCruise</option>
+        <option value="OvernightCruise" {% if tariff.type == "OvernightCruise" %}selected{% endif %}>OvernightCruise</option>
+
+      </select>
+    </div>
+
+    <!-- Room Count -->
+    <div class="mb-3">
+      <label for="id_room_count" class="form-label">Room Count</label>
+      <input type="text" id="id_room_count" name="room_count"
+             class="form-control" maxlength="200"
+             value="{{ tariff.room_count }}" required>
+    </div>
+
+    <!-- Amount -->
+    <div class="mb-3">
+      <label for="id_amount" class="form-label">Amount</label>
+      <input type="text" id="id_amount" name="amount"
+             class="form-control" maxlength="200"
+             value="{{ tariff.amount }}" required>
+    </div>
+
+    <!-- Update Button -->
+    <div class="text-center">
+      <button type="submit" class="btn btn-warning">✏️ Update</button>
+    </div>
+  </form>
+</div>
+
+{% include 'admin/adminfooter.html' %}

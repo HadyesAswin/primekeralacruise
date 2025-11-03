@@ -26,6 +26,7 @@ class Boat(models.Model):
     photo=models.ImageField(upload_to='boats')
     description=models.CharField(max_length=2000)
     category=models.CharField(max_length=200, default='pending')
+    status=models.CharField(max_length=200,null=True)
     def __str__(self):
         return self.price
 
@@ -54,4 +55,86 @@ class Bookingcount(models.Model):
 
     def __str__(self):
         return self.booking_count
+    
 
+class Tariff(models.Model):
+    CATEGORY_CHOICES = [
+        ('Deluxe', 'Deluxe'),
+        ('Premium', 'Premium'),
+        ('Luxury', 'Luxury'),
+    ]
+
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    room_count = models.CharField(max_length=200)
+    amount = models.CharField(max_length=200)
+    type = models.CharField(max_length=200,null=True)
+
+    def __str__(self):
+        return self.room_count
+    
+
+
+class MenuItem(models.Model):
+    CRUISE_CHOICES = [
+        ('day', 'Day Cruise'),
+        ('overnight', 'Overnight Cruise'),
+    ]
+
+    PACKAGE_CHOICES = [
+        ('deluxe', 'Deluxe'),
+        ('premium', 'Premium'),
+        ('luxury', 'Luxury'),
+    ]
+
+    cruise_type = models.CharField(max_length=20, choices=CRUISE_CHOICES)
+    package_type = models.CharField(max_length=20, choices=PACKAGE_CHOICES)
+    item_name = models.CharField(max_length=100)
+    details = models.TextField(blank=True)
+    time_slot = models.CharField(max_length=50, blank=True)
+    is_special = models.CharField(max_length=100,null=True)
+    duration = models.CharField(max_length=50, blank=True)
+    ac_available = models.CharField(max_length=100,null=True)
+    image=models.ImageField(upload_to='menu')
+    order_number = models.PositiveIntegerField(default=0,null=True)
+
+    def __str__(self):
+        return f"{self.cruise_type.title()} - {self.package_type.title()} - {self.item_name}"
+
+
+
+class PackageBooking(models.Model):
+    fullname = models.CharField(max_length=100)
+    place = models.CharField(max_length=100)
+    from_date = models.DateField()
+    phone = models.CharField(max_length=15)
+    email = models.EmailField()
+    booking_item = models.CharField(max_length=200, blank=True, null=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    order_id = models.CharField(max_length=100, blank=True, null=True)
+    payment_id = models.CharField(max_length=100, blank=True, null=True)
+    payment_status = models.CharField(max_length=50, default='pending')
+    created_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.fullname} - {self.booking_item or 'Package'}"
+    
+
+class BoatBooking(models.Model):
+    fullname = models.CharField(max_length=100)
+    place = models.CharField(max_length=100)
+    from_date = models.DateField()
+    phone = models.CharField(max_length=15)
+    email = models.EmailField()
+    bedroom = models.CharField(max_length=50)
+    noofadult = models.PositiveIntegerField()
+    noofchild = models.PositiveIntegerField()
+    category = models.CharField(max_length=100)
+    cruise_type = models.CharField(max_length=100)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    order_id = models.CharField(max_length=100, blank=True, null=True)
+    payment_id = models.CharField(max_length=100, blank=True, null=True)
+    payment_status = models.CharField(max_length=50, default='pending')
+    created_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.fullname} - {self.bedroom}"    

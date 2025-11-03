@@ -54,6 +54,11 @@
   margin-top: auto;
 }
 
+
+
+
+
+
 </style>    
 
             <!-- End Main Header -->
@@ -203,7 +208,7 @@
                                 <span class="price" style="font-family:Bricolage Grotesque, sans-serif;">Onwards</span>
                             </div>
                             <div class="flip-container">
-                                <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank">
+                                <a href="/booknow?item={{ i.title }}&price={{ i.price }}">
                                 <div class="flip-button">
                                     <div class="front" style="font-family:Bricolage Grotesque, sans-serif;">Book Now</div>
                                     <div class="back" style="font-family:Bricolage Grotesque, sans-serif;">Adventure Awaits!</div>
@@ -255,6 +260,132 @@
         </div>
     </div>
 </section>
+
+ <!-- all boats  -->
+
+
+<!-- ===================== BOATS SECTION ===================== -->
+
+<h2 class="title text-center" style="font-family:Bricolage Grotesque, sans-serif; margin-bottom: 30px;">
+    Available Boats
+</h2>
+
+<div class="row">
+<div class="col-lg-12 center mt-44">
+    <a href="/boatsharing" class="btn-main">
+        <p class="btn-main-text" style="font-family:Bricolage Grotesque, sans-serif;">Boat Sharing</p>
+        <p class="iconer">
+            <i class="icon-13"></i>
+        </p>
+    </a> 
+</div>
+</div>
+
+<section class="archieve-tour" id="boats">
+    <div class="tf-container">
+        <div class="listing-list-car-wrap listing-list-car-wrap-grid3">
+            
+            <div class="listing-list-car-grid mb-60">
+                
+                {% for i in boats_page_obj %}
+                <div class="tour-listing box-sd">
+                    <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="tour-listing-image">
+                        <div class="img" style="height: 300px;">
+                            <img src="{{ i.photo.url }}" alt="Image Listing">
+                        </div>
+                    </a>
+
+                    <div class="tour-listing-content">
+                        <span class="map"><i class="icon-Vector4"></i>{{ i.category }}</span>
+
+                        <h3 class="title-tour-list">
+                            <a href="#" style="font-family:Bricolage Grotesque, sans-serif;">
+                                {{ i.description }}
+                            </a>
+                        </h3>
+
+                        <div class="review">
+                            <i class="icon-Star"></i><i class="icon-Star"></i><i class="icon-Star"></i><i class="icon-Star"></i><i class="icon-Star"></i>
+                            <span style="font-family:Bricolage Grotesque, sans-serif;">(1 Review)</span>
+                        </div>
+
+                        <div class="flex-two">
+                            <div class="price-box flex-three">
+                                <p style="font-family:Bricolage Grotesque, sans-serif;">
+                                    From <span class="price-sale" style="font-family:Bricolage Grotesque, sans-serif;">
+                                        ₹{{ i.price }}
+                                    </span>
+                                </p>
+                                <span class="price">Onwards</span>
+                            </div>
+
+                            <div class="flip-container">
+                                <a href="/commonbooking">
+                                    <div class="flip-button">
+                                        <div class="front" style="font-family:Bricolage Grotesque, sans-serif;">Book Now</div>
+                                        <div class="back" style="font-family:Bricolage Grotesque, sans-serif;">Adventure Awaits!</div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-center" style="font-family:Bricolage Grotesque, sans-serif;">No Boats Available</p>
+                {% endfor %}
+                
+            </div>
+
+            <!-- ✅ BOATS PAGINATION (Separate from Packages) -->
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="tf-pagination flex-five mt-20">
+                        {% if boats_page_obj.has_previous %}
+                        <li>
+                            <a class="pages-link" href="?boat_page={{ boats_page_obj.previous_page_number }}">
+                                <i class="icon-29"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        {% for num in boats_page_obj.paginator.page_range %}
+                            {% if boats_page_obj.number == num %}
+                                <li class="pages-item active">
+                                    <a class="pages-link" href="?boat_page={{ num }}">{{ num }}</a>
+                                </li>
+                            {% else %}
+                                <li>
+                                    <a class="pages-link" href="?boat_page={{ num }}">{{ num }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if boats_page_obj.has_next %}
+                        <li>
+                            <a class="pages-link" href="?boat_page={{ boats_page_obj.next_page_number }}">
+                                <i class="icon--1"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+
+
+
+
+
+
+ <!-- boat ends -->
+
+
+
+
 
                 <!-- Widget archieve tour -->
 

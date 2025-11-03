@@ -46,7 +46,7 @@
     transform: translateX(-50%);
     width: 100px;
     height: 5px;
-    background-color: #4DA528; /* Updated Primary Accent */
+    background-color: #4DA528;
     border-radius: 3px;
 }
 
@@ -152,14 +152,14 @@
 
 /* 🎨 Themes */
 .menu-page .day-cruise-card .menu-heading {
-    color: #FF970D !important; /* Updated Orange */
+    color: #FF970D !important;
 }
 .menu-page .day-cruise-card:hover {
     box-shadow: 0 20px 45px rgba(255,151,13,0.25) !important;
 }
 
 .menu-page .overnight-cruise-card .menu-heading {
-    color: #4DA528 !important; /* Updated Green */
+    color: #4DA528 !important;
 }
 .menu-page .overnight-cruise-card:hover {
     box-shadow: 0 20px 45px rgba(77,165,40,0.25) !important;
@@ -284,13 +284,19 @@
         height: 180px !important;
     }
 }
+
+
+
+
+{{ block.super }}
 </style>
+
 
 <section class="breadcumb-section" style="background-image: url('{% static 'assets/images/page/menubanner1.jpg' %}');">
     <div class="tf-container">
         <div class="row">
             <div class="col-lg-12 center z-index1">
-                <h1 class="title" style="font-family:Bricolage Grotesque, sans-serif;">Menu</h1>
+                <h1 class="title" style="font-family:Bricolage Grotesque, sans-serif;">Details & Menu</h1>
                 <ul class="breadcumb-list flex-five">
                     <li><a href="./" style="font-family:Bricolage Grotesque, sans-serif;">Home</a></li>
                     <li><span style="font-family:Bricolage Grotesque, sans-serif;">All Menu</span></li>
@@ -304,47 +310,117 @@
 <section class="menu-cards-section stylish-menus">
     <div class="tf-container">
         <div class="section-title text-center">
-            <h2 class="title" style="font-family:Bricolage Grotesque, sans-serif;">Our Curated Culinary Menus</h2>
-            <p class="subtitle" style="font-family:Bricolage Grotesque, sans-serif;">Savor the authentic flavors of Kerala during your backwater cruise experience.</p>
+            <h2 class="title" style="font-family:Bricolage Grotesque, sans-serif;">“Culinary Highlights of Your Cruise”</h2>
+            <p class="subtitle" style="font-family:Bricolage Grotesque, sans-serif;">From welcome drinks to traditional Kerala feasts — see what’s served with each package.</p>
         </div>
 
+        {% if grouped_menus %}
         <div class="menu-cards-grid">
-            <div class="menu-card stylish-card day-cruise-card">
+            {% for group in grouped_menus %}
+            <div class="menu-card stylish-card {% if group.cruise_type == 'Day Cruise' %}day-cruise-card{% else %}overnight-cruise-card{% endif %}">
                 <div class="card-image-wrapper">
-                    <img src="{% static 'assets/menu/menu1.jpg' %}" alt="Day Cruise Menu" class="card-image">
+                    {% if group.image %}
+                        <img src="{{ group.image.url }}" alt="{{ group.cruise_type }} {{ group.package_type }}" class="card-image">
+                    {% else %}
+                        <img src="{% static 'assets/menu/default.jpg' %}" alt="Menu" class="card-image">
+                    {% endif %}
                     <div class="image-overlay"></div>
                 </div>
-                <div class="card-content-wrapper">
-                    <h3 class="menu-heading" style="font-family:Bricolage Grotesque, sans-serif;">Day Cruise Deluxe Menu</h3>
-                    <ul class="menu-list">
-                        <li><span class="menu-item-name">Welcome Drink</span><span class="menu-item-details">A refreshing start to your journey.</span></li>
-                        <li><span class="menu-item-name">Traditional Kerala Lunch</span><span class="menu-item-details">Includes Rice,Karimeen Fry,Chicken Curry,Thoran,Mezhukkuvaratty,Sambar,Puliserry,<br>Pickle,Salad,Pappadam</span></li>
-                        <li><span class="menu-item-name">Evening Tea & Snacks</span><span class="menu-item-details">Tea/Coffee with local favorites like Banana Fry or Onion Pakoda.</span></li>
-                    </ul>
-                    <div class="menu-time"><i class="bi bi-clock-fill"></i><span>Duration: 11:00 AM - 05:00 PM</span></div>
-                </div>
-            </div>
 
-            <div class="menu-card stylish-card overnight-cruise-card">
-                <div class="card-image-wrapper">
-                    <img src="{% static 'assets/menu/menu2.jpg' %}" alt="Overnight Cruise Menu" class="card-image">
-                    <div class="image-overlay"></div>
-                </div>
                 <div class="card-content-wrapper">
-                    <h3 class="menu-heading" style="font-family:Bricolage Grotesque, sans-serif;">Overnight Deluxe Menu</h3>
+                    <h3 class="menu-heading" style="font-family:Bricolage Grotesque, sans-serif;">
+                        {{ group.cruise_type }} {{ group.package_type }} Menu & Details
+                    </h3>
+
                     <ul class="menu-list">
-                        <li><span class="menu-item-name">Welcome Drink</span><span class="menu-item-details">A refreshing start to your journey.</span></li>
-                        <li><span class="menu-item-name">Traditional Kerala Lunch</span><span class="menu-item-details">Includes Rice,Karimeen Fry,Thoran,Mezhukkuvaratty,Sambar,Puliserry,<br>Pickle,Salad,Pappadam</span></li>
-                        <li><span class="menu-item-name">Evening Tea & Snacks</span><span class="menu-item-details">Tea/Coffee with local favorites like Banana Fry or Onion Pakoda.</span></li>
-                        <li><span class="menu-item-name">Dinner</span><span class="menu-item-details">Rice/Chapathi with Chicken Curry and Dal,Thoran,Mezhukkuvaratty,Pickle,Salad.</span></li>
-                        <li><span class="menu-item-name">Morning Breakfast</span><span class="menu-item-details">Idli with Sambar/Chutney.<br>Tea or Coffee</span></li>
+                        {% for item in group.items %}
+                            <li>
+                                <div class="menu-item-name">{{ item.item_name }}</div>
+                                {% if item.details %}
+                                    <div class="menu-item-details">{{ item.details }}</div>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+
+                        {% if group.first_special %}
+                            <li>
+                                <div class="menu-item-name">Special</div>
+                                <div class="menu-item-details">{{ group.first_special }}</div>
+                            </li>
+                        {% endif %}
+
+                        {% if group.first_ac %}
+                            <li>
+                                <div class="menu-item-name">AC</div>
+                                <div class="menu-item-details">{{ group.first_ac }}</div>
+                            </li>
+                        {% endif %}
                     </ul>
-                    <div class="menu-time"><i class="bi bi-clock-fill"></i><span>Duration: 12:00 PM - 09:00 AM</span></div>
+
+
+
+
+
+
+
+
+                    {% if group.items.0.duration or group.items.0.time_slot %}
+                    <div class="menu-time">
+                        <i class="bi bi-clock-fill"></i>
+                        <span>Duration: {{ group.items.0.duration|default:group.items.0.time_slot|default:"N/A" }}</span>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
+            {% endfor %}
         </div>
+        {% else %}
+        <div class="alert alert-info text-center mt-4">No menu items available at the moment.</div>
+        {% endif %}
     </div>
 </section>
+
+<!-- Chatbot + WhatsApp (unchanged) -->
+<div class="chat-launcher" id="chat-launcher1">
+    <i class="bi bi-robot"></i>
+</div>
+
+<div class="chat-container" id="chat-container">
+    <div class="chat-header">
+        <span>Backwater Booking Bot</span>
+        <span id="chat-close">✖</span>
+    </div>
+    <div class="chat-messages" id="chat-messages"></div>
+    <div class="chat-input-area">
+        <div class="chat-input-row">
+            <input type="text" id="user-input" placeholder="Type here..." style="display:none;">
+            <button id="send-btn" style="display:none;">Send</button>
+        </div>
+        <div id="loading-indicator" style="display:none;padding:10px;color:#4facfe;font-weight:500;text-align:center;">
+            Processing... please wait.
+        </div>
+        <div id="interactive-options"></div>
+        <div id="calendar-container"></div>
+        <div id="input-error" class="error-message"></div>
+    </div>
+</div>
+
+<div id="whatsappLauncher" style="
+    position: fixed;
+    bottom: 80px;
+    right: 19px;
+    width: 51px;
+    height: 51px;
+    border-radius: 50%;
+    background-color: #25D366;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 1000;">
+    <i class="bi bi-whatsapp" style="color:white; font-size:28px;"></i>
+</div>
 
 </main>
 {% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'public/home2.html' %}
+{% load static %}
+
+{% block title %} Page Not Found {% endblock %}
+
+{% block content %}
+<main id="main" class="text-center" style="padding: 80px 0;">
+    <div class="container">
+        <h1 style="color:#4DA235; font-family:'Bricolage Grotesque', sans-serif; font-size: 70px; font-weight:700;">
+            404
+        </h1>
+        <h3 style="font-family:'Bricolage Grotesque', sans-serif; color:#333;">
+            Oops! The page you’re looking for doesn’t exist.
+        </h3>
+        <p style="color:#777; margin-top:10px;">It might have been moved or deleted.</p>
+        <a href="/" class="btn btn-success mt-4" 
+           style="background-color:#4DA235; border:none; padding:10px 25px; border-radius:12px;">
+            Go Back Home
+        </a>
+    </div>
+</main>
+{% endblock %}

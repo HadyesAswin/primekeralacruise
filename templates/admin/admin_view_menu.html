@@ -1,0 +1,84 @@
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3">All Menu Items</h1>
+    <a href="{% url 'admin_add_menu_item' %}" class="btn btn-primary">+ Add New Item</a>
+  </div>
+
+  {% if menu_items %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>SI.NO</th>
+            <th>Cruise Type</th>
+            <th>Package Type</th>
+            <th>Item Name</th>
+            <th>Details</th>
+            {% comment %} <th>Time Slot</th> {% endcomment %}
+            <th>Duration</th>
+            <th>AC Details</th>
+            <th>Special Item</th>
+            <th>Image</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in menu_items %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ item.get_cruise_type_display }}</td>
+            <td>{{ item.get_package_type_display }}</td>
+            <td>{{ item.item_name }}</td>
+            <td style="max-width: 250px;">{{ item.details|default:"—" }}</td>
+            {% comment %} <td>{{ item.time_slot|default:"—" }}</td> {% endcomment %}
+            <td>{{ item.duration|default:"—" }}</td>
+
+            <!-- AC details typed field -->
+            <td>
+              {% if item.ac_available %}
+                {{ item.ac_available }}
+              {% else %}
+                <span class="text-muted">—</span>
+              {% endif %}
+            </td>
+
+            <!-- Special Item typed field -->
+            <td>
+              {% if item.is_special %}
+                {{ item.is_special }}
+              {% else %}
+                <span class="text-muted">—</span>
+              {% endif %}
+            </td>
+
+            <!-- Image -->
+            <td>
+              {% if item.image %}
+                <img src="{{ item.image.url }}" alt="{{ item.item_name }}" class="img-thumbnail" style="width:100px; height:auto;">
+              {% else %}
+                <span class="text-muted">No Image</span>
+              {% endif %}
+            </td>
+
+            <!-- Action Buttons (edit/delete) -->
+            <td>
+              <a href="{% url 'admin_edit_menu_item' item.id %}" class="btn btn-sm btn-warning" style="width:60px;">Edit</a><br><br>
+              <a href="{% url 'admin_delete_menu' item.id %}" 
+                 class="btn btn-sm btn-danger"
+                 onclick="return confirm('Are you sure you want to delete this item?');" style="width:60px;">
+                 Delete
+              </a>
+            </td> 
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-info">No menu items found.</div>
+  {% endif %}
+</div>
+
+{% include 'admin/adminfooter.html' %}

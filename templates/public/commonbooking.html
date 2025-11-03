@@ -1,0 +1,248 @@
+{% extends 'public/home2.html' %}
+{% load static %}
+{% block title %} BookNow {% endblock %}
+
+<style>
+    .card button:hover {
+        background-color: #3C8529 !important;
+        box-shadow: 0px 4px 16px rgba(77, 162, 53, 0.4);
+    }
+    .form-control:focus {
+        border-color: #4DA235 !important;
+        box-shadow: 0 0 6px rgba(77, 162, 53, 0.3) !important;
+    }
+</style>
+
+<main id="main">
+{% block content %}
+
+<section class="breadcumb-section" style="background-image: url('{% static "assets/images/contactusbanner.jpg" %}');">
+    <div class="tf-container">
+        <div class="row">
+            <div class="col-lg-12 center z-index1">
+                <h1 class="title" style="font-family:Bricolage Grotesque, sans-serif;">Book Now</h1>
+                <ul class="breadcumb-list flex-five">
+                    <li><a href="./" style="font-family:Bricolage Grotesque, sans-serif;">Home</a></li>
+                    <li><span style="font-family:Bricolage Grotesque, sans-serif;">Book Now</span></li>
+                </ul>
+                <img class="bcrumb-ab" src={% static "assets/images/page/mask-bcrumb.png" %} alt="">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="d-flex justify-content-center align-items-center mt-5 mb-5">
+    <div class="card p-4 px-5" 
+        style="max-width: 550px; width: 100%; border-radius: 18px; border: none;
+        box-shadow: 0px 4px 20px rgba(0,0,0,0.08);">
+
+        <h3 class="mb-4 text-center" 
+            style="color: #4DA235; font-weight: 600; font-family: 'Bricolage Grotesque', sans-serif;">
+            Book Your Trip
+        </h3>
+
+        <form id="bookingForm" method="POST" style="font-family: 'Bricolage Grotesque', sans-serif;">
+            {% csrf_token %}
+
+            <!-- Full Name -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Full Name</label>
+                <input type="text" name="fullname" class="form-control" required>
+            </div>
+
+            <!-- Place -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Place</label>
+                <input type="text" name="place" class="form-control" required>
+            </div>
+
+            <!-- Dates -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-semibold">Date</label>
+                    <input type="date" name="from_date" id="from_date" class="form-control" required>
+                </div>
+            </div>
+
+            <!-- Phone -->
+            <div class="mb-3">
+                <label class="form-label fw-semibold">Phone Number</label>
+                <input type="tel" name="phone" id="phone" class="form-control" maxlength="10" required>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Email Address</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
+
+            <!-- Boat Selection -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Select Bedroom (Boat)</label>
+                <select id="bedroomSelect" name="bedroom" class="form-select" required>
+                    <option value="">-- Select Boat --</option>
+                    {% for boat in boats %}
+                        <option value="{{ boat.description }}">{{ boat.description }}</option>
+                    {% endfor %}
+                </select>
+
+                <ul id="boatDescription" class="mt-2" 
+                    style="font-size: 14px; color: #555; padding-left: 18px;"></ul>
+
+                <p class="mt-2" style="font-size: 14px; color: #d9534f;">
+                    Note: Each bedroom accommodates 2 persons only.
+                </p>
+            </div>
+
+            <!-- Number of Adults -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Number Of Adults</label>
+                <input type="text" name="noofadult" id="noofadult" class="form-control" required>
+            </div>
+
+            <!-- Number of Children -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Number Of Children</label>
+                <input type="text" name="noofchild" id="noofchild" class="form-control" required>
+            </div>
+
+            <!-- Category Dropdown -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Category</label>
+                <select name="category" class="form-select" required>
+                    <option value="">-- Select Category --</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat }}">{{ cat }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Cruise Type Dropdown -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Cruise Type</label>
+                <select name="cruise_type" class="form-select" required>
+                    <option value="">-- Select Cruise Type --</option>
+                    {% for ctype in cruise_types %}
+                        <option value="{{ ctype }}">{{ ctype }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Submit -->
+            <button type="submit" class="btn w-100 fw-semibold"
+                style="background-color: #4DA235; color: #fff; border-radius: 12px; padding: 12px 0;
+                font-size: 17px; transition: 0.3s;">
+                Submit Booking
+            </button>
+        </form>
+    </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const fromDate = document.querySelector('input[name="from_date"]');
+    const phoneInput = document.getElementById('phone');
+    const adultInput = document.getElementById('noofadult');
+    const childInput = document.getElementById('noofchild');
+    const bedroomSelect = document.getElementById("bedroomSelect");
+    const boatDescription = document.getElementById("boatDescription");
+    const bookingForm = document.getElementById("bookingForm");
+
+    // ✅ Restrict past dates
+    const today = new Date().toISOString().split("T")[0];
+    fromDate.setAttribute("min", today);
+
+    // ✅ Allow only digits (no letters/symbols)
+    function restrictToDigits(input) {
+        input.addEventListener("input", function () {
+            this.value = this.value.replace(/\D/g, "");
+        });
+        input.addEventListener("keypress", function (e) {
+            if (e.key < "0" || e.key > "9") e.preventDefault();
+        });
+        input.addEventListener("paste", function (e) {
+            e.preventDefault();
+            const pasted = (e.clipboardData || window.clipboardData).getData("text");
+            this.value += pasted.replace(/\D/g, "");
+        });
+    }
+
+    restrictToDigits(phoneInput);
+    restrictToDigits(adultInput);
+    restrictToDigits(childInput);
+
+    // ✅ Show boat description dynamically
+    bedroomSelect.addEventListener("change", function() {
+        boatDescription.innerHTML = "";
+        const selectedOption = this.options[this.selectedIndex];
+        const description = selectedOption.getAttribute("data-description");
+        if (description) {
+            const listItem = document.createElement("li");
+            listItem.textContent = description;
+            boatDescription.appendChild(listItem);
+        }
+    });
+
+    // ✅ Validate adult count ≤ boat capacity before submit
+    bookingForm.addEventListener("submit", function(e) {
+        const selectedOption = bedroomSelect.options[bedroomSelect.selectedIndex];
+        const description = selectedOption.getAttribute("data-description") || "";
+        const adultCount = parseInt(adultInput.value || 0);
+
+        // extract number from description (e.g., "2 Bedroom Houseboat" → 2)
+        const match = description.match(/^(\d+)/);
+        const bedrooms = match ? parseInt(match[1]) : 0;
+        const capacity = bedrooms * 2;
+
+        if (capacity && adultCount > capacity) {
+            e.preventDefault();
+            alert(`❌ Maximum allowed adults for this boat: ${capacity}. You entered ${adultCount}.`);
+        }
+    });
+});
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const fromDate = document.getElementById('from_date');
+    const bedroomSelect = document.getElementById('bedroomSelect');
+
+    // Restrict past dates
+    const today = new Date().toISOString().split("T")[0];
+    fromDate.setAttribute("min", today);
+
+    // Fetch available boats via Ajax when date changes
+    fromDate.addEventListener("change", function() {
+        const date = this.value;
+        if (!date) return;
+
+        fetch(`/commonbooking/ajax_available_boats/?from_date=${date}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+
+            // Clear dropdown
+            bedroomSelect.innerHTML = '<option value="">-- Select Boat --</option>';
+
+            // Populate dropdown with availability
+            data.boats.forEach(boat => {
+                const option = document.createElement('option');
+                option.value = boat.description;
+                option.textContent = boat.description + (boat.available ? '' : ' (Not available)');
+                if (!boat.available) option.disabled = true;
+                bedroomSelect.appendChild(option);
+            });
+        })
+        .catch(err => console.error("Error fetching boats:", err));
+    });
+});
+</script>
+
+
+
+
+{% endblock %}
+</main>

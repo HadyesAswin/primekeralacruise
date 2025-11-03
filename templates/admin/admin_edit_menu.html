@@ -1,0 +1,111 @@
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <h1 class="h3 mb-4">Edit Menu Item</h1>
+
+  <form method="post" enctype="multipart/form-data" class="card shadow-sm p-4">
+    {% csrf_token %}
+
+    <!-- Cruise Type -->
+    <div class="mb-3">
+      <label for="id_cruise_type" class="form-label">Cruise Type</label>
+      <select id="id_cruise_type" name="cruise_type" class="form-select" required>
+        <option value="">-- Select Cruise Type --</option>
+        <option value="day" {% if menu_item.cruise_type == 'day' %}selected{% endif %}>Day Cruise</option>
+        <option value="overnight" {% if menu_item.cruise_type == 'overnight' %}selected{% endif %}>Overnight Cruise</option>
+      </select>
+    </div>
+
+    <!-- Package Type -->
+    <div class="mb-3">
+      <label for="id_package_type" class="form-label">Package Type</label>
+      <select id="id_package_type" name="package_type" class="form-select" required>
+        <option value="">-- Select Package Type --</option>
+        <option value="deluxe" {% if menu_item.package_type == 'deluxe' %}selected{% endif %}>Deluxe</option>
+        <option value="premium" {% if menu_item.package_type == 'premium' %}selected{% endif %}>Premium</option>
+        <option value="luxury" {% if menu_item.package_type == 'luxury' %}selected{% endif %}>Luxury</option>
+      </select>
+    </div>
+
+    <!-- Item Name -->
+    <div class="mb-3">
+      <label for="id_item_name" class="form-label">Item Name</label>
+      <input type="text" id="id_item_name" name="item_name"
+             class="form-control" maxlength="100"
+             value="{{ menu_item.item_name }}" required>
+    </div>
+
+    <!-- Details -->
+    <div class="mb-3">
+      <label for="id_details" class="form-label">Details / Description</label>
+      <textarea id="id_details" name="details"
+                class="form-control" rows="4" maxlength="2000">{{ menu_item.details }}</textarea>
+    </div>
+
+    <!-- Time Slot -->
+    {% comment %} <div class="mb-3">
+      <label for="id_time_slot" class="form-label">Time Slot</label>
+      <input type="text" id="id_time_slot" name="time_slot"
+             class="form-control" maxlength="50"
+             placeholder="e.g. Lunch, Dinner, Breakfast"
+             value="{{ menu_item.time_slot }}">
+    </div> {% endcomment %}
+
+    <!-- Duration -->
+    <div class="mb-3">
+      <label for="id_duration" class="form-label">Trip Duration</label>
+      <input type="text" id="id_duration" name="duration"
+             class="form-control" maxlength="50"
+             placeholder="e.g. 11:00 AM - 05:00 PM"
+             value="{{ menu_item.duration }}">
+    </div>
+
+    <!-- AC Available -->
+    <div class="mb-3">
+      <label for="id_ac_available" class="form-label">AC Details</label>
+      <input type="text" id="id_ac_available" name="ac_available"
+             class="form-control" maxlength="100"
+             placeholder="e.g. AC from 9PM to 6AM"
+             value="{{ menu_item.ac_available }}">
+    </div>
+
+    <!-- Special Item -->
+    <div class="mb-3">
+      <label for="id_is_special" class="form-label">Special Item</label>
+      <input type="text" id="id_is_special" name="is_special"
+             class="form-control" maxlength="100"
+             placeholder="e.g. Ice Cream / Payasam"
+             value="{{ menu_item.is_special }}">
+    </div>
+
+    <!-- Order Number -->
+    <div class="mb-3">
+      <label for="id_order_number" class="form-label">Display Order</label>
+      <input type="number" id="id_order_number" name="order_number"
+             class="form-control" min="0"
+             value="{{ menu_item.order_number }}">
+      <div class="form-text">Lower numbers appear first.</div>
+    </div>
+
+    <!-- Image -->
+    <div class="mb-3">
+      <label for="id_image" class="form-label">Image</label>
+      {% if menu_item.image %}
+        <div class="mb-2">
+          <p class="mb-1">Current Image:</p>
+          <img src="{{ menu_item.image.url }}" alt="{{ menu_item.item_name }}"
+               class="img-thumbnail" style="width:150px; height:auto;">
+        </div>
+      {% endif %}
+      <input type="file" id="id_image" name="image" class="form-control" accept="image/*">
+    </div>
+
+    <!-- Submit Button -->
+    <div class="text-center">
+      <button type="submit" class="btn btn-warning">✏️ Update Menu Item</button>
+    </div>
+
+  </form>
+</div>
+
+{% include 'admin/adminfooter.html' %}

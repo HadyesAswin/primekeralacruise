@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advance Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9fafb;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Popup overlay */
+        .popup-overlay, .processing-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .popup-overlay {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .processing-overlay {
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+        }
+
+        /* Popup card */
+        .popup-card {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+            width: 90%;
+            max-width: 420px;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        /* Close button */
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            font-size: 22px;
+            color: #555;
+            cursor: pointer;
+        }
+
+        /* Pay button */
+        #rzp-button {
+            background-color: #4DA235;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 0;
+            width: 100%;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        #rzp-button:hover {
+            background-color: #3b8b2a;
+        }
+
+        h2 {
+            color: #4DA235;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: gray;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Payment Popup -->
+    <div class="popup-overlay" id="paymentPopup">
+        <div class="popup-card">
+            <button class="close-btn" onclick="closePopup()">×</button>
+            <h2>Advance Payment: ₹{{ display_amount }}</h2>
+            <button id="rzp-button">Pay ₹{{ display_amount }} Now</button>
+            <p>You’ll be redirected to Razorpay for secure UPI / Card payment.</p>
+        </div>
+    </div>
+
+    <!-- Processing Overlay -->
+    <div class="processing-overlay" id="processingOverlay">
+        <div class="popup-card">
+            <h2>Processing Payment...</h2>
+            <p>Please wait while we confirm your payment.</p>
+        </div>
+    </div>
+
+    <script>
+        // Close payment popup
+        function closePopup() {
+            document.getElementById('paymentPopup').style.display = 'none';
+        }
+
+        // Auto open popup when page loads
+        window.onload = function() {
+            document.getElementById('paymentPopup').style.display = 'flex';
+        };
+
+        // Razorpay Integration
+        document.getElementById('rzp-button').onclick = function(e){
+            var options = {
+                "key": "{{ razorpay_key }}",
+                "amount": "{{ amount }}",
+                "currency": "INR",
+                "name": "Prime Kerala Cruise",
+                "description": "Advance Payment",
+                "order_id": "{{ order_id }}",
+                "handler": function (response){
+                    // Show Processing Overlay immediately
+                    document.getElementById('processingOverlay').style.display = 'flex';
+                    
+                    // Submit form to Django
+                    var form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = "{% url 'payment_success' %}";
+                    form.innerHTML = `
+                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                        <input type="hidden" name="razorpay_payment_id" value="${response.razorpay_payment_id}">
+                        <input type="hidden" name="razorpay_order_id" value="${response.razorpay_order_id}">
+                    `;
+                    document.body.appendChild(form);
+                    form.submit();
+                },
+                "theme": { "color": "#4DA235" },
+                "method": { "upi": true, "card": true, "netbanking": true, "wallet": false },
+                "prefill": { "name": "{{ name }}", "email": "{{ email }}", "contact": "{{ phone }}", "vpa": "test@upi" }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+            e.preventDefault();
+        };
+    </script>
+</body>
+</html>

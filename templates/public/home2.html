@@ -836,7 +836,7 @@ line-height: 1.6;
                                 </ul>
                             </div>
                             <div class="header-top-left flex-two">
-                                <a href="#pck" class="booking">
+                                <a href="/commonbooking" class="booking">
                                     <i class="icon-19"></i>
                                     <span style="font-family:Bricolage Grotesque, sans-serif;">Book Now</span>
                                 </a>
@@ -876,19 +876,21 @@ line-height: 1.6;
                                                             <a href="/" style="font-size: 18px;">Home</a>
                                                         </li>
                                                         <li>
+                                                            <a href="/aboutus" style="font-size: 18px;">About Us</a>
+                                                        </li>
+                                                        <li>
                                                             <a href="/allpackages" style="font-size: 18px;">Packages</a>
                                                         </li>
                                                         <li>
-                                                            <a href="/allboats" style="font-size: 18px;">Boats</a>
-                                                        </li>
-                                                        
-                                                        <li>
-                                                            <a href="/aboutus" style="font-size: 18px;">About Us</a>
-                                                        </li>
-                                                        
-                                                        <li>
                                                             <a href="/tariffs" style="font-size: 18px;">Prices</a>
                                                         </li>
+                                                        <!-- <li>
+                                                            <a href="/allboats" style="font-size: 18px;">Boats</a>
+                                                        </li> -->
+                                                        
+                                                        
+                                                        
+                                                        
                                                         
                                                         <li>
                                                             <a href="/contactus" style="font-size: 18px;">Contact Us</a>
@@ -896,7 +898,7 @@ line-height: 1.6;
                                                         <li class="dropdown2">
                                                             <a href="#" style="font-size: 18px;">More</a>
                                                             <ul>
-                                                                <li><a href="/menu">Menu</a>
+                                                                <!-- <li><a href="/menu">Menu</a> -->
                                                                 <li><a href="/alldestinations">Destinations</a>
                                                                 <li><a href="/allgallery">Gallery</a>
                                                                 <li><a href="/faq">FAQ</a>
@@ -1067,7 +1069,7 @@ line-height: 1.6;
                                             ⭐⭐⭐⭐☆ (120 reviews)
                                         </div>
                                         <!-- Button -->
-                                        <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="book-now-btn"><span style="font-family:Bricolage Grotesque, sans-serif;">Book Now <i class="icon-arrow-right"></i></span></a>
+                                        <a href="/booknow?item={{ i.title }}&price={{ i.price }}" class="book-now-btn"><span style="font-family:Bricolage Grotesque, sans-serif;">Book Now <i class="icon-arrow-right"></i></span></a>
                                     </div>
                                 </div>
                                 </a>
@@ -1138,7 +1140,7 @@ line-height: 1.6;
                     class="tour-listing box-sd wow fadeInUp animated"
                     data-wow-delay="0.1s"
                   >
-                    <a href="/allboats">
+                    <a href="/allpackages">
                       <div class="img" style="height: 350px;">
                         <img src="{{ i.photo.url }}" alt="Image Listing" />
                       </div>
@@ -1170,9 +1172,7 @@ line-height: 1.6;
                         </div>
                         <div class="flip-container">
                           <a
-                            href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services"
-                            target="_blank"
-                          >
+                            href="/commonbooking">
                             <div class="flip-button" style="font-family:Bricolage Grotesque, sans-serif;">
                               <div class="front" >Book Now</div>
                               <div class="back">Adventure Awaits!</div>
@@ -1194,7 +1194,7 @@ line-height: 1.6;
             <!-- View All Button -->
             <div class="row">
               <div class="col-lg-12 center mt-44">
-                <a href="/allboats" class="btn-main">
+                <a href="/allpackages" class="btn-main">
                   <p class="btn-main-text" style="font-family:Bricolage Grotesque, sans-serif;">View all boats</p>
                   <p class="iconer"><i class="icon-13"></i></p>
                 </a>
@@ -1465,8 +1465,8 @@ With years of experience and love for Kerala’s waterways, Alapazhu Houseboat i
                                                 <div class="content" >
                                                     <h4 class="title-icon"><a href="#">Backwater Bliss</a></h4>
                                                     <p class="des-icon">Cruise through the tranquil canals of Alappuzha in a private houseboat. Your dream escape starts here.</p>
-                                                    <a href="#" class="icons-link">Book Now <i
-                                                            class="icon-Path-77287-1"></i></a>
+                                                    <!-- <a href="#" class="icons-link">Book Now <i
+                                                            class="icon-Path-77287-1"></i></a> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -1478,8 +1478,8 @@ With years of experience and love for Kerala’s waterways, Alapazhu Houseboat i
                                                 <div class="content">
                                                     <h4 class="title-icon"><a href="#">Houseboat Escape</a></h4>
                                                     <p class="des-icon">Sail into serenity. Book your Alappuzha tour package and unwind in Kerala’s iconic floating homes.</p>
-                                                    <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="icons-link">Book Now <i
-                                                            class="icon-Path-77287-1"></i></a>
+                                                    <!-- <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="icons-link">Book Now <i
+                                                            class="icon-Path-77287-1"></i></a> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -1491,8 +1491,8 @@ With years of experience and love for Kerala’s waterways, Alapazhu Houseboat i
                                                 <div class="content">
                                                     <h4 class="title-icon"><a href="#">Explore Alappuzha</a></h4>
                                                     <p class="des-icon">From lush landscapes to calming waters, discover why Alleppey is called the "Venice of the East."</p>
-                                                    <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="icons-link">Book Now <i
-                                                            class="icon-Path-77287-1"></i></a>
+                                                    <!-- <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="icons-link">Book Now <i
+                                                            class="icon-Path-77287-1"></i></a> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -1504,8 +1504,8 @@ With years of experience and love for Kerala’s waterways, Alapazhu Houseboat i
                                                 <div class="content">
                                                     <h4 class="title-icon"><a href="#">Scenic Stays</a></h4>
                                                     <p class="des-icon">Wake up to water views and coconut trees. Alappuzha’s houseboats offer a unique stay you’ll never forget.</p>
-                                                    <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="icons-link">Book Now <i
-                                                            class="icon-Path-77287-1"></i></a>
+                                                    <!-- <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="icons-link">Book Now <i
+                                                            class="icon-Path-77287-1"></i></a> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -1517,8 +1517,8 @@ With years of experience and love for Kerala’s waterways, Alapazhu Houseboat i
                                                 <div class="content">
                                                     <h4 class="title-icon"><a href="#">Tour & Taste</a></h4>
                                                     <p class="des-icon">Enjoy authentic Kerala cuisine while you float along Alappuzha’s peaceful backwaters.</p>
-                                                    <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="icons-link">Book Now <i
-                                                            class="icon-Path-77287-1"></i></a>
+                                                    <!-- <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="icons-link">Book Now <i
+                                                            class="icon-Path-77287-1"></i></a> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -1530,8 +1530,8 @@ With years of experience and love for Kerala’s waterways, Alapazhu Houseboat i
                                                 <div class="content">
                                                     <h4 class="title-icon"><a href="#">Family Houseboat</a></h4>
                                                     <p class="des-icon">Perfect for all ages—explore Alappuzha together with safe, guided houseboat tours.</p>
-                                                    <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="icons-link">Book Now <i
-                                                            class="icon-Path-77287-1"></i></a>
+                                                    <!-- <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="icons-link">Book Now <i
+                                                            class="icon-Path-77287-1"></i></a> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -1543,8 +1543,8 @@ With years of experience and love for Kerala’s waterways, Alapazhu Houseboat i
                                                 <div class="content">
                                                     <h4 class="title-icon"><a href="#">Weekend on Water</a></h4>
                                                     <p class="des-icon">Need a break? Choose our 2-day Alappuzha tour package and recharge in nature.     </p><br><br>
-                                                    <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="icons-link">Book Now <i
-                                                            class="icon-Path-77287-1"></i></a>
+                                                    <!-- <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="icons-link">Book Now <i
+                                                            class="icon-Path-77287-1"></i></a> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -1556,8 +1556,8 @@ With years of experience and love for Kerala’s waterways, Alapazhu Houseboat i
                                                 <div class="content">
                                                     <h4 class="title-icon"><a href="#">Capture Kerala</a></h4>
                                                     <p class="des-icon">Every turn of the backwaters is a photo opportunity. Explore Alappuzha with your camera ready!</p>
-                                                    <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="icons-link" >Book Now <i
-                                                            class="icon-Path-77287-1"></i></a>
+                                                    <!-- <a href="https://wa.me/9746957692?text=Hello%2C%20I%20am%20interested%20in%20your%20services" target="_blank" class="icons-link" >Book Now <i
+                                                            class="icon-Path-77287-1"></i></a> -->
                                                 </div>
                                             </div>
                                         </div>
@@ -1777,9 +1777,9 @@ With years of experience and love for Kerala’s waterways, Alapazhu Houseboat i
                                     {% comment %} <li>
                                         <a href="/tariffs">Prices</a>
                                     </li> {% endcomment %}
-                                    <li>
+                                    <!-- <li>
                                         <a href="/menu">Menu</a>
-                                    </li>
+                                    </li> -->
                                     <li>
                                         <a href="/faq">FAQ</a>
                                     </li>
@@ -1817,7 +1817,7 @@ With years of experience and love for Kerala’s waterways, Alapazhu Houseboat i
                     </div>
                     <div class="row footer-bottom">
                         <div class="col-md-6">
-                            <p class="copy-right" style="font-family:Bricolage Grotesque, sans-serif;">Copyright© 2025 by <a href="#" class="text-main">PrimeKeralaCruise.</a> Powered By <span style="font-family:Bricolage Grotesque, sans-serif;"><a href="https://www.urbansyntax.in">UrbanSyntax</a>
+                            <p class="copy-right" style="font-family:Bricolage Grotesque, sans-serif;">Copyright© 2025 by <a href="#" class="text-main">PrimeKeralaCruise.</a> Powered By <span style="font-family:Bricolage Grotesque, sans-serif;"><a href="https://www.urbansyntax.in" target="_blank">UrbanSyntax</a>
                                 </span></p>
                         </div>
                         

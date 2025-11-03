@@ -1,0 +1,105 @@
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <h1 class="h3 mb-3">All Bookings</h1>
+
+  <!-- Package Bookings -->
+  <h4>Package Bookings</h4>
+  {% if package_bookings %}
+    <div class="table-responsive mb-5">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>SI.NO</th>
+            <th>Full Name</th>
+            <th>Place</th>
+            <th>Date</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Booking Item</th>
+            <th>Amount</th>
+            <th>Order ID</th>
+            <th>Payment ID</th>
+            <th>Status</th>
+            <th>Created At</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for b in package_bookings %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ b.fullname }}</td>
+            <td>{{ b.place }}</td>
+            <td>{{ b.from_date }}</td>
+            <td>{{ b.phone }}</td>
+            <td>{{ b.email }}</td>
+            <td>{{ b.booking_item }}</td>
+            <td>₹{{ b.amount }}</td>
+            <td>{{ b.order_id }}</td>
+            <td>{{ b.payment_id }}</td>
+            <td>{{ b.payment_status }}</td>
+            <td>{{ b.created_at }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-info">No Package Bookings found.</div>
+  {% endif %}
+
+  <!-- Boat Bookings -->
+  <h4>Boat Bookings</h4>
+  {% if boat_bookings %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>SI.NO</th>
+            <th>Full Name</th>
+            <th>Place</th>
+            <th>Date</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Bedroom</th>
+            <th>No. of Adults</th>
+            <th>No. of Children</th>
+            <th>Category</th>
+            <th>Cruise Type</th>
+            <th>Amount</th>
+            <th>Order ID</th>
+            <th>Payment ID</th>
+            <th>Status</th>
+            <th>Created At</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for b in boat_bookings %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ b.fullname }}</td>
+            <td>{{ b.place }}</td>
+            <td>{{ b.from_date }}</td>
+            <td>{{ b.phone }}</td>
+            <td>{{ b.email }}</td>
+            <td>{{ b.bedroom }}</td>
+            <td>{{ b.noofadult }}</td>
+            <td>{{ b.noofchild }}</td>
+            <td>{{ b.category }}</td>
+            <td>{{ b.cruise_type }}</td>
+            <td>₹{{ b.amount }}</td>
+            <td>{{ b.order_id }}</td>
+            <td>{{ b.payment_id }}</td>
+            <td>{{ b.payment_status }}</td>
+            <td>{{ b.created_at }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-info">No Boat Bookings found.</div>
+  {% endif %}
+</div>
+
+{% include 'admin/adminfooter.html' %}

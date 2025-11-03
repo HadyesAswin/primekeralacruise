@@ -1,0 +1,48 @@
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <h1 class="h3 mb-4">Add Tariff</h1>
+
+  <form method="post" class="card shadow-sm p-4">
+    {% csrf_token %}
+
+    <!-- Category -->
+    <div class="mb-3">
+      <label class="form-label">Category</label>
+      <select name="category" class="form-control" required>
+        <option value="Deluxe">Deluxe</option>
+        <option value="Premium">Premium</option>
+        <option value="Luxury">Luxury</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Type</label>
+      <select name="type" class="form-control" required>
+        <option value="DayCruise">DayCruise</option>
+        <option value="OvernightCruise">OvernightCruise</option>
+      </select>
+    </div>
+
+    <!-- Room Count -->
+    <div class="mb-3">
+      <label class="form-label">Room Count</label>
+      <input type="text" name="room_count" class="form-control"
+             placeholder="Ex: 1 Bedroom Houseboat" required>
+    </div>
+
+    <!-- Price Amount -->
+    <div class="mb-3">
+      <label class="form-label">Amount</label>
+      <input type="text" name="amount" class="form-control"
+             placeholder="Ex: Rs. 8,500/-" required>
+    </div>
+
+    <!-- Buttons -->
+    <div class="text-center">
+      <button type="submit" class="btn btn-success">➕ Add Tariff</button>
+    </div>
+
+  </form>
+</div>
+
+{% include 'admin/adminfooter.html' %}
