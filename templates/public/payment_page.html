@@ -11,7 +11,6 @@
             padding: 0;
         }
 
-        /* Popup overlay */
         .popup-overlay, .processing-overlay {
             position: fixed;
             top: 0; left: 0;
@@ -31,7 +30,6 @@
             display: none;
         }
 
-        /* Popup card */
         .popup-card {
             background: #fff;
             border-radius: 18px;
@@ -41,10 +39,8 @@
             padding: 25px 30px;
             text-align: center;
             position: relative;
-            animation: fadeIn 0.3s ease;
         }
 
-        /* Close button */
         .close-btn {
             position: absolute;
             top: 10px;
@@ -56,7 +52,6 @@
             cursor: pointer;
         }
 
-        /* Pay button */
         #rzp-button {
             background-color: #4DA235;
             color: #fff;
@@ -85,77 +80,97 @@
             font-size: 14px;
             margin-top: 15px;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
     </style>
 </head>
 <body>
 
-    <!-- Payment Popup -->
-    <div class="popup-overlay" id="paymentPopup">
-        <div class="popup-card">
-            <button class="close-btn" onclick="closePopup()">×</button>
-            <h2>Advance Payment: ₹{{ display_amount }}</h2>
-            <button id="rzp-button">Pay ₹{{ display_amount }} Now</button>
-            <p>You’ll be redirected to Razorpay for secure UPI / Card payment.</p>
-        </div>
+<div class="popup-overlay" id="paymentPopup">
+    <div class="popup-card">
+        <button class="close-btn" onclick="closePopup()">×</button>
+        <h2>Advance Payment: ₹{{ display_amount }}</h2>
+        <button id="rzp-button">Pay ₹{{ display_amount }} Now</button>
+        <p>You’ll be redirected to Razorpay for secure UPI / Card payment.</p>
     </div>
+</div>
 
-    <!-- Processing Overlay -->
-    <div class="processing-overlay" id="processingOverlay">
-        <div class="popup-card">
-            <h2>Processing Payment...</h2>
-            <p>Please wait while we confirm your payment.</p>
-        </div>
+<div class="processing-overlay" id="processingOverlay">
+    <div class="popup-card">
+        <h2>Processing Payment...</h2>
+        <p>Please wait while we confirm your payment.</p>
     </div>
+</div>
 
-    <script>
-        // Close payment popup
-        function closePopup() {
-            document.getElementById('paymentPopup').style.display = 'none';
+<script>
+function closePopup() {
+    document.getElementById('paymentPopup').style.display = 'none';
+}
+
+window.onload = function() {
+    document.getElementById('paymentPopup').style.display = 'flex';
+};
+
+document.getElementById('rzp-button').onclick = function(e){
+
+    var options = {
+        "key": "{{ razorpay_key }}",
+        "amount": "{{ amount }}",
+        "currency": "INR",
+        "name": "Prime Kerala Cruise",
+        "description": "Advance Payment",
+        "order_id": "{{ order_id }}",
+
+        "handler": function (response){
+
+            document.getElementById('processingOverlay').style.display = 'flex';
+
+            var form = document.createElement('form');
+            form.method = 'POST';
+            form.action = "{% url 'payment_success' %}";
+            form.innerHTML = `
+                <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+                <input type="hidden" name="razorpay_payment_id" value="${response.razorpay_payment_id}">
+                <input type="hidden" name="razorpay_order_id" value="${response.razorpay_order_id}">
+                <input type="hidden" name="razorpay_signature" value="${response.razorpay_signature}">
+            `;
+            document.body.appendChild(form);
+            form.submit();
+        },
+
+        "theme": { "color": "#4DA235" },
+
+        "method": { 
+            "upi": true, 
+            "card": true, 
+            "netbanking": true, 
+            "wallet": false 
+        },
+
+        "prefill": { 
+            "name": "{{ name }}", 
+            "email": "{{ email }}", 
+            "contact": "{{ phone }}" 
+        },
+
+        "modal": {
+            "ondismiss": function(){
+                alert("Payment cancelled.");
+                window.location.href = "/booknow";
+            }
         }
+    };
 
-        // Auto open popup when page loads
-        window.onload = function() {
-            document.getElementById('paymentPopup').style.display = 'flex';
-        };
+    var rzp1 = new Razorpay(options);
 
-        // Razorpay Integration
-        document.getElementById('rzp-button').onclick = function(e){
-            var options = {
-                "key": "{{ razorpay_key }}",
-                "amount": "{{ amount }}",
-                "currency": "INR",
-                "name": "Prime Kerala Cruise",
-                "description": "Advance Payment",
-                "order_id": "{{ order_id }}",
-                "handler": function (response){
-                    // Show Processing Overlay immediately
-                    document.getElementById('processingOverlay').style.display = 'flex';
-                    
-                    // Submit form to Django
-                    var form = document.createElement('form');
-                    form.method = 'POST';
-                    form.action = "{% url 'payment_success' %}";
-                    form.innerHTML = `
-                        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-                        <input type="hidden" name="razorpay_payment_id" value="${response.razorpay_payment_id}">
-                        <input type="hidden" name="razorpay_order_id" value="${response.razorpay_order_id}">
-                    `;
-                    document.body.appendChild(form);
-                    form.submit();
-                },
-                "theme": { "color": "#4DA235" },
-                "method": { "upi": true, "card": true, "netbanking": true, "wallet": false },
-                "prefill": { "name": "{{ name }}", "email": "{{ email }}", "contact": "{{ phone }}", "vpa": "test@upi" }
-            };
-            var rzp1 = new Razorpay(options);
-            rzp1.open();
-            e.preventDefault();
-        };
-    </script>
+    // Payment failure handler
+    rzp1.on('payment.failed', function (response){
+        alert("Payment Failed: " + response.error.description);
+        window.location.href = "/booknow";
+    });
+
+    rzp1.open();
+    e.preventDefault();
+};
+</script>
+
 </body>
 </html>

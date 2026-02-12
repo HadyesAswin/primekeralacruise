@@ -6,7 +6,7 @@ urlpatterns = [
 
     #--------------Public-----------------
     path('',views.index),
-    path('login',views.login),
+    path('login/',views.login,name='login'),
     path('logout',views.logout),
     path('allpackages',views.allpackages,name='allpackages'),
     path('allboats',views.allboats,name='allboats'),

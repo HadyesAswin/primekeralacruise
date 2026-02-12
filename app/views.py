@@ -165,7 +165,7 @@ def booknow(request):
         email = request.POST.get('email')
         booking_item = request.POST.get('booking_item')
 
-        advance_amount = 1
+        advance_amount = 10
         order = client.order.create({
             "amount": advance_amount*100,  # in paise
             "currency": "INR",
@@ -216,13 +216,24 @@ def commonbooking(request):
         category = request.POST.get('category')
         cruise_type = request.POST.get('cruise_type')
 
-        advance_amount = 1
+        # 🔥 GET BOAT PRICE
+        selected_boat = Boat.objects.filter(description=bedroom).first()
+
+        if selected_boat:
+            total_price = float(selected_boat.price)
+            # advance_amount = round(total_price * 0.20, 2)
+            advance_amount = 10
+        else:
+            advance_amount = 10  # fallback for safety
+
+        # CREATE RAZORPAY ORDER
         order = client.order.create({
-            "amount": advance_amount*100,
+            "amount": int(advance_amount * 100),
             "currency": "INR",
             "payment_capture": "1"
         })
 
+        # SAVE BOOKING
         booking = BoatBooking.objects.create(
             fullname=fullname,
             place=place,
@@ -235,13 +246,14 @@ def commonbooking(request):
             category=category,
             cruise_type=cruise_type,
             amount=advance_amount,
-            order_id=order["id"]
+            order_id=order["id"],
+            payment_status="pending"
         )
 
         context = {
             "booking": booking,
             "razorpay_key": settings.RAZORPAY_KEY_ID,
-            "amount": advance_amount*100,
+            "amount": int(advance_amount * 100),
             "display_amount": advance_amount,
             "order_id": order["id"],
             "name": fullname,
@@ -251,12 +263,12 @@ def commonbooking(request):
 
         return render(request, "public/payment_page.html", context)
 
-    # GET request: just send boats and dropdown options
     return render(request, 'public/commonbooking.html', {
         'boats': boats,
         'categories': categories,
         'cruise_types': cruise_types,
     })
+
 
 
 def ajax_available_boats(request):
@@ -285,16 +297,35 @@ def ajax_available_boats(request):
     return JsonResponse({'boats': data})
 
 
+import razorpay
+from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import render
+from django.core.mail import send_mail
+
+client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+
 @csrf_exempt
 def payment_success(request):
     if request.method == "POST":
+
         razorpay_order_id = request.POST.get('razorpay_order_id')
         razorpay_payment_id = request.POST.get('razorpay_payment_id')
+        razorpay_signature = request.POST.get('razorpay_signature')
 
-        # Try PackageBooking first
+        # VERIFY SIGNATURE
+        try:
+            client.utility.verify_payment_signature({
+                'razorpay_order_id': razorpay_order_id,
+                'razorpay_payment_id': razorpay_payment_id,
+                'razorpay_signature': razorpay_signature
+            })
+        except:
+            return render(request, "public/payment_failed.html")
+
+        # If signature valid, continue
         booking = PackageBooking.objects.filter(order_id=razorpay_order_id).first()
         if not booking:
-            # Otherwise, check BoatBooking
             booking = BoatBooking.objects.filter(order_id=razorpay_order_id).first()
 
         if booking:
@@ -302,9 +333,15 @@ def payment_success(request):
             booking.payment_status = "paid"
             booking.save()
 
-            # Email to user
-            user_subject = "Booking Payment Successful"
-            user_message = f"""
+            # Send emails
+            send_booking_emails(booking)
+
+        return render(request, "public/payment_success.html", {"booking": booking})
+
+def send_booking_emails(booking):
+
+    user_subject = "Booking Payment Successful"
+    user_message = f"""
 Hi {booking.fullname},
 
 Your booking payment of ₹{booking.amount} was successful.
@@ -315,51 +352,18 @@ Date: {booking.from_date}
 
 Thank you for booking with Prime Kerala Cruise!
 """
-            send_mail(user_subject, user_message, settings.DEFAULT_FROM_EMAIL, [booking.email])
+    send_mail(user_subject, user_message, settings.DEFAULT_FROM_EMAIL, [booking.email])
 
-            # Email to admin (all details of the booking)
-            admin_subject = f"New Booking Received - Order ID {booking.order_id}"
-            
-            # Construct a detailed message with all fields dynamically
-            if isinstance(booking, PackageBooking):
-                admin_message = f"""
-New Package Booking Received:
-
+    admin_subject = f"New Booking Received - Order ID {booking.order_id}"
+    admin_message = f"""
 Full Name: {booking.fullname}
-Place: {booking.place}
-From Date: {booking.from_date}
 Phone: {booking.phone}
 Email: {booking.email}
-Booking Item: {booking.booking_item}
-Amount Paid: ₹{booking.amount}
-Order ID: {booking.order_id}
+Amount: ₹{booking.amount}
 Payment ID: {booking.payment_id}
-Payment Status: {booking.payment_status}
-Created At: {booking.created_at}
 """
-            elif isinstance(booking, BoatBooking):
-                admin_message = f"""
-New Boat Booking Received:
+    send_mail(admin_subject, admin_message, settings.DEFAULT_FROM_EMAIL, [settings.ADMIN_EMAIL])
 
-Full Name: {booking.fullname}
-Place: {booking.place}
-From Date: {booking.from_date}
-Phone: {booking.phone}
-Email: {booking.email}
-Bedroom: {booking.bedroom}
-No. of Adults: {booking.noofadult}
-No. of Children: {booking.noofchild}
-Category: {booking.category}
-Cruise Type: {booking.cruise_type}
-Amount Paid: ₹{booking.amount}
-Order ID: {booking.order_id}
-Payment ID: {booking.payment_id}
-Payment Status: {booking.payment_status}
-Created At: {booking.created_at}
-"""
-            send_mail(admin_subject, admin_message, settings.DEFAULT_FROM_EMAIL, [settings.ADMIN_EMAIL])
-
-        return render(request, "public/payment_success.html", {"booking": booking})
 
 
 
@@ -678,6 +682,7 @@ def admin_edit_package(request, id):
         package.duration = request.POST.get('duration')
         package.noofperson = request.POST.get('person')
         if 'photo' in request.FILES:
+            # print("got photo")
             package.photo = request.FILES['photo']
         package.save()
         return redirect('admin_view_package')
