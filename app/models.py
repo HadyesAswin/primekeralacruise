@@ -74,6 +74,44 @@ class Tariff(models.Model):
     
 
 
+class Tariff1(models.Model):
+    CATEGORY_CHOICES = [
+        ('Deluxe', 'Deluxe'),
+        ('Premium', 'Premium'),
+        ('Luxury', 'Luxury'),
+    ]
+    TYPE_CHOICES = [
+        ('DayCruise', 'DayCruise'),
+        ('OvernightCruise', 'OvernightCruise'),
+    ]
+
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    type = models.CharField(max_length=50, choices=TYPE_CHOICES)
+
+    # Shared fields
+    amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+    # For Day Cruise
+    base_people = models.PositiveIntegerField(null=True, blank=True)
+    extra_person_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+
+    # For Overnight Cruise
+    room_count = models.PositiveIntegerField(null=True, blank=True)
+    extra_person_charge = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    note = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.category} - {self.type}"
+
+    def get_display_name(self):
+        if self.type == "DayCruise":
+            return f"{self.category}: ₹{self.amount} for {self.base_people} person(s), +₹{self.extra_person_amount}/extra"
+        else:
+            return f"{self.category} - {self.room_count} Bedroom: ₹{self.amount}"
+
+    
+
+
 class MenuItem(models.Model):
     CRUISE_CHOICES = [
         ('day', 'Day Cruise'),

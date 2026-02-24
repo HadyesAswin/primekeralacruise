@@ -1,4 +1,4 @@
-{% include 'admin/adminheader.html' %}
+{% comment %} {% include 'admin/adminheader.html' %}
 
 <div class="container mt-4">
   <div class="d-flex justify-content-between align-items-center mb-3">
@@ -46,4 +46,107 @@
   {% endif %}
 </div>
 
+{% include 'admin/adminfooter.html' %} {% endcomment %}
+
+
+
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3">All Tariffs</h1>
+    <a href="{% url 'admin_add_tariff' %}" class="btn btn-success">➕ Add Tariff</a>
+  </div>
+
+  <!-- ==================== DAY CRUISE TARIFFS ==================== -->
+  <h4 class="text-success mb-3">🌞 Day Cruise Tariffs</h4>
+
+  {% if day_tariffs %}
+  <div class="table-responsive mb-5">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th style="width: 60px;">SI.NO</th>
+          <th>Category</th>
+          <th>Base Amount</th>
+          <th>Base People</th>
+          <th>Extra Person Charge</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for b in day_tariffs %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ b.category }}</td>
+          <td>₹{{ b.amount|floatformat:0 }}</td>
+          <td>{{ b.base_people }}</td>
+          <td>₹{{ b.extra_person_amount|floatformat:0 }}</td>
+          <td>
+            <a href="{% url 'admin_edit_tariff' b.id %}" class="btn btn-sm btn-warning" style="width:65px;">Edit</a>
+            <a href="{% url 'admin_delete_tariff' b.id %}"
+               class="btn btn-sm btn-danger"
+               onclick="return confirm('Are you sure you want to delete this tariff?');"
+               style="width:65px;">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <div class="alert alert-info">No Day Cruise Tariffs found.</div>
+  {% endif %}
+
+
+  <!-- ==================== OVERNIGHT CRUISE TARIFFS ==================== -->
+  <h4 class="text-primary mb-3">🌙 Overnight Cruise Tariffs</h4>
+
+  {% if night_tariffs %}
+  <div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-light">
+        <tr>
+          <th style="width: 60px;">SI.NO</th>
+          <th>Category</th>
+          <th>Room Count</th>
+          <th>Amount</th>
+          <th>Extra Person Charge</th>
+          <th>Note</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for b in night_tariffs %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ b.category }}</td>
+          <td>{{ b.room_count }}</td>
+          <td>₹{{ b.amount|floatformat:0 }}</td>
+          <td>₹{{ b.extra_person_charge|floatformat:0 }}</td>
+          <td>
+            {% if b.note %}
+              <small>{{ b.note }}</small>
+            {% else %}
+              <em>No note provided</em>
+            {% endif %}
+          </td>
+          <td>
+            <a href="{% url 'admin_edit_tariff' b.id %}" class="btn btn-sm btn-warning" style="width:65px;">Edit</a>
+            <a href="{% url 'admin_delete_tariff' b.id %}"
+               class="btn btn-sm btn-danger"
+               onclick="return confirm('Are you sure you want to delete this tariff?');"
+               style="width:65px;">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+    <div class="alert alert-info">No Overnight Cruise Tariffs found.</div>
+  {% endif %}
+</div>
+
 {% include 'admin/adminfooter.html' %}
+

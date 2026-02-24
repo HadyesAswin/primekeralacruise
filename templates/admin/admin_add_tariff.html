@@ -1,4 +1,4 @@
-{% include 'admin/adminheader.html' %}
+{% comment %} {% include 'admin/adminheader.html' %}
 
 <div class="container mt-4">
   <h1 class="h3 mb-4">Add Tariff</h1>
@@ -44,5 +44,90 @@
 
   </form>
 </div>
+
+{% include 'admin/adminfooter.html' %} {% endcomment %}
+
+
+
+
+
+{% include 'admin/adminheader.html' %}
+
+<div class="container mt-4">
+  <h1 class="h3 mb-4">Add Tariff</h1>
+
+  <form method="post" class="card shadow-sm p-4">
+    {% csrf_token %}
+
+    <!-- Category -->
+    <div class="mb-3">
+      <label class="form-label">Category</label>
+      <select name="category" class="form-control" required>
+        <option value="Deluxe">Deluxe</option>
+        <option value="Premium">Premium</option>
+        <option value="Luxury">Luxury</option>
+      </select>
+    </div>
+
+    <!-- Type -->
+    <div class="mb-3">
+      <label class="form-label">Type</label>
+      <select name="type" id="type" class="form-control" required onchange="toggleFields()">
+        <option value="">-- Select Type --</option>
+        <option value="DayCruise">DayCruise</option>
+        <option value="OvernightCruise">OvernightCruise</option>
+      </select>
+    </div>
+
+    <!-- Day Cruise Fields -->
+    <div id="day-fields" style="display: none;">
+      <div class="mb-3">
+        <label class="form-label">Base Amount</label>
+        <input type="number" step="0.01" name="amount" class="form-control" placeholder="Ex: 12000" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Base People Count</label>
+        <input type="number" name="base_people" class="form-control" placeholder="Ex: 5" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Extra Person Charge</label>
+        <input type="number" step="0.01" name="extra_person_amount" class="form-control" placeholder="Ex: 1000" />
+      </div>
+    </div>
+
+    <!-- Overnight Cruise Fields -->
+    <div id="night-fields" style="display: none;">
+      <div class="mb-3">
+        <label class="form-label">Room Count</label>
+        <input type="number" name="room_count" class="form-control" placeholder="Ex: 1" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Amount</label>
+        <input type="number" step="0.01" name="amount_night" class="form-control" placeholder="Ex: 14000" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Extra Person Charge</label>
+        <input type="number" step="0.01" name="extra_person_charge" class="form-control" placeholder="Ex: 1500" />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Note</label>
+        <textarea name="note" class="form-control" rows="2" placeholder="Ex: Each bedroom can accommodate 2 adults + 2 children (below 5 years old)."></textarea>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="btn btn-success">➕ Add Tariff</button>
+    </div>
+
+  </form>
+</div>
+
+<script>
+function toggleFields() {
+  const type = document.getElementById('type').value;
+  document.getElementById('day-fields').style.display = type === 'DayCruise' ? 'block' : 'none';
+  document.getElementById('night-fields').style.display = type === 'OvernightCruise' ? 'block' : 'none';
+}
+</script>
 
 {% include 'admin/adminfooter.html' %}

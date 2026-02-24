@@ -154,7 +154,7 @@ document.getElementById('rzp-button').onclick = function(e){
         "modal": {
             "ondismiss": function(){
                 alert("Payment cancelled.");
-                window.location.href = "/booknow";
+                window.location.href = "/allpackages";
             }
         }
     };
@@ -164,7 +164,7 @@ document.getElementById('rzp-button').onclick = function(e){
     // Payment failure handler
     rzp1.on('payment.failed', function (response){
         alert("Payment Failed: " + response.error.description);
-        window.location.href = "/booknow";
+        window.location.href = "/allpackages";
     });
 
     rzp1.open();

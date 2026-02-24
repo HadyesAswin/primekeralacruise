@@ -13,5 +13,6 @@ admin.site.register(Tariff)
 admin.site.register(MenuItem)
 admin.site.register(PackageBooking)
 admin.site.register(BoatBooking)
+admin.site.register(Tariff1)
 
 # Register your models here.

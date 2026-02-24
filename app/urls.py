@@ -6,7 +6,7 @@ urlpatterns = [
 
     #--------------Public-----------------
     path('',views.index),
-    path('login/',views.login,name='login'),
+    path('login/',views.login),
     path('logout',views.logout),
     path('allpackages',views.allpackages,name='allpackages'),
     path('allboats',views.allboats,name='allboats'),
@@ -22,7 +22,7 @@ urlpatterns = [
     path('commonbooking/',views.commonbooking,name='commonbooking'),
     path('boatsharing',views.boatsharing,name='boatsharing'),
     path('payment-success/', views.payment_success, name='payment_success'),
-    path('commonbooking/ajax_available_boats/', views.ajax_available_boats, name='ajax_available_boats'),
+    # path('commonbooking/ajax_available_boats/', views.ajax_available_boats, name='ajax_available_boats'),
      path('admin_view_all_bookings', views.admin_view_all_bookings, name='admin_view_all_bookings'),
 
     #--------------Admin-----------------
@@ -64,5 +64,5 @@ urlpatterns = [
     path('admin_add_menu_item', views.admin_add_menu_item, name="admin_add_menu_item"),
     path('admin_view_menu_items', views.admin_view_menu_items, name='admin_view_menu_items'),
     path('admin_delete_menu/<int:id>', views.admin_delete_menu, name='admin_delete_menu'),
-     path('admin_edit_menu_item/<int:id>', views.admin_edit_menu_item, name='admin_edit_menu_item'),
+    path('admin_edit_menu_item/<int:id>', views.admin_edit_menu_item, name='admin_edit_menu_item'),
 ]

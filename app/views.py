@@ -109,14 +109,14 @@ def login(request):
 
 def tariffs(request):
     # Day Cruise
-    deluxe_day = Tariff.objects.filter(category="Deluxe", type="DayCruise")
-    premium_day = Tariff.objects.filter(category="Premium", type="DayCruise")
-    luxury_day = Tariff.objects.filter(category="Luxury", type="DayCruise")
+    deluxe_day = Tariff1.objects.filter(category="Deluxe", type="DayCruise")
+    premium_day = Tariff1.objects.filter(category="Premium", type="DayCruise")
+    luxury_day = Tariff1.objects.filter(category="Luxury", type="DayCruise")
 
     # Overnight Cruise
-    deluxe_night = Tariff.objects.filter(category="Deluxe", type="OvernightCruise")
-    premium_night = Tariff.objects.filter(category="Premium", type="OvernightCruise")
-    luxury_night = Tariff.objects.filter(category="Luxury", type="OvernightCruise")
+    deluxe_night = Tariff1.objects.filter(category="Deluxe", type="OvernightCruise")
+    premium_night = Tariff1.objects.filter(category="Premium", type="OvernightCruise")
+    luxury_night = Tariff1.objects.filter(category="Luxury", type="OvernightCruise")
 
     return render(request, 'public/tariff.html', {
         'deluxe_day': deluxe_day,
@@ -165,13 +165,34 @@ def booknow(request):
         email = request.POST.get('email')
         booking_item = request.POST.get('booking_item')
 
-        advance_amount = 10
+        # 1. EXTRACT PACKAGE AND CALCULATE 10%
+        advance_amount = 1000  # A safe fallback amount in case something goes wrong
+
+        if booking_item:
+            # If your HTML passes "Category, Item", this safely grabs just the "Item"
+            item_name = booking_item.split(',')[-1].strip()
+            package = Package.objects.filter(title__icontains=item_name).first()
+
+            if package and package.price:
+                try:
+                    # Clean the string: remove commas, currency symbols, and spaces
+                    clean_price = package.price.replace(',', '').replace('₹', '').replace('Rs', '').strip()
+                    total_price = float(clean_price)
+                    
+                    # Calculate 10%
+                    advance_amount = round(total_price * 0.10, 2)
+                except ValueError:
+                    pass # Keep the fallback amount if the price string is completely invalid
+
+        # 2. CREATE RAZORPAY ORDER
+        # Note: Razorpay requires the amount in paise (multiply by 100) and it must be an integer
         order = client.order.create({
-            "amount": advance_amount*100,  # in paise
+            "amount": int(advance_amount * 100),  
             "currency": "INR",
             "payment_capture": "1"
         })
 
+        # 3. SAVE BOOKING
         booking = PackageBooking.objects.create(
             fullname=fullname,
             place=place,
@@ -186,7 +207,7 @@ def booknow(request):
         context = {
             "booking": booking,
             "razorpay_key": settings.RAZORPAY_KEY_ID,
-            "amount": advance_amount*100,
+            "amount": int(advance_amount * 100),
             "display_amount": advance_amount,
             "order_id": order["id"],
             "name": fullname,
@@ -198,6 +219,81 @@ def booknow(request):
 
     return render(request, 'public/booknow.html')
 
+
+# def commonbooking(request):
+#     boats = Boat.objects.all()
+#     categories = ['Deluxe', 'Premium', 'Luxury']
+#     cruise_types = ['Day Cruise', 'Overnight Cruise']
+
+#     if request.method == "POST":
+#         fullname = request.POST.get('fullname')
+#         place = request.POST.get('place')
+#         from_date = request.POST.get('from_date')
+#         phone = request.POST.get('phone')
+#         email = request.POST.get('email')
+#         bedroom = request.POST.get('bedroom')
+#         noofadult = request.POST.get('noofadult')
+#         noofchild = request.POST.get('noofchild')
+#         category = request.POST.get('category')
+#         cruise_type = request.POST.get('cruise_type')
+
+#         # 1. GET BOAT PRICE AND CALCULATE 10%
+#         selected_boat = Boat.objects.filter(description=bedroom).first()
+#         advance_amount = 1000  # Safe fallback
+
+#         if selected_boat and selected_boat.price:
+#             try:
+#                 # Clean the string: remove commas, currency symbols, and spaces
+#                 clean_price = selected_boat.price.replace(',', '').replace('₹', '').replace('Rs', '').strip()
+#                 total_price = float(clean_price)
+                
+#                 # Calculate 10%
+#                 advance_amount = round(total_price * 0.10, 2)
+#             except ValueError:
+#                 pass # Keep the fallback amount if the price string is invalid
+
+#         # 2. CREATE RAZORPAY ORDER
+#         order = client.order.create({
+#             "amount": int(advance_amount * 100),
+#             "currency": "INR",
+#             "payment_capture": "1"
+#         })
+
+#         # 3. SAVE BOOKING
+#         booking = BoatBooking.objects.create(
+#             fullname=fullname,
+#             place=place,
+#             from_date=from_date,
+#             phone=phone,
+#             email=email,
+#             bedroom=bedroom,
+#             noofadult=noofadult,
+#             noofchild=noofchild,
+#             category=category,
+#             cruise_type=cruise_type,
+#             amount=advance_amount,
+#             order_id=order["id"],
+#             payment_status="pending"
+#         )
+
+#         context = {
+#             "booking": booking,
+#             "razorpay_key": settings.RAZORPAY_KEY_ID,
+#             "amount": int(advance_amount * 100),
+#             "display_amount": advance_amount,
+#             "order_id": order["id"],
+#             "name": fullname,
+#             "email": email,
+#             "phone": phone
+#         }
+
+#         return render(request, "public/payment_page.html", context)
+
+#     return render(request, 'public/commonbooking.html', {
+#         'boats': boats,
+#         'categories': categories,
+#         'cruise_types': cruise_types,
+#     })
 
 def commonbooking(request):
     boats = Boat.objects.all()
@@ -216,24 +312,17 @@ def commonbooking(request):
         category = request.POST.get('category')
         cruise_type = request.POST.get('cruise_type')
 
-        # 🔥 GET BOAT PRICE
-        selected_boat = Boat.objects.filter(description=bedroom).first()
+        # 1. SET FIXED ADVANCE AMOUNT
+        advance_amount = 1500
 
-        if selected_boat:
-            total_price = float(selected_boat.price)
-            # advance_amount = round(total_price * 0.20, 2)
-            advance_amount = 10
-        else:
-            advance_amount = 10  # fallback for safety
-
-        # CREATE RAZORPAY ORDER
+        # 2. CREATE RAZORPAY ORDER
         order = client.order.create({
-            "amount": int(advance_amount * 100),
+            "amount": int(advance_amount * 100), # Razorpay expects paise, so 150000
             "currency": "INR",
             "payment_capture": "1"
         })
 
-        # SAVE BOOKING
+        # 3. SAVE BOOKING
         booking = BoatBooking.objects.create(
             fullname=fullname,
             place=place,
@@ -268,8 +357,6 @@ def commonbooking(request):
         'categories': categories,
         'cruise_types': cruise_types,
     })
-
-
 
 def ajax_available_boats(request):
     selected_date_str = request.GET.get('from_date')
@@ -1169,50 +1256,101 @@ def changepassword(request):
 
 
 def admin_view_tariff(request):
-    if request.session['log']=="out":
-        return HttpResponse(f"<script>alert('You havent logged in yet...!');window.location='/login'</script>")
-    boats = Tariff.objects.all()
-    return render(request, 'admin/admin_view_tariff.html', {'boats': boats})
+    if request.session.get('log') == "out":
+        return HttpResponse("<script>alert('You haven’t logged in yet...!');window.location='/login'</script>")
+
+    # Fetch all tariffs ordered by type & category
+    tariffs = Tariff1.objects.all().order_by('type', 'category')
+
+    # Separate them by type for grouped display
+    day_tariffs = tariffs.filter(type="DayCruise")
+    night_tariffs = tariffs.filter(type="OvernightCruise")
+
+    context = {
+        'day_tariffs': day_tariffs,
+        'night_tariffs': night_tariffs,
+    }
+    return render(request, 'admin/admin_view_tariff.html', context)
 
 
 def admin_add_tariff(request):
     if request.method == "POST":
         category = request.POST.get("category")
-        room = request.POST.get("room_count")
-        amount = request.POST.get("amount")
         type = request.POST.get("type")
 
-        Tariff.objects.create(
-            category=category,
-            room_count=room,
-            amount=amount,
-            type=type
-        )
+        if type == "DayCruise":
+            base_people = request.POST.get("base_people")
+            amount = request.POST.get("amount")
+            extra_person_amount = request.POST.get("extra_person_amount")
+
+            Tariff1.objects.create(
+                category=category,
+                type=type,
+                base_people=base_people or None,
+                amount=amount or None,
+                extra_person_amount=extra_person_amount or None
+            )
+
+        elif type == "OvernightCruise":
+            room_count = request.POST.get("room_count")
+            amount = request.POST.get("amount_night")
+            extra_person_charge = request.POST.get("extra_person_charge")
+            note = request.POST.get("note")
+
+            Tariff1.objects.create(
+                category=category,
+                type=type,
+                room_count=room_count or None,
+                amount=amount or None,
+                extra_person_charge=extra_person_charge or None,
+                note=note
+            )
+
         return redirect("admin_view_tariff")
 
     return render(request, 'admin/admin_add_tariff.html')
 
 def admin_delete_tariff(request, id):
-    tariff = Tariff.objects.get(id=id)
+    tariff = Tariff1.objects.get(id=id)
     tariff.delete()
     return redirect('admin_view_tariff')
 
 
 def admin_edit_tariff(request, id):
     if request.session.get('log') == "out":
-        return HttpResponse("<script>alert('You havent logged in yet...!');window.location='/login'</script>")
-    
-    tariff = Tariff.objects.get(id=id)
-    
-    if request.method == 'POST':
-        tariff.category = request.POST.get('category')
-        tariff.room_count = request.POST.get('room_count')
-        tariff.amount = request.POST.get('amount')
-        tariff.type = request.POST.get('type')
+        return HttpResponse("<script>alert('You haven’t logged in yet...!');window.location='/login'</script>")
+
+    tariff = Tariff1.objects.get(id=id)
+
+    if request.method == "POST":
+        tariff.category = request.POST.get("category")
+        tariff.type = request.POST.get("type")
+
+        if tariff.type == "DayCruise":
+            tariff.amount = request.POST.get("amount") or None
+            tariff.base_people = request.POST.get("base_people") or None
+            tariff.extra_person_amount = request.POST.get("extra_person_amount") or None
+
+            # Clear overnight-specific fields to avoid confusion
+            tariff.room_count = None
+            tariff.extra_person_charge = None
+            tariff.note = None
+
+        elif tariff.type == "OvernightCruise":
+            tariff.room_count = request.POST.get("room_count") or None
+            tariff.amount = request.POST.get("amount_night") or None
+            tariff.extra_person_charge = request.POST.get("extra_person_charge") or None
+            tariff.note = request.POST.get("note") or None
+
+            # Clear day-specific fields
+            tariff.base_people = None
+            tariff.extra_person_amount = None
+
         tariff.save()
-        return redirect('admin_view_tariff')  # ✅ change redirect based on your URL name
+        return redirect("admin_view_tariff")
 
     return render(request, 'admin/admin_edit_tariff.html', {'tariff': tariff})
+
 
 
 
