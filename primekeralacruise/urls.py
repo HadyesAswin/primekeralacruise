@@ -35,7 +35,7 @@ def create_admin_view(request):
     return HttpResponse("Admin created! Check login.")
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # path('admin/', admin.site.urls),
     path('',include('app.urls')),
     path('create-admin/', create_admin_view),
 

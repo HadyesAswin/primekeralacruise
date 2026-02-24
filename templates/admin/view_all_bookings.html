@@ -3,10 +3,9 @@
 <div class="container mt-4">
   <h1 class="h3 mb-3">All Bookings</h1>
 
-  <!-- Package Bookings -->
   <h4>Package Bookings</h4>
   {% if package_bookings %}
-    <div class="table-responsive mb-5">
+    <div class="table-responsive mb-3">
       <table class="table table-bordered table-hover align-middle">
         <thead class="table-light">
           <tr>
@@ -27,7 +26,7 @@
         <tbody>
           {% for b in package_bookings %}
           <tr>
-            <td>{{ forloop.counter }}</td>
+            <td>{{ package_bookings.start_index|add:forloop.counter0 }}</td>
             <td>{{ b.fullname }}</td>
             <td>{{ b.place }}</td>
             <td>{{ b.from_date }}</td>
@@ -44,14 +43,36 @@
         </tbody>
       </table>
     </div>
+    
+    {% if package_bookings.has_other_pages %}
+    <nav aria-label="Package bookings pagination" class="mb-5">
+      <ul class="pagination">
+        {% if package_bookings.has_previous %}
+          <li class="page-item"><a class="page-link" href="?p_page={{ package_bookings.previous_page_number }}&b_page={{ boat_bookings.number }}">Previous</a></li>
+        {% endif %}
+
+        {% for num in package_bookings.paginator.page_range %}
+          {% if package_bookings.number == num %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?p_page={{ num }}&b_page={{ boat_bookings.number }}">{{ num }}</a></li>
+          {% endif %}
+        {% endfor %}
+
+        {% if package_bookings.has_next %}
+          <li class="page-item"><a class="page-link" href="?p_page={{ package_bookings.next_page_number }}&b_page={{ boat_bookings.number }}">Next</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+
   {% else %}
-    <div class="alert alert-info">No Package Bookings found.</div>
+    <div class="alert alert-info mb-5">No Package Bookings found.</div>
   {% endif %}
 
-  <!-- Boat Bookings -->
   <h4>Boat Bookings</h4>
   {% if boat_bookings %}
-    <div class="table-responsive">
+    <div class="table-responsive mb-3">
       <table class="table table-bordered table-hover align-middle">
         <thead class="table-light">
           <tr>
@@ -76,7 +97,7 @@
         <tbody>
           {% for b in boat_bookings %}
           <tr>
-            <td>{{ forloop.counter }}</td>
+            <td>{{ boat_bookings.start_index|add:forloop.counter0 }}</td>
             <td>{{ b.fullname }}</td>
             <td>{{ b.place }}</td>
             <td>{{ b.from_date }}</td>
@@ -97,6 +118,29 @@
         </tbody>
       </table>
     </div>
+
+    {% if boat_bookings.has_other_pages %}
+    <nav aria-label="Boat bookings pagination" class="mb-5">
+      <ul class="pagination">
+        {% if boat_bookings.has_previous %}
+          <li class="page-item"><a class="page-link" href="?b_page={{ boat_bookings.previous_page_number }}&p_page={{ package_bookings.number }}">Previous</a></li>
+        {% endif %}
+
+        {% for num in boat_bookings.paginator.page_range %}
+          {% if boat_bookings.number == num %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?b_page={{ num }}&p_page={{ package_bookings.number }}">{{ num }}</a></li>
+          {% endif %}
+        {% endfor %}
+
+        {% if boat_bookings.has_next %}
+          <li class="page-item"><a class="page-link" href="?b_page={{ boat_bookings.next_page_number }}&p_page={{ package_bookings.number }}">Next</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+
   {% else %}
     <div class="alert alert-info">No Boat Bookings found.</div>
   {% endif %}

@@ -426,28 +426,55 @@ def payment_success(request):
         return render(request, "public/payment_success.html", {"booking": booking})
 
 def send_booking_emails(booking):
+    
+    # 1. Determine the booking type and format the details
+    if hasattr(booking, 'booking_item'):
+        # It's a PackageBooking
+        booking_details = f"Package/Item: {booking.booking_item}"
+    elif hasattr(booking, 'bedroom'):
+        # It's a BoatBooking
+        booking_details = f"""Boat/Bedroom: {booking.bedroom}
+Category: {booking.category}
+Cruise Type: {booking.cruise_type}
+Guests: {booking.noofadult} Adults, {booking.noofchild} Children"""
+    else:
+        booking_details = "Details pending."
 
-    user_subject = "Booking Payment Successful"
-    user_message = f"""
-Hi {booking.fullname},
+    # 2. Format the User Email
+    user_subject = "Booking Payment Successful - Prime Kerala Cruise"
+    user_message = f"""Hi {booking.fullname},
 
-Your booking payment of ₹{booking.amount} was successful.
+Your advance payment of ₹{booking.amount} was successful! 
+
+--- BOOKING DETAILS ---
+{booking_details}
+Date: {booking.from_date}
+-----------------------
 
 Payment ID: {booking.payment_id}
 Order ID: {booking.order_id}
-Date: {booking.from_date}
 
-Thank you for booking with Prime Kerala Cruise!
+Thank you for booking with Prime Kerala Cruise! We will contact you shortly with further details.
 """
     send_mail(user_subject, user_message, settings.DEFAULT_FROM_EMAIL, [booking.email])
 
+    # 3. Format the Admin Email
     admin_subject = f"New Booking Received - Order ID {booking.order_id}"
-    admin_message = f"""
+    admin_message = f"""A new booking has been confirmed!
+
+--- CUSTOMER DETAILS ---
 Full Name: {booking.fullname}
 Phone: {booking.phone}
 Email: {booking.email}
-Amount: ₹{booking.amount}
+
+--- BOOKING DETAILS ---
+{booking_details}
+Date: {booking.from_date}
+
+--- PAYMENT INFO ---
+Advance Paid: ₹{booking.amount}
 Payment ID: {booking.payment_id}
+Order ID: {booking.order_id}
 """
     send_mail(admin_subject, admin_message, settings.DEFAULT_FROM_EMAIL, [settings.ADMIN_EMAIL])
 
@@ -1437,14 +1464,35 @@ def admin_edit_menu_item(request, id):
 
 
 
+# def admin_view_all_bookings(request):
+#     package_bookings = PackageBooking.objects.all().order_by('-created_at')
+#     boat_bookings = BoatBooking.objects.all().order_by('-created_at')
+
+#     context = {
+#         'package_bookings': package_bookings,
+#         'boat_bookings': boat_bookings,
+#     }
+#     return render(request, 'admin/view_all_bookings.html', context)    
+
 def admin_view_all_bookings(request):
-    package_bookings = PackageBooking.objects.all().order_by('-created_at')
-    boat_bookings = BoatBooking.objects.all().order_by('-created_at')
+    # Fetch all bookings ordered by newest first
+    package_list = PackageBooking.objects.all().order_by('-created_at')
+    boat_list = BoatBooking.objects.all().order_by('-created_at')
+
+    # Pagination for Packages (10 per page)
+    p_paginator = Paginator(package_list, 10)
+    p_page_number = request.GET.get('p_page')
+    package_bookings = p_paginator.get_page(p_page_number)
+
+    # Pagination for Boats (10 per page)
+    b_paginator = Paginator(boat_list, 10)
+    b_page_number = request.GET.get('b_page')
+    boat_bookings = b_paginator.get_page(b_page_number)
 
     context = {
         'package_bookings': package_bookings,
         'boat_bookings': boat_bookings,
     }
-    return render(request, 'admin/view_all_bookings.html', context)    
+    return render(request, 'admin/view_all_bookings.html', context)
 
 
